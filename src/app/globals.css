@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f7f4f0;
+  --color-sand: #efe7dc;
+  --color-ink: #17150f;
+  --color-gold: #b08d57;
+  --color-muted: #6b655c;
+  --color-line: #e4ddd3;
+  --color-field: #dcd2c4;
+  --color-placeholder: #9c958a;
+  --color-sale: #9c3b2e;
+  --color-footer-text: #cfc8bd;
+  --color-footer-muted: #9a9288;
+  --color-footer-dim: #7e776d;
+  --color-footer-line: #2e2a23;
+
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  --tracking-caps: 0.14em;
+  --tracking-wide-caps: 0.2em;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans;
+  }
+
+  :focus-visible {
+    @apply outline-gold outline-2 outline-offset-2;
+  }
+}
+
+@utility caps {
+  @apply text-[11px] font-semibold tracking-[0.16em] uppercase;
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-16;
+}
