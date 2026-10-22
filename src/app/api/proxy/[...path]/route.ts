@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/features/auth/constants/session";
+import { SESSION_COOKIE } from "@/features/auth/constants/session";
 import {
   backendUrl,
   clearSessionCookies,
+  decodeSession,
   refreshTokens,
   setSessionCookies,
 } from "@/features/auth/server/session";
@@ -30,8 +31,9 @@ async function handle(request: NextRequest, context: RouteContext<"/api/proxy/[.
   const { path } = await context.params;
   const target = path.join("/");
   const body = ["GET", "HEAD"].includes(request.method) ? null : await request.arrayBuffer();
-  const access = request.cookies.get(ACCESS_COOKIE)?.value;
-  const refresh = request.cookies.get(REFRESH_COOKIE)?.value;
+  const session = decodeSession(request.cookies.get(SESSION_COOKIE)?.value);
+  const access = session?.access;
+  const refresh = session?.refresh;
 
   let backendResponse = await forward(request, target, body, access);
   let renewed: Awaited<ReturnType<typeof refreshTokens>> = null;

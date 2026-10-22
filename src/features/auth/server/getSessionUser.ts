@@ -2,13 +2,13 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import { ACCESS_COOKIE } from "../constants/session";
+import { SESSION_COOKIE } from "../constants/session";
 import type { SessionUser } from "../types";
 
-import { backendUrl } from "./session";
+import { backendUrl, decodeSession } from "./session";
 
 export async function getSessionUser(): Promise<SessionUser | null> {
-  const access = (await cookies()).get(ACCESS_COOKIE)?.value;
+  const access = decodeSession((await cookies()).get(SESSION_COOKIE)?.value)?.access;
   if (!access) return null;
 
   const response = await fetch(backendUrl("account/me/"), {

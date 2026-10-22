@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { routes } from "@/data/routes";
-import { REFRESH_COOKIE } from "@/features/auth/constants/session";
+import { SESSION_COOKIE } from "@/features/auth/constants/session";
 import { env } from "@/lib/env";
 
 const EXISTENCE_TTL_MS = 5 * 60 * 1000;
@@ -59,7 +59,7 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (protectedPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`))) {
-    return request.cookies.has(REFRESH_COOKIE) ? NextResponse.next() : redirectToLogin(request);
+    return request.cookies.has(SESSION_COOKIE) ? NextResponse.next() : redirectToLogin(request);
   }
 
   for (const route of resourceRoutes) {

@@ -1,11 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/features/auth/constants/session";
-import { backendUrl, clearSessionCookies } from "@/features/auth/server/session";
+import { SESSION_COOKIE } from "@/features/auth/constants/session";
+import { backendUrl, clearSessionCookies, decodeSession } from "@/features/auth/server/session";
 
 export async function POST(request: NextRequest) {
-  const access = request.cookies.get(ACCESS_COOKIE)?.value;
-  const refresh = request.cookies.get(REFRESH_COOKIE)?.value;
+  const session = decodeSession(request.cookies.get(SESSION_COOKIE)?.value);
+  const access = session?.access;
+  const refresh = session?.refresh;
 
   if (access && refresh) {
     await fetch(backendUrl("auth/logout/"), {
