@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "title": "Адмінка",
+    "dashboard": "Дашборд",
+    "orders": "Замовлення",
+    "order": "Замовлення",
+    "orderNew": "Нове замовлення",
+    "products": "Товари",
+    "product": "Товар",
+    "productNew": "Новий товар",
+    "categories": "Категорії та кольори",
+    "customers": "Клієнти",
+    "customer": "Клієнт",
+    "promoCodes": "Промокоди",
+    "reviews": "Відгуки",
+    "content": "Контент",
+    "contentPage": "Сторінка",
+    "contentPageNew": "Нова сторінка"
+  },
+  "brand": {
+    "panel": "Панель керування"
+  },
+  "nav": {
+    "label": "Розділи адмінки",
+    "open": "Відкрити меню",
+    "badgeLabel": "нових",
+    "dashboard": "Дашборд",
+    "orders": "Замовлення",
+    "products": "Товари",
+    "categories": "Категорії",
+    "customers": "Клієнти",
+    "promoCodes": "Промокоди",
+    "reviews": "Відгуки",
+    "content": "Контент",
+    "analytics": "Аналітика"
+  },
+  "roles": {
+    "owner": "Власник",
+    "manager": "Менеджер",
+    "customer": "Покупець"
+  },
+  "user": {
+    "logout": "Вийти"
+  },
+  "forbidden": {
+    "title": "Доступ заборонено",
+    "text": "Панель керування доступна лише власнику та менеджерам магазину. Увійдіть під службовим акаунтом.",
+    "home": "На головну"
+  },
+  "common": {
+    "loading": "Завантаження…",
+    "errorTitle": "Не вдалося завантажити дані",
+    "errorText": "Перевірте зʼєднання та спробуйте ще раз.",
+    "retry": "Спробувати ще раз",
+    "close": "Закрити"
+  },
+  "pagination": {
+    "label": "Сторінки",
+    "previous": "Попередня сторінка",
+    "next": "Наступна сторінка",
+    "page": "Сторінка {page}"
+  },
+  "orderStatus": {
+    "new": "Нове",
+    "packed": "Зібрано",
+    "shipped": "В дорозі",
+    "completed": "Виконано",
+    "cancelled": "Скасовано",
+    "return_requested": "Повернення",
+    "returned": "Повернено"
+  },
+  "dashboard": {
+    "title": "Дашборд",
+    "searchLabel": "Пошук замовлень",
+    "searchPlaceholder": "Пошук за номером, клієнтом, телефоном…",
+    "periodLabel": "Період",
+    "period": "Останні {days} днів",
+    "addProduct": "Додати товар",
+    "kpiRevenue": "Виручка",
+    "kpiOrders": "Замовлень",
+    "kpiAverage": "Середній чек",
+    "kpiConversion": "Конверсія",
+    "vsPrevious": "до попереднього періоду",
+    "salesTitle": "Продажі за {days} днів",
+    "revenue": "Виручка",
+    "ordersLegend": "Замовлення",
+    "date": "Дата",
+    "ordersCount": {
+      "one": "{count} замовлення",
+      "few": "{count} замовлення",
+      "many": "{count} замовлень",
+      "other": "{count} замовлення"
+    },
+    "topProducts": "Топ товарів періоду",
+    "salesCount": {
+      "one": "{count} продаж",
+      "few": "{count} продажі",
+      "many": "{count} продажів",
+      "other": "{count} продажу"
+    },
+    "noSales": "За цей період продажів ще немає.",
+    "recentOrders": "Останні замовлення",
+    "allOrders": "Усі замовлення",
+    "noOrders": "Замовлень ще немає.",
+    "colNumber": "№",
+    "colCustomer": "Клієнт",
+    "colQty": "Шт",
+    "colTotal": "Сума",
+    "colStatus": "Статус",
+    "colDate": "Дата",
+    "lowStock": "Мало на складі",
+    "noLowStock": "Усі позиції в достатній кількості.",
+    "variant": "розмір {size} · {color}",
+    "pieces": "{count} шт",
+    "restock": "Замовити поповнення"
+  }
+}

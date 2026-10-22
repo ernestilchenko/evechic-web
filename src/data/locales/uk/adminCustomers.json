@@ -1,0 +1,66 @@
+{
+  "title": "Клієнти",
+  "searchLabel": "Пошук клієнтів",
+  "searchPlaceholder": "Email, імʼя, телефон…",
+  "sortLabel": "Сортування",
+  "sort": {
+    "recent": "Нові спочатку",
+    "orders": "За кількістю замовлень",
+    "spent": "За сумою покупок"
+  },
+  "tableLabel": "Список клієнтів",
+  "col": {
+    "name": "Клієнт",
+    "phone": "Телефон",
+    "orders": "Замовлень",
+    "spent": "Сума покупок",
+    "lastOrder": "Останнє",
+    "bonus": "Бонуси",
+    "joined": "Реєстрація",
+    "status": "Статус"
+  },
+  "active": "Активний",
+  "blocked": "Заблоковано",
+  "yes": "Так",
+  "no": "Ні",
+  "empty": "Клієнтів не знайдено",
+  "summary": {
+    "one": "Показано {from}–{to} з {count} клієнта",
+    "few": "Показано {from}–{to} з {count} клієнтів",
+    "many": "Показано {from}–{to} з {count} клієнтів",
+    "other": "Показано {from}–{to} з {count} клієнтів"
+  },
+  "save": "Зберегти",
+  "saving": "Збереження…",
+  "detail": {
+    "title": "Клієнт",
+    "profile": "Профіль",
+    "email": "Email",
+    "phone": "Телефон",
+    "birthDate": "Дата народження",
+    "size": "Розмір",
+    "marketing": "Розсилка",
+    "joined": "Реєстрація",
+    "lastLogin": "Останній вхід",
+    "reviews": "Відгуків",
+    "orders": "Замовлення",
+    "noOrders": "Замовлень ще немає.",
+    "orderNumber": "№",
+    "orderDate": "Дата",
+    "orderTotal": "Сума",
+    "orderStatus": "Статус",
+    "stats": "Статистика",
+    "loyalty": "Рівень лояльності",
+    "addresses": "Адреси",
+    "noAddresses": "Адрес не збережено.",
+    "default": "Основна",
+    "ownerControls": "Керування акаунтом",
+    "bonusBalance": "Бонусний баланс, ₴",
+    "isActive": "Акаунт активний",
+    "ownerOnly": "Змінювати бонуси та блокувати акаунт може лише власник."
+  },
+  "toast": {
+    "saved": "Дані клієнта збережено",
+    "saveFailed": "Не вдалося зберегти"
+  }
+}

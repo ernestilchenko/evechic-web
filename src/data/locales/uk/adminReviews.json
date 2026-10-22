@@ -1,0 +1,39 @@
+{
+  "title": "Відгуки",
+  "searchLabel": "Пошук відгуків",
+  "searchPlaceholder": "Товар, email або текст…",
+  "ratingFilter": "Оцінка",
+  "allRatings": "Усі оцінки",
+  "tabsLabel": "Статус відгуків",
+  "listLabel": "Список відгуків",
+  "tabs": {
+    "pending": "На модерації",
+    "approved": "Схвалені",
+    "rejected": "Відхилені",
+    "all": "Усі"
+  },
+  "status": {
+    "pending": "На модерації",
+    "approved": "Схвалено",
+    "rejected": "Відхилено"
+  },
+  "rating": "Оцінка {rating} з 5",
+  "size": "розмір {size}",
+  "approve": "Схвалити",
+  "reject": "Відхилити",
+  "delete": "Видалити",
+  "cancel": "Скасувати",
+  "confirmDelete": "Видалити відгук назавжди?",
+  "empty": "Відгуків немає",
+  "summary": {
+    "one": "Показано {from}–{to} з {count} відгуку",
+    "few": "Показано {from}–{to} з {count} відгуків",
+    "many": "Показано {from}–{to} з {count} відгуків",
+    "other": "Показано {from}–{to} з {count} відгуків"
+  },
+  "toast": {
+    "moderated": "Статус відгуку оновлено",
+    "deleted": "Відгук видалено",
+    "failed": "Не вдалося виконати дію"
+  }
+}

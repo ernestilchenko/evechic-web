@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { useHydrated } from "@/hooks/useHydrated";
 import type { Cart } from "@/lib/api/types";
 
 import { cartQueryKey } from "../constants/storage";
@@ -15,6 +16,7 @@ import {
 } from "../services/cartService";
 
 export function useCart() {
+  const hydrated = useHydrated();
   const queryClient = useQueryClient();
   const query = useQuery({ queryKey: cartQueryKey, queryFn: fetchCart, staleTime: 30_000 });
 
@@ -34,10 +36,15 @@ export function useCart() {
   const applyPromo = useMutation({ mutationFn: applyPromoCode, onSuccess });
   const removePromo = useMutation({ mutationFn: removePromoCode, onSuccess });
 
+  const data = hydrated ? query.data : undefined;
+
   return {
-    cart: query.data ?? null,
-    isLoading: query.isLoading,
-    itemsCount: query.data?.totals.items_count ?? 0,
+    cart: data ?? null,
+    isLoading: !hydrated || query.isLoading,
+    isPending: !hydrated || query.isPending,
+    isError: query.isError,
+    refetch: query.refetch,
+    itemsCount: data?.totals.items_count ?? 0,
     addItem,
     updateItem,
     removeItem,

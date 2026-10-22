@@ -22,7 +22,10 @@ export type RequestOptions = Omit<RequestInit, "body"> & {
 };
 
 function buildUrl(baseUrl: string, path: string, query?: Record<string, QueryValue>) {
-  const url = new URL(`${baseUrl.replace(/\/$/, "")}/${path.replace(/^\//, "")}`);
+  const url = new URL(
+    `${baseUrl.replace(/\/$/, "")}/${baseUrl.startsWith("/") ? path.replace(/^\/|\/$/g, "") : path.replace(/^\//, "")}`,
+    typeof window === "undefined" ? env.siteUrl : window.location.origin,
+  );
   Object.entries(query ?? {}).forEach(([key, value]) => {
     if (value === undefined || value === null || value === "" || value === false) return;
     url.searchParams.set(key, Array.isArray(value) ? value.join(",") : String(value));

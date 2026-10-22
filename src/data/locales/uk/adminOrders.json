@@ -1,0 +1,158 @@
+{
+  "title": "Замовлення",
+  "searchLabel": "Пошук замовлень",
+  "searchPlaceholder": "Номер, імʼя, телефон…",
+  "create": "Створити замовлення",
+  "tabsLabel": "Статус замовлень",
+  "tableLabel": "Список замовлень",
+  "tabs": {
+    "all": "Усі",
+    "new": "Нові",
+    "packed": "Зібрані",
+    "shipped": "В дорозі",
+    "completed": "Виконані",
+    "cancelled": "Скасовані",
+    "return_requested": "Повернення",
+    "returned": "Повернені"
+  },
+  "col": {
+    "number": "№",
+    "date": "Дата",
+    "customer": "Клієнт",
+    "phone": "Телефон",
+    "qty": "Шт",
+    "total": "Сума",
+    "payment": "Оплата",
+    "delivery": "Доставка",
+    "status": "Статус",
+    "actions": "Дії"
+  },
+  "payment": {
+    "card": "Картка",
+    "cod": "Післяплата"
+  },
+  "paymentStatus": {
+    "pending": "Очікує",
+    "paid": "Оплачено",
+    "failed": "Помилка",
+    "refunded": "Повернено кошти"
+  },
+  "invoiceStatus": {
+    "created": "Створено",
+    "processing": "Обробка",
+    "hold": "Утримано",
+    "success": "Успішно",
+    "failure": "Помилка",
+    "reversed": "Сторновано",
+    "expired": "Прострочено"
+  },
+  "delivery": {
+    "np_branch": "Нова Пошта — відділення",
+    "np_locker": "Нова Пошта — поштомат",
+    "np_courier": "Нова Пошта — курʼєр",
+    "pickup": "Самовивіз"
+  },
+  "transition": {
+    "new": "Нове",
+    "packed": "Зібрати",
+    "shipped": "Відправити",
+    "completed": "Виконано",
+    "cancelled": "Скасувати",
+    "return_requested": "Запит на повернення",
+    "returned": "Повернення отримано"
+  },
+  "empty": "Замовлень не знайдено",
+  "emptySearch": "Спробуйте інший запит або статус.",
+  "open": "Відкрити",
+  "rowActions": "Дії із замовленням {number}",
+  "summary": {
+    "one": "Показано {from}–{to} з {count} замовлення",
+    "few": "Показано {from}–{to} з {count} замовлень",
+    "many": "Показано {from}–{to} з {count} замовлень",
+    "other": "Показано {from}–{to} з {count} замовлень"
+  },
+  "save": "Зберегти",
+  "saving": "Збереження…",
+  "confirm": {
+    "cancelTitle": "Скасувати замовлення {number}?",
+    "cancelText": "Товари повернуться на склад, списані бонуси — клієнту. Дію не можна відмінити.",
+    "returnTitle": "Підтвердити повернення замовлення {number}?",
+    "returnText": "Товари повернуться на склад, нараховані бонуси буде списано, оплату карткою позначено як повернену. Клієнт отримає лист.",
+    "confirm": "Підтвердити",
+    "cancel": "Скасувати"
+  },
+  "detail": {
+    "title": "Замовлення № {number}",
+    "items": "Товари",
+    "itemMeta": "{sku} · {color} · {size}",
+    "subtotal": "Товари",
+    "promo": "Промокод {code}",
+    "loyalty": "Знижка постійного клієнта",
+    "bonusesSpent": "Оплачено бонусами",
+    "bonusesEarned": "Буде нараховано бонусів",
+    "delivery": "Доставка",
+    "freeDelivery": "Безкоштовно",
+    "carrierRates": "За тарифами перевізника",
+    "total": "До сплати",
+    "payment": "Оплата",
+    "paymentMethod": "Спосіб оплати",
+    "paymentStatus": "Статус оплати",
+    "invoices": "Рахунки Monobank",
+    "contactDelivery": "Контакти та доставка",
+    "fulfilment": "Відправлення",
+    "customerProfile": "Профіль клієнта",
+    "returnReason": "Причина повернення"
+  },
+  "invoice": {
+    "id": "Рахунок",
+    "amount": "Сума",
+    "status": "Статус",
+    "created": "Створено",
+    "link": "Сторінка оплати"
+  },
+  "field": {
+    "firstName": "Імʼя",
+    "lastName": "Прізвище",
+    "phone": "Телефон",
+    "email": "Email",
+    "deliveryMethod": "Спосіб доставки",
+    "city": "Місто",
+    "deliveryPoint": "Відділення / поштомат",
+    "street": "Адреса",
+    "tracking": "Номер ТТН",
+    "trackingHint": "Клієнт отримає його в листі при відправленні.",
+    "managerNote": "Нотатка менеджера",
+    "managerNoteHint": "Бачать лише співробітники.",
+    "comment": "Коментар клієнта",
+    "promo": "Промокод",
+    "skipCall": "Не телефонувати для підтвердження"
+  },
+  "new": {
+    "title": "Нове замовлення",
+    "products": "Товари",
+    "searchLabel": "Пошук товару",
+    "searchPlaceholder": "Назва або артикул (від 2 символів)…",
+    "noProducts": "Нічого не знайдено.",
+    "noVariants": "У товару немає варіантів.",
+    "add": "Додати",
+    "added": "Додано",
+    "quantity": "Кількість",
+    "remove": "Прибрати",
+    "emptyLines": "Додайте хоча б один товар.",
+    "summary": "Оплата та підсумок",
+    "subtotal": "Сума товарів",
+    "totalsHint": "Знижки, промокод і доставку розрахує сервер за тими ж правилами, що й на сайті.",
+    "submit": "Створити замовлення",
+    "created": "Замовлення № {number} створено",
+    "createdTotal": "Сума до сплати: {total}",
+    "paymentLink": "Посилання на оплату для клієнта",
+    "openOrder": "Відкрити замовлення"
+  },
+  "toast": {
+    "statusChanged": "Замовлення {number}: статус «{status}»",
+    "statusFailed": "Не вдалося змінити статус",
+    "saved": "Зміни збережено",
+    "saveFailed": "Не вдалося зберегти зміни",
+    "createFailed": "Не вдалося створити замовлення"
+  }
+}

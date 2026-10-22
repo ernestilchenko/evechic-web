@@ -1,0 +1,96 @@
+{
+  "title": "Контент",
+  "unavailable": "API контенту ще не підключено",
+  "unavailableText": "Розділ запрацює, щойно бекенд відкриє /api/admin/content/.",
+  "tabsLabel": "Розділи контенту",
+  "tabs": {
+    "banners": "Банери",
+    "instagram": "Instagram",
+    "pages": "Сторінки"
+  },
+  "placement": {
+    "hero": "Головний банер",
+    "lookbook": "Lookbook"
+  },
+  "image": "Зображення",
+  "removeImage": "Прибрати поточне зображення",
+  "sortOrder": "Порядок",
+  "status": "Статус",
+  "active": "Показувати на сайті",
+  "activeChip": "Показується",
+  "hiddenChip": "Приховано",
+  "actions": "Дії",
+  "rowActions": "Дії з «{name}»",
+  "edit": "Редагувати",
+  "delete": "Видалити",
+  "cancel": "Скасувати",
+  "save": "Зберегти",
+  "saving": "Збереження…",
+  "confirmDelete": "Видалити «{name}»?",
+  "banners": {
+    "add": "Додати банер",
+    "createTitle": "Новий банер",
+    "editTitle": "Редагування банера",
+    "empty": "Банерів ще немає",
+    "placement": "Розміщення",
+    "field": {
+      "eyebrow": "Надзаголовок",
+      "title": "Заголовок",
+      "subtitle": "Підзаголовок",
+      "text": "Текст",
+      "image_alt": "Опис зображення (alt)",
+      "cta_label": "Текст кнопки",
+      "cta_url": "Посилання кнопки",
+      "secondary_cta_label": "Текст другої кнопки",
+      "secondary_cta_url": "Посилання другої кнопки"
+    }
+  },
+  "instagram": {
+    "add": "Додати пост",
+    "createTitle": "Новий пост Instagram",
+    "editTitle": "Редагування поста",
+    "empty": "Постів ще немає",
+    "url": "Посилання",
+    "urlHint": "Порожнє — посилання на профіль магазину.",
+    "alt": "Опис зображення (alt)"
+  },
+  "pages": {
+    "add": "Додати сторінку",
+    "newTitle": "Нова сторінка",
+    "editTitle": "Сторінка",
+    "empty": "Сторінок ще немає",
+    "main": "Вміст сторінки",
+    "faq": "FAQ",
+    "updated": "Оновлено",
+    "published": "Опубліковано",
+    "draft": "Чернетка",
+    "isPublished": "Опубліковано",
+    "slugHint": "Латиниця, цифри та дефіс: about, delivery, faq…",
+    "bodyHint": "HTML: абзаци, заголовки h2–h3, списки, посилання. Небезпечні теги буде видалено.",
+    "field": {
+      "title": "Заголовок",
+      "slug": "Slug",
+      "metaTitle": "Meta title",
+      "metaDescription": "Meta description",
+      "lead": "Вступ",
+      "body": "Текст сторінки",
+      "imageAlt": "Опис зображення (alt)"
+    }
+  },
+  "faq": {
+    "title": "Питання та відповіді",
+    "empty": "Питань ще немає.",
+    "question": "Питання",
+    "answer": "Відповідь",
+    "add": "Додати питання",
+    "moveUp": "Перемістити питання {index} вище",
+    "moveDown": "Перемістити питання {index} нижче"
+  },
+  "toast": {
+    "saved": "Збережено",
+    "saveFailed": "Не вдалося зберегти",
+    "deleted": "Видалено",
+    "deleteFailed": "Не вдалося видалити",
+    "faqSaved": "Питання збережено"
+  }
+}

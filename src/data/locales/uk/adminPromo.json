@@ -1,0 +1,75 @@
+{
+  "title": "Промокоди",
+  "searchLabel": "Пошук промокодів",
+  "searchPlaceholder": "Код або опис…",
+  "filterLabel": "Активність",
+  "filter": {
+    "all": "Усі",
+    "active": "Увімкнені",
+    "inactive": "Вимкнені"
+  },
+  "add": "Додати промокод",
+  "tableLabel": "Список промокодів",
+  "col": {
+    "code": "Код",
+    "discount": "Знижка",
+    "minOrder": "Мін. сума",
+    "period": "Період",
+    "usage": "Використано",
+    "state": "Стан",
+    "actions": "Дії"
+  },
+  "state": {
+    "active": "Діє",
+    "scheduled": "Заплановано",
+    "expired": "Завершено",
+    "exhausted": "Вичерпано",
+    "inactive": "Вимкнено"
+  },
+  "type": {
+    "percent": "Відсоток",
+    "fixed": "Фіксована сума"
+  },
+  "firstOrder": "Лише перше замовлення",
+  "noPeriod": "Безстроково",
+  "empty": "Промокодів не знайдено",
+  "summary": {
+    "one": "Показано {from}–{to} з {count} промокоду",
+    "few": "Показано {from}–{to} з {count} промокодів",
+    "many": "Показано {from}–{to} з {count} промокодів",
+    "other": "Показано {from}–{to} з {count} промокодів"
+  },
+  "rowActions": "Дії з промокодом {code}",
+  "edit": "Редагувати",
+  "delete": "Видалити",
+  "usedInOrders": "Використаний — лише вимкнути",
+  "cancel": "Скасувати",
+  "save": "Зберегти",
+  "saving": "Збереження…",
+  "loading": "Завантаження промокоду",
+  "createTitle": "Новий промокод",
+  "editTitle": "Промокод {code}",
+  "stats": "Замовлень: {orders} · використань: {used} · сума знижок: {discount}",
+  "confirmDelete": "Видалити промокод {code}?",
+  "field": {
+    "code": "Код",
+    "description": "Опис",
+    "type": "Тип знижки",
+    "value": "Розмір знижки",
+    "minOrder": "Мінімальна сума замовлення, ₴",
+    "usageLimit": "Ліміт використань",
+    "usageLimitHint": "Порожнє — без обмежень.",
+    "startsAt": "Діє з",
+    "endsAt": "Діє до",
+    "email": "Лише для email",
+    "emailHint": "Персональний код: працюватиме тільки для цього покупця.",
+    "firstOrderOnly": "Лише на перше замовлення",
+    "active": "Увімкнено"
+  },
+  "toast": {
+    "saved": "Промокод {code} збережено",
+    "saveFailed": "Не вдалося зберегти промокод",
+    "deleted": "Промокод видалено",
+    "deleteFailed": "Не вдалося видалити промокод"
+  }
+}

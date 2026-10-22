@@ -1,3 +1,5 @@
+export type CatalogSort = "newest" | "price_asc" | "price_desc" | "popular";
+
 export type ProductListQuery = {
   category?: string;
   size?: string[];
@@ -8,7 +10,23 @@ export type ProductListQuery = {
   sale?: boolean;
   new?: boolean;
   q?: string;
-  sort?: "newest" | "price_asc" | "price_desc" | "popular";
+  sort?: CatalogSort;
   page?: number;
   page_size?: number;
 };
+
+export type ListingSearchParams = Record<string, string | string[] | undefined>;
+
+export type ListingState = {
+  categories: string[];
+  sizes: string[];
+  colors: number[];
+  priceMin: number | null;
+  priceMax: number | null;
+  inStock: boolean;
+  sort: CatalogSort;
+  page: number;
+  q: string;
+};
+
+export type CategoryFilterMode = "link" | "param";

@@ -1,11 +1,12 @@
 import Image from "next/image";
 
+import type { InstagramPost } from "@/features/content";
 import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
 
-import { instagramImages } from "../constants/content";
+export function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
+  const visible = posts.slice(0, 5);
 
-export function InstagramFeed() {
   return (
     <section
       aria-labelledby="instagram-title"
@@ -21,17 +22,17 @@ export function InstagramFeed() {
         <p className="caps text-muted tracking-[0.2em]">{t("home.instagram.subtitle")}</p>
       </div>
       <ul className="grid w-full grid-cols-2 gap-3 sm:grid-cols-5">
-        {instagramImages.map((src, index) => (
-          <li key={src} className={index === 4 ? "hidden sm:block" : undefined}>
+        {visible.map((post, index) => (
+          <li key={post.id} className={index === 4 ? "hidden sm:block" : undefined}>
             <a
-              href={siteConfig.socials.instagram}
+              href={post.url || siteConfig.socials.instagram}
               target="_blank"
               rel="noopener noreferrer"
               className="relative block aspect-square overflow-hidden"
             >
               <Image
-                src={src}
-                alt={t("home.instagram.imageAlt")}
+                src={post.image}
+                alt={post.alt || t("home.instagram.imageAlt")}
                 fill
                 sizes="(min-width: 640px) 20vw, 50vw"
                 className="object-cover transition-opacity hover:opacity-85"

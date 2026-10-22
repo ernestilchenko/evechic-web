@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { AccountLink } from "@/features/auth";
 import { CartLink } from "@/features/cart";
 import { mainNavigation } from "@/data/navigation";
 import { routes } from "@/data/routes";
@@ -44,9 +45,15 @@ export function SiteHeader() {
           <Link href={routes.search} className={cn(actionClass, "hidden sm:inline")}>
             {t("layout.actions.search")}
           </Link>
-          <Link href={routes.account} className={cn(actionClass, "hidden sm:inline")}>
-            {t("layout.actions.profile")}
-          </Link>
+          <Suspense
+            fallback={
+              <Link href={routes.login} className={cn(actionClass, "hidden sm:inline")}>
+                {t("layout.actions.profile")}
+              </Link>
+            }
+          >
+            <AccountLink className={cn(actionClass, "hidden sm:inline")} />
+          </Suspense>
           <Suspense fallback={<span className={actionClass}>{t("layout.actions.cart")}</span>}>
             <CartLink className={actionClass} />
           </Suspense>

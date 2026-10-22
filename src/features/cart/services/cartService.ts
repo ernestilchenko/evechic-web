@@ -1,4 +1,4 @@
-import { PROXY_BASE_URL } from "@/features/auth/constants/session";
+import { PROXY_BASE_URL } from "@/features/auth";
 import { apiFetch, type RequestOptions } from "@/lib/api/client";
 import type { Cart } from "@/lib/api/types";
 
@@ -8,7 +8,7 @@ function cartRequest<T>(path: string, options: RequestOptions = {}) {
   return apiFetch<T>(path, {
     ...options,
     baseUrl: PROXY_BASE_URL,
-    headers: { ...tokenHeaders(), ...options.headers },
+    headers: { ...cartTokenHeaders(), ...options.headers },
   });
 }
 
@@ -27,7 +27,7 @@ function storeToken(cart: Cart) {
   return cart;
 }
 
-function tokenHeaders(): HeadersInit {
+export function cartTokenHeaders(): Record<string, string> {
   const token = readToken();
   return token ? { [CART_TOKEN_HEADER]: token } : {};
 }
