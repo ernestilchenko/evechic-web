@@ -1,4 +1,4 @@
-import messages from "@/data/locales/uk.json";
+import { messages } from "@/data/locales/uk";
 
 type Messages = typeof messages;
 

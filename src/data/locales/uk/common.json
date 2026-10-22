@@ -1,0 +1,11 @@
+{
+  "currency": "₴",
+  "viewAll": "Дивитись усе",
+  "loading": "Завантаження…",
+  "models": {
+    "one": "{count} модель",
+    "few": "{count} моделі",
+    "many": "{count} моделей",
+    "other": "{count} моделі"
+  }
+}

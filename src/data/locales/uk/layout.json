@@ -1,0 +1,22 @@
+{
+  "announcement": "Безкоштовна доставка від 2 000 ₴ · Обмін і повернення 14 днів · Післяплата",
+  "skipToContent": "Перейти до вмісту",
+  "nav": {
+    "label": "Головне меню",
+    "new": "Новинки",
+    "clothing": "Одяг",
+    "outerwear": "Верхній одяг",
+    "accessories": "Аксесуари",
+    "sale": "Sale"
+  },
+  "actions": {
+    "label": "Дії користувача",
+    "search": "Пошук",
+    "profile": "Профіль",
+    "cart": "Кошик",
+    "cartWithCount": "Кошик ({count})",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню"
+  },
+  "logoHome": "EVECHIC — на головну"
+}
