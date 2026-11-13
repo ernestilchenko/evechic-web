@@ -19,13 +19,32 @@ export function SiteHeader() {
     <header className="border-line bg-cream sticky top-0 z-50 border-b">
       <div className="container-page grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 lg:h-24">
         <div className="flex items-center">
-          <MobileMenu />
+          <Suspense
+            fallback={
+              <span
+                aria-hidden
+                className="-ml-2.5 flex size-11 flex-col items-center justify-center gap-[5px] lg:hidden"
+              >
+                <span className="bg-ink h-px w-5" />
+                <span className="bg-ink h-px w-5" />
+              </span>
+            }
+          >
+            <MobileMenu />
+          </Suspense>
           <Link
             href={routes.search}
             aria-label={t("layout.actions.search")}
             className="flex size-11 items-center justify-center sm:hidden"
           >
-            <svg aria-hidden viewBox="0 0 24 24" className="size-[18px]" fill="none" stroke="currentColor" strokeWidth="1.4">
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              className="size-[18px]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+            >
               <circle cx="10.5" cy="10.5" r="6.5" />
               <path d="m15.5 15.5 5 5" strokeLinecap="round" />
             </svg>
