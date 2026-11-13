@@ -6,6 +6,7 @@ export type ProductRow = Schemas["AdminProductRow"];
 export type ProductTabCounts = Schemas["AdminProductTabCounts"];
 export type Product = Schemas["AdminProductDetail"];
 export type ProductImage = Schemas["AdminProductImage"];
+export type ProductImageUpdate = Schemas["ProductImageUpdateRequest"];
 export type ProductVariant = Schemas["ProductVariant"];
 export type ProductWrite = Schemas["ProductWriteRequest"];
 export type ProductStatus = Schemas["ProductStatusEnum"];

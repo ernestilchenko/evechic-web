@@ -2254,6 +2254,7 @@ export interface components {
             /** Format: uri */
             readonly url: string;
             readonly alt: string;
+            readonly color: number | null;
             readonly sort_order: number;
         };
         AdminProductList: {
@@ -3136,13 +3137,19 @@ export interface components {
             /** Format: uri */
             readonly url: string;
             readonly alt: string;
+            readonly color: number | null;
         };
         ProductImageUploadRequest: {
             /** Format: binary */
             image: string;
             /** @default  */
             alt: string;
+            color?: number | null;
             sort_order?: number;
+        };
+        ProductImageUpdateRequest: {
+            alt?: string;
+            color?: number | null;
         };
         ProductReview: {
             readonly id: number;

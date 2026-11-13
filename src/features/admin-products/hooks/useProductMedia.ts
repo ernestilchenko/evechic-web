@@ -11,10 +11,11 @@ import {
   deleteImage,
   deleteVariant,
   reorderImages,
+  updateImage,
   updateVariant,
   uploadImage,
 } from "../services/productsService";
-import type { Product, VariantWrite } from "../types";
+import type { Product, ProductImageUpdate, VariantWrite } from "../types";
 
 function useProductCache(id: number) {
   const queryClient = useQueryClient();
@@ -43,6 +44,24 @@ export function useUploadImages(id: number) {
     },
     onSuccess: (count) => toast.success(t("adminProducts.toast.imagesUploaded", { count })),
     onError: (error) => toast.error(getErrorMessage(error, t("adminProducts.toast.uploadFailed"))),
+    onSettled: cache.refresh,
+  });
+}
+
+export function useUpdateImage(id: number) {
+  const cache = useProductCache(id);
+  const toast = useAdminToast();
+  return useMutation({
+    mutationFn: ({ imageId, body }: { imageId: number; body: ProductImageUpdate }) =>
+      updateImage(id, imageId, body),
+    onSuccess: (image) => {
+      cache.set((product) => ({
+        ...product,
+        images: product.images.map((item) => (item.id === image.id ? image : item)),
+      }));
+      toast.success(t("adminProducts.toast.imageUpdated"));
+    },
+    onError: (error) => toast.error(getErrorMessage(error, t("adminProducts.toast.saveFailed"))),
     onSettled: cache.refresh,
   });
 }

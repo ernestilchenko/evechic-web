@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Panel } from "@/features/admin";
 import { t } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
-import { useDeleteImage, useReorderImages, useUploadImages } from "../hooks/useProductMedia";
+import { useDeleteImage, useReorderImages, useUpdateImage, useUploadImages } from "../hooks/useProductMedia";
 import type { Product, ProductImage } from "../types";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif";
@@ -24,6 +24,12 @@ export function ProductImages({ product }: { product: Product }) {
   const upload = useUploadImages(product.id);
   const reorder = useReorderImages(product.id);
   const remove = useDeleteImage(product.id);
+  const update = useUpdateImage(product.id);
+  const colors = useMemo(() => {
+    const unique = new Map<number, { id: number; name: string }>();
+    product.variants.forEach((variant) => unique.set(variant.color.id, variant.color));
+    return [...unique.values()];
+  }, [product.variants]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -142,6 +148,27 @@ export function ProductImages({ product }: { product: Product }) {
                   ×
                 </button>
               </div>
+              {colors.length > 1 ? (
+                <select
+                  value={image.color ?? ""}
+                  disabled={update.isPending}
+                  onChange={(event) =>
+                    update.mutate({
+                      imageId: image.id,
+                      body: { color: event.target.value ? Number(event.target.value) : null },
+                    })
+                  }
+                  aria-label={t("adminProducts.images.color", { index: index + 1 })}
+                  className="border-admin-line mx-2 mb-2 rounded border bg-white px-1.5 py-1 text-[11.5px]"
+                >
+                  <option value="">{t("adminProducts.images.allColors")}</option>
+                  {colors.map((color) => (
+                    <option key={color.id} value={color.id}>
+                      {color.name}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
             </li>
           ))}
         </ol>

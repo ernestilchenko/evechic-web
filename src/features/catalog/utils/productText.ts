@@ -19,6 +19,10 @@ export function productDescription(
 
 export function productImages(product: Pick<ProductDetail, "images" | "main_image" | "name">) {
   if (product.images.length)
-    return product.images.map((image) => ({ url: image.url, alt: image.alt || product.name }));
-  return product.main_image ? [{ url: product.main_image, alt: product.name }] : [];
+    return product.images.map((image) => ({
+      url: image.url,
+      alt: image.alt || product.name,
+      color: image.color ?? null,
+    }));
+  return product.main_image ? [{ url: product.main_image, alt: product.name, color: null }] : [];
 }

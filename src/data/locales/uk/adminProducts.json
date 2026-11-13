@@ -102,7 +102,9 @@
     "moveLeft": "Перемістити фото {index} ліворуч",
     "moveRight": "Перемістити фото {index} праворуч",
     "delete": "Видалити фото {index}",
-    "confirmTitle": "Видалити це фото?"
+    "confirmTitle": "Видалити це фото?",
+    "color": "Колір фото {index}",
+    "allColors": "Усі кольори"
   },
   "variants": {
     "title": "Варіанти",
@@ -135,6 +137,7 @@
     "imagesUploaded": "Завантажено фото: {count}",
     "uploadFailed": "Не вдалося завантажити фото",
     "imageDeleted": "Фото видалено",
+    "imageUpdated": "Колір фото збережено",
     "variantSaved": "Варіант збережено",
     "variantDeleted": "Варіант видалено"
   }

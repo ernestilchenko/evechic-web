@@ -13,6 +13,8 @@ import { ApiError } from "@/lib/api/client";
 import type { Color, ProductVariant } from "@/lib/api/types";
 import { t } from "@/lib/i18n";
 
+import { useProductColor } from "./ProductColorContext";
+
 type ProductPurchaseProps = {
   variants: ProductVariant[];
   sizes: string[];
@@ -32,10 +34,7 @@ export function ProductPurchase({ variants, sizes, favorite }: ProductPurchasePr
   const { addItem } = useCart();
   const sizeLabelId = useId();
   const colors = useMemo(() => uniqueColors(variants), [variants]);
-  const initialColor =
-    colors.find((color) => variants.some((variant) => variant.color.id === color.id && variant.stock > 0)) ??
-    colors[0];
-  const [colorId, setColorId] = useState(initialColor?.id ?? null);
+  const { colorId, setColorId } = useProductColor();
   const [size, setSize] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [redirecting, setRedirecting] = useState(false);

@@ -7,6 +7,7 @@ import type {
   BulkStatusResult,
   Product,
   ProductImage,
+  ProductImageUpdate,
   ProductListParams,
   ProductListResult,
   ProductStatus,
@@ -50,6 +51,10 @@ export function uploadImage(id: number, file: File, alt: string) {
   body.append("image", file);
   if (alt) body.append("alt", alt);
   return adminFetch<ProductImage>(`products/${id}/images/upload`, { method: "POST", body });
+}
+
+export function updateImage(id: number, imageId: number, body: ProductImageUpdate) {
+  return adminFetch<ProductImage>(`products/${id}/images/${imageId}/update`, { method: "PATCH", body });
 }
 
 export function deleteImage(id: number, imageId: number) {
