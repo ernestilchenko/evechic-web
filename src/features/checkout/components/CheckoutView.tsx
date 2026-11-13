@@ -99,6 +99,7 @@ export function CheckoutView() {
             values={form.values}
             errors={form.errors}
             setField={form.setField}
+            setFields={form.setFields}
             addresses={form.addresses}
             activeChoice={form.activeChoice}
             chooseAddress={form.chooseAddress}

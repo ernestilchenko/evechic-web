@@ -21,7 +21,9 @@ export function OrderContactForm({ order }: { order: AdminOrder }) {
   const [delivery, setDelivery] = useState<DeliveryValues>({
     delivery_method: order.delivery_method,
     city: order.city,
+    city_ref: order.city_ref,
     delivery_point: order.delivery_point,
+    warehouse_ref: order.warehouse_ref,
     street: order.street,
   });
   const errors = getFieldErrors(mutation.error);

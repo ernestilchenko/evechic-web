@@ -6,7 +6,9 @@ export function addressDeliveryValues(address: Address): Partial<CheckoutValues>
   return {
     delivery_method: (address.delivery_method ?? "np_branch") as DeliveryMethod,
     city: address.city,
+    city_ref: address.city_ref ?? "",
     delivery_point: address.delivery_point ?? "",
+    warehouse_ref: address.warehouse_ref ?? "",
     street: address.street ?? "",
   };
 }

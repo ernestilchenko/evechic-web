@@ -1,7 +1,9 @@
 "use client";
 
 import { RadioCard } from "@/components/ui/RadioCard";
-import { TextField } from "@/components/ui/TextField";
+import { fieldInputClass, TextField } from "@/components/ui/TextField";
+import { NovaPoshtaCityField, NovaPoshtaWarehouseField } from "@/features/delivery";
+import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
 
@@ -12,7 +14,7 @@ import { FormSection } from "./FormSection";
 
 type DeliverySectionProps = Pick<
   CheckoutForm,
-  "values" | "errors" | "setField" | "addresses" | "activeChoice" | "chooseAddress"
+  "values" | "errors" | "setField" | "setFields" | "addresses" | "activeChoice" | "chooseAddress"
 > & {
   freeDeliveryThreshold: string;
   disabled: boolean;
@@ -22,12 +24,15 @@ export function DeliverySection({
   values,
   errors,
   setField,
+  setFields,
   addresses,
   activeChoice,
   chooseAddress,
   freeDeliveryThreshold,
   disabled,
 }: DeliverySectionProps) {
+  const inputClassName = cn(fieldInputClass, "h-[52px]");
+  const labelClassName = "text-muted text-[11px] tracking-[0.06em]";
   const method = values.delivery_method;
   const threshold = formatPrice(freeDeliveryThreshold);
 
@@ -88,17 +93,21 @@ export function DeliverySection({
         <p className="text-muted text-[12.5px]">{t("checkout.delivery.pickupNote")}</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          <TextField
+          <NovaPoshtaCityField
             id={fieldId("city")}
             label={t("checkout.delivery.city")}
             placeholder={t("checkout.delivery.cityPlaceholder")}
-            autoComplete="address-level2"
-            required
-            maxLength={120}
-            value={values.city}
-            onChange={(event) => setField("city", event.target.value)}
+            city={values.city}
+            cityRef={values.city_ref}
             error={errors.city}
             disabled={disabled}
+            inputClassName={inputClassName}
+            labelClassName={labelClassName}
+            onChange={(city) =>
+              setFields(
+                city.city_ref !== values.city_ref ? { ...city, delivery_point: "", warehouse_ref: "" } : city,
+              )
+            }
           />
           {method === "np_courier" ? (
             <TextField
@@ -114,21 +123,19 @@ export function DeliverySection({
               disabled={disabled}
             />
           ) : (
-            <TextField
+            <NovaPoshtaWarehouseField
+              key={method}
               id={fieldId("delivery_point")}
               label={t(method === "np_locker" ? "checkout.delivery.locker" : "checkout.delivery.branch")}
-              placeholder={t(
-                method === "np_locker"
-                  ? "checkout.delivery.lockerPlaceholder"
-                  : "checkout.delivery.branchPlaceholder",
-              )}
-              autoComplete="off"
-              required
-              maxLength={255}
-              value={values.delivery_point}
-              onChange={(event) => setField("delivery_point", event.target.value)}
+              type={method === "np_locker" ? "locker" : "branch"}
+              cityRef={values.city_ref}
+              deliveryPoint={values.delivery_point}
+              warehouseRef={values.warehouse_ref}
               error={errors.delivery_point}
               disabled={disabled}
+              inputClassName={inputClassName}
+              labelClassName={labelClassName}
+              onChange={setFields}
             />
           )}
         </div>

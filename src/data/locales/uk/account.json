@@ -93,6 +93,7 @@
   "delivery": {
     "label": "Доставка",
     "tracking": "ТТН: {number}",
+    "track": "Відстежити посилку",
     "methods": {
       "np_branch": "Нова Пошта, відділення",
       "np_locker": "Нова Пошта, поштомат",

@@ -43,3 +43,15 @@ export async function searchProducts(q: string) {
 export function fetchProductVariants(id: number) {
   return adminFetch<ProductDetail>(`products/${id}`);
 }
+
+export function createWaybill(number: number, weight: string) {
+  return adminFetch<AdminOrder>(`orders/${number}/waybill/create`, { method: "POST", body: { weight } });
+}
+
+export function deleteWaybill(number: number) {
+  return adminFetch<AdminOrder>(`orders/${number}/waybill/delete`, { method: "POST" });
+}
+
+export function refreshTracking(number: number) {
+  return adminFetch<AdminOrder>(`orders/${number}/tracking/refresh`, { method: "POST" });
+}

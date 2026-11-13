@@ -7,7 +7,9 @@ export type CheckoutValues = {
   email: string;
   delivery_method: DeliveryMethod;
   city: string;
+  city_ref: string;
   delivery_point: string;
+  warehouse_ref: string;
   street: string;
   payment_method: PaymentMethod;
   comment: string;

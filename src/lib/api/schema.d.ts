@@ -939,6 +939,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/admin/orders/{number}/tracking/refresh/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh Nova Poshta tracking status
+         * @description Pulls the current status now (the same job runs hourly) and moves the order to shipped/completed.
+         */
+        post: operations["admin_orders_tracking_refresh_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/admin/orders/{number}/update/": {
         parameters: {
             query?: never;
@@ -957,6 +977,46 @@ export interface paths {
          * @description Contact and delivery fields, tracking_number, manager_note and comment. Status and prices are not editable here.
          */
         patch: operations["admin_orders_update_partial_update"];
+        trace?: never;
+    };
+    "/api/admin/orders/{number}/waybill/create/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create Nova Poshta waybill
+         * @description Creates a waybill from the shop sender branch to the branch or locker chosen at checkout (city_ref and warehouse_ref are required). The recipient pays delivery unless the order has free delivery; unpaid COD orders get cash-on-delivery for the order total. A new order moves to packed. weight is in kg.
+         */
+        post: operations["admin_orders_waybill_create_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/orders/{number}/waybill/delete/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Delete Nova Poshta waybill
+         * @description Only while the parcel has not been handed over to Nova Poshta.
+         */
+        post: operations["admin_orders_waybill_delete_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/admin/orders/create/": {
@@ -1051,6 +1111,26 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/admin/products/{id}/images/{image_id}/update/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update product image
+         * @description color links the photo to a product colour; null shows it for every colour.
+         */
+        patch: operations["admin_products_images_update_partial_update"];
         trace?: never;
     };
     "/api/admin/products/{id}/images/reorder/": {
@@ -1726,6 +1806,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/delivery/cities/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search Nova Poshta cities */
+        get: operations["delivery_cities_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/delivery/warehouses/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search Nova Poshta branches and lockers of a city
+         * @description Working branches and parcel lockers sorted by number; q matches the number prefix or the address.
+         */
+        get: operations["delivery_warehouses_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/favorites/": {
         parameters: {
             query?: never;
@@ -2029,7 +2146,9 @@ export interface components {
             readonly id: number;
             delivery_method?: components["schemas"]["DeliveryMethodEnum"];
             city: string;
+            city_ref?: string;
             delivery_point?: string;
+            warehouse_ref?: string;
             street?: string;
             is_default?: boolean;
             /** Format: date-time */
@@ -2038,7 +2157,9 @@ export interface components {
         AddressRequest: {
             delivery_method?: components["schemas"]["DeliveryMethodEnum"];
             city: string;
+            city_ref?: string;
             delivery_point?: string;
+            warehouse_ref?: string;
             street?: string;
             is_default?: boolean;
         };
@@ -2122,6 +2243,10 @@ export interface components {
             delivery_point: string;
             /** @default  */
             street: string;
+            /** @default  */
+            city_ref: string;
+            /** @default  */
+            warehouse_ref: string;
             payment_method: components["schemas"]["PaymentMethodEnum"];
             /** @default  */
             comment: string;
@@ -2147,7 +2272,13 @@ export interface components {
             readonly delivery_point: string;
             readonly street: string;
             readonly delivery_summary: string;
+            readonly city_ref: string;
+            readonly warehouse_ref: string;
             readonly tracking_number: string;
+            readonly tracking_url: string | null;
+            readonly tracking_status: string;
+            /** Format: date-time */
+            readonly tracking_updated_at: string | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -2170,6 +2301,9 @@ export interface components {
             readonly user_id: number | null;
             readonly manager_note: string;
             readonly admin_delivery_summary: string;
+            readonly np_document_ref: string;
+            readonly tracking_status_code: number | null;
+            readonly can_create_waybill: boolean;
             readonly invoices: components["schemas"]["MonobankInvoice"][];
             /** Format: date-time */
             readonly updated_at: string;
@@ -2461,6 +2595,10 @@ export interface components {
             delivery_point: string;
             /** @default  */
             street: string;
+            /** @default  */
+            city_ref: string;
+            /** @default  */
+            warehouse_ref: string;
             payment_method: components["schemas"]["PaymentMethodEnum"];
             /** @default  */
             comment: string;
@@ -2485,7 +2623,13 @@ export interface components {
             readonly delivery_point: string;
             readonly street: string;
             readonly delivery_summary: string;
+            readonly city_ref: string;
+            readonly warehouse_ref: string;
             readonly tracking_number: string;
+            readonly tracking_url: string | null;
+            readonly tracking_status: string;
+            /** Format: date-time */
+            readonly tracking_updated_at: string | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -2507,6 +2651,12 @@ export interface components {
             readonly return_deadline: string | null;
             /** Format: uri */
             payment_url: string | null;
+        };
+        City: {
+            ref: string;
+            name: string;
+            area: string;
+            type: string;
         };
         Color: {
             readonly id: number;
@@ -2795,7 +2945,13 @@ export interface components {
             readonly delivery_point: string;
             readonly street: string;
             readonly delivery_summary: string;
+            readonly city_ref: string;
+            readonly warehouse_ref: string;
             readonly tracking_number: string;
+            readonly tracking_url: string | null;
+            readonly tracking_status: string;
+            /** Format: date-time */
+            readonly tracking_updated_at: string | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -2915,7 +3071,9 @@ export interface components {
         PatchedAddressRequest: {
             delivery_method?: components["schemas"]["DeliveryMethodEnum"];
             city?: string;
+            city_ref?: string;
             delivery_point?: string;
+            warehouse_ref?: string;
             street?: string;
             is_default?: boolean;
         };
@@ -2929,6 +3087,8 @@ export interface components {
             city?: string;
             delivery_point?: string;
             street?: string;
+            city_ref?: string;
+            warehouse_ref?: string;
             tracking_number?: string;
             manager_note?: string;
             comment?: string;
@@ -3002,6 +3162,10 @@ export interface components {
             image_alt?: string;
             /** @default true */
             is_published: boolean;
+        };
+        PatchedProductImageUpdateRequest: {
+            alt?: string;
+            color?: number | null;
         };
         PatchedProductWriteRequest: {
             category?: number;
@@ -3146,10 +3310,6 @@ export interface components {
             alt: string;
             color?: number | null;
             sort_order?: number;
-        };
-        ProductImageUpdateRequest: {
-            alt?: string;
-            color?: number | null;
         };
         ProductReview: {
             readonly id: number;
@@ -3385,6 +3545,12 @@ export interface components {
             /** Format: decimal */
             revenue: string;
         };
+        /**
+         * @description * `branch` - branch
+         *     * `locker` - locker
+         * @enum {string}
+         */
+        TypeEnum: "branch" | "locker";
         UnsubscribeRequest: {
             token: string;
         };
@@ -3423,6 +3589,17 @@ export interface components {
             color: number;
             size: string;
             stock: number;
+        };
+        Warehouse: {
+            ref: string;
+            number: string;
+            name: string;
+            short_address: string;
+            type: components["schemas"]["TypeEnum"];
+        };
+        WaybillCreateRequest: {
+            /** Format: decimal */
+            weight?: string;
         };
     };
     responses: never;
@@ -4973,6 +5150,48 @@ export interface operations {
             };
         };
     };
+    admin_orders_tracking_refresh_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminOrderDetail"];
+                };
+            };
+            /** @description This order has no tracking number. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Order not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Nova Poshta is unavailable right now. Please try again later. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     admin_orders_update_partial_update: {
         parameters: {
             query?: never;
@@ -4999,6 +5218,82 @@ export interface operations {
                 };
             };
             /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Order not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    admin_orders_waybill_create_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["WaybillCreateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["WaybillCreateRequest"];
+                "multipart/form-data": components["schemas"]["WaybillCreateRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminOrderDetail"];
+                };
+            };
+            /** @description A waybill can be created only for a new or packed order to a Nova Poshta branch or locker selected from the list, without an existing waybill. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Order not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    admin_orders_waybill_delete_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminOrderDetail"];
+                };
+            };
+            /** @description The parcel is already with Nova Poshta, the waybill cannot be deleted. */
             400: {
                 headers: {
                     [name: string]: unknown;
@@ -5154,6 +5449,48 @@ export interface operations {
         responses: {
             /** @description Image deleted successfully. */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Image not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    admin_products_images_update_partial_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                image_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PatchedProductImageUpdateRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["PatchedProductImageUpdateRequest"];
+                "multipart/form-data": components["schemas"]["PatchedProductImageUpdateRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminProductImage"];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6292,6 +6629,79 @@ export interface operations {
             };
             /** @description Page not found. */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delivery_cities_list: {
+        parameters: {
+            query: {
+                /** @description At least 2 characters of the city name */
+                q: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["City"][];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Nova Poshta is unavailable right now. Please try again later. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delivery_warehouses_list: {
+        parameters: {
+            query: {
+                city_ref: string;
+                q?: string;
+                type?: "branch" | "locker";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Warehouse"][];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Nova Poshta is unavailable right now. Please try again later. */
+            503: {
                 headers: {
                     [name: string]: unknown;
                 };

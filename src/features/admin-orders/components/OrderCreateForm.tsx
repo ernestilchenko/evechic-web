@@ -72,7 +72,9 @@ export function OrderCreateForm() {
   const [delivery, setDelivery] = useState<DeliveryValues>({
     delivery_method: "np_branch",
     city: "",
+    city_ref: "",
     delivery_point: "",
+    warehouse_ref: "",
     street: "",
   });
   const [payment, setPayment] = useState<PaymentMethod>("cod");

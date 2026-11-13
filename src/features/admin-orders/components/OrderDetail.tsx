@@ -24,6 +24,7 @@ import type { AdminOrder } from "../types";
 import { OrderContactForm } from "./OrderContactForm";
 import { OrderInvoices } from "./OrderInvoices";
 import { OrderNotesForm } from "./OrderNotesForm";
+import { OrderWaybill } from "./OrderWaybill";
 import { useStatusFlow } from "./useStatusFlow";
 
 function TotalsRow({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
@@ -201,6 +202,7 @@ export function OrderDetail({ number }: { number: number }) {
                 {t("adminOrders.detail.customerProfile")} →
               </Link>
             ) : null}
+            <OrderWaybill order={order} />
             <OrderNotesForm key={`notes-${order.updated_at}`} order={order} />
             <OrderContactForm key={`contact-${order.updated_at}`} order={order} />
           </div>

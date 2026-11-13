@@ -129,6 +129,17 @@ function Info({ order }: { order: OrderDetail }) {
             {t("account.delivery.tracking", { number: order.tracking_number })}
           </p>
         ) : null}
+        {order.tracking_status ? <p className="text-[13px]">{order.tracking_status}</p> : null}
+        {order.tracking_url ? (
+          <a
+            href={order.tracking_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-gold hover:text-ink self-start text-[12.5px]"
+          >
+            {t("account.delivery.track")} ↗
+          </a>
+        ) : null}
       </div>
       <div className="flex flex-col gap-1.5">
         <h2 className={blockTitleClass}>{t("account.payment.label")}</h2>

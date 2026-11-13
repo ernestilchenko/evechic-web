@@ -18,7 +18,14 @@ import { rememberLastOrder } from "../utils/lastOrder";
 import { formatPhone, normalizePhone } from "../utils/phone";
 import { validateCheckout } from "../utils/validate";
 
-const DELIVERY_FIELDS: CheckoutField[] = ["delivery_method", "city", "delivery_point", "street"];
+const DELIVERY_FIELDS: CheckoutField[] = [
+  "delivery_method",
+  "city",
+  "city_ref",
+  "delivery_point",
+  "warehouse_ref",
+  "street",
+];
 
 const EMPTY_VALUES: CheckoutValues = {
   first_name: "",
@@ -27,7 +34,9 @@ const EMPTY_VALUES: CheckoutValues = {
   email: "",
   delivery_method: "np_branch",
   city: "",
+  city_ref: "",
   delivery_point: "",
+  warehouse_ref: "",
   street: "",
   payment_method: "card",
   comment: "",
@@ -50,7 +59,9 @@ function toPayload(values: CheckoutValues, useBonuses: boolean): CheckoutRequest
     email: values.email.trim(),
     delivery_method: method,
     city: method === "pickup" ? "" : values.city.trim(),
+    city_ref: method === "pickup" ? "" : values.city_ref,
     delivery_point: method === "np_branch" || method === "np_locker" ? values.delivery_point.trim() : "",
+    warehouse_ref: method === "np_branch" || method === "np_locker" ? values.warehouse_ref : "",
     street: method === "np_courier" ? values.street.trim() : "",
     payment_method: values.payment_method,
     comment: values.comment.trim(),
@@ -103,13 +114,22 @@ export function useCheckoutForm({ canUseBonuses }: { canUseBonuses: boolean }) {
     });
 
   const setField = <K extends CheckoutField>(field: K, value: CheckoutValues[K]) => {
-    setEdits((current) => ({ ...current, [field]: value }));
+    setEdits((current) =>
+      field === "delivery_method" && current.delivery_method !== value
+        ? { ...current, [field]: value, delivery_point: "", warehouse_ref: "" }
+        : { ...current, [field]: value },
+    );
     clearError(field);
     if (field === "delivery_method") {
       clearError("city");
       clearError("delivery_point");
       clearError("street");
     }
+  };
+
+  const setFields = (patch: Partial<CheckoutValues>) => {
+    setEdits((current) => ({ ...current, ...patch }));
+    (Object.keys(patch) as CheckoutField[]).forEach(clearError);
   };
 
   const chooseAddress = (choice: AddressChoice) => {
@@ -170,6 +190,7 @@ export function useCheckoutForm({ canUseBonuses }: { canUseBonuses: boolean }) {
     values,
     errors,
     setField,
+    setFields,
     addresses,
     activeChoice,
     chooseAddress,
