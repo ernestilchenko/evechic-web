@@ -10,10 +10,10 @@ function FooterColumn({ title, links }: { title: string; links: NavItem[] }) {
   return (
     <nav aria-label={title} className="flex flex-col gap-[15px]">
       <h2 className="text-gold text-[10.5px] font-semibold tracking-[0.22em] uppercase">{title}</h2>
-      <ul className="flex flex-col gap-[15px]">
+      <ul className="flex flex-col gap-1 lg:gap-[15px]">
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-footer-text hover:text-cream text-[13px]">
+            <Link href={link.href} className="text-footer-text hover:text-cream inline-flex min-h-9 items-center text-[13px] lg:min-h-0">
               {t(link.labelKey)}
             </Link>
           </li>
@@ -50,7 +50,7 @@ export async function SiteFooter() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-gold text-[10.5px] font-semibold tracking-[0.18em] uppercase"
+                    className="hover:text-gold inline-flex min-h-11 items-center text-[10.5px] font-semibold tracking-[0.18em] uppercase lg:min-h-0"
                   >
                     {social.label}
                   </a>
@@ -64,7 +64,7 @@ export async function SiteFooter() {
             <h2 className="text-gold text-[10.5px] font-semibold tracking-[0.22em] uppercase">
               {t("footer.contacts")}
             </h2>
-            <address className="text-footer-text flex flex-col gap-[15px] text-[13px] not-italic">
+            <address className="text-footer-text flex flex-col items-start gap-1 text-[13px] not-italic lg:gap-[15px] [&>a]:inline-flex [&>a]:min-h-9 [&>a]:items-center lg:[&>a]:min-h-0">
               <a href={`tel:${siteConfig.phone}`} className="hover:text-cream">
                 {siteConfig.phoneDisplay}
               </a>
@@ -87,10 +87,10 @@ export async function SiteFooter() {
         <div className="text-footer-dim flex flex-col gap-3 text-[11.5px] lg:flex-row lg:items-center lg:gap-6">
           <p className="flex-1">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
           <p>{t("footer.payments")}</p>
-          <Link href={routes.offer} className="hover:text-cream">
+          <Link href={routes.offer} className="hover:text-cream py-1.5 lg:py-0">
             {t("footer.offer")}
           </Link>
-          <Link href={routes.privacy} className="hover:text-cream">
+          <Link href={routes.privacy} className="hover:text-cream py-1.5 lg:py-0">
             {t("footer.privacy")}
           </Link>
         </div>

@@ -36,7 +36,13 @@ export function OrdersSection() {
         <label htmlFor={selectId} className="sr-only">
           {t("account.orders.periodLabel")}
         </label>
-        <span className="relative inline-flex">
+        <span className="text-muted hover:text-ink focus-within:text-ink relative inline-flex h-11 items-center pr-5">
+          <span
+            aria-hidden
+            className="pointer-events-none text-[10.5px] font-semibold tracking-[0.16em] whitespace-nowrap uppercase"
+          >
+            {t(`account.orders.periods.${period}`)}
+          </span>
           <select
             id={selectId}
             value={period}
@@ -47,7 +53,7 @@ export function OrdersSection() {
               const search = params.toString();
               router.replace(search ? `${pathname}?${search}` : pathname, { scroll: false });
             }}
-            className="text-muted hover:text-ink cursor-pointer appearance-none bg-transparent py-1 pr-5 text-[10.5px] font-semibold tracking-[0.16em] uppercase focus:outline-none"
+            className="absolute inset-0 size-full cursor-pointer appearance-none opacity-0"
           >
             {ORDER_PERIODS.map((value) => (
               <option key={value} value={value}>

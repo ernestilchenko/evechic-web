@@ -84,7 +84,7 @@ export function AddressesSection() {
         <button
           type="button"
           onClick={() => openDialog(null)}
-          className="text-gold hover:text-ink text-[10.5px] font-semibold tracking-[0.16em]"
+          className="text-gold hover:text-ink -my-3 py-3 text-[10.5px] font-semibold tracking-[0.16em]"
         >
           {t("account.addresses.add")}
         </button>

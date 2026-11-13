@@ -23,7 +23,7 @@ export function ColorSwatch({
       title={label}
       className={cn(
         "rounded-full transition-shadow disabled:cursor-not-allowed disabled:opacity-40",
-        size === "md" ? "size-[30px]" : "size-6",
+        size === "md" ? "size-9" : "size-6",
         selected ? "ring-ink ring-2 ring-inset" : "ring-line hover:ring-ink/60 ring-1 ring-inset",
         className,
       )}

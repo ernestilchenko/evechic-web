@@ -103,7 +103,7 @@ export function CartItemRow({
         onClick={onRemove}
         disabled={busy}
         aria-label={t("cart.item.remove", { name: item.product.name })}
-        className="text-placeholder hover:text-ink -m-2 self-start p-2 text-base leading-none disabled:opacity-40 sm:self-center"
+        className="text-placeholder hover:text-ink -m-3 flex size-11 shrink-0 items-center justify-center self-start text-xl leading-none disabled:opacity-40 sm:self-center"
       >
         ×
       </button>

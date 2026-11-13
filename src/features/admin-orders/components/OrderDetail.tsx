@@ -161,7 +161,7 @@ export function OrderDetail({ number }: { number: number }) {
             {t("adminOrders.detail.returnReason")}: {order.return_reason}
           </p>
         ) : null}
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-4 xl:grid-cols-[minmax(0,1fr)_380px]">
           <div className="flex min-w-0 flex-col gap-4">
             <OrderItems order={order} />
             <Panel title={t("adminOrders.detail.payment")} titleId="order-payment">

@@ -7,7 +7,8 @@
     "clothing": "Одяг",
     "outerwear": "Верхній одяг",
     "accessories": "Аксесуари",
-    "sale": "Sale"
+    "sale": "Sale",
+    "dresses": "Сукні"
   },
   "actions": {
     "label": "Дії користувача",
@@ -18,5 +19,11 @@
     "openMenu": "Відкрити меню",
     "closeMenu": "Закрити меню"
   },
-  "logoHome": "EVECHIC — на головну"
+  "logoHome": "EVECHIC — на головну",
+  "mobile": {
+    "searchPlaceholder": "Пошук товарів",
+    "account": "Мій кабінет",
+    "login": "Увійти / Зареєструватись",
+    "favorites": "Обране"
+  }
 }

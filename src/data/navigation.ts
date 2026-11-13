@@ -8,7 +8,7 @@ export const mainNavigation: NavItem[] = [
   { href: routes.newArrivals, labelKey: "layout.nav.new" },
   { href: routes.catalog, labelKey: "layout.nav.clothing" },
   { href: routes.category("outerwear"), labelKey: "layout.nav.outerwear" },
-  { href: routes.category("accessories"), labelKey: "layout.nav.accessories" },
+  { href: routes.category("dresses"), labelKey: "layout.nav.dresses" },
   { href: routes.sale, labelKey: "layout.nav.sale", accent: true },
 ];
 

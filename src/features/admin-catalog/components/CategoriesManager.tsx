@@ -46,7 +46,7 @@ export function CategoriesManager() {
         <AdminButton onClick={() => setEditing(null)}>+ {t("adminCatalog.categories.add")}</AdminButton>
       </AdminPageHeader>
       <AdminPageBody>
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-4 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
           <section
             aria-labelledby="categories-title"
             className="border-admin-line rounded-md border bg-white"

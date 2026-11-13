@@ -8,7 +8,7 @@ const STEPS = ["cart", "checkout", "done"] as const;
 export function CheckoutSteps({ current }: { current: 2 | 3 }) {
   return (
     <nav aria-label={t("checkout.steps.label")}>
-      <ol className="flex flex-wrap items-center gap-x-3.5 gap-y-3">
+      <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-3 sm:gap-x-3.5">
         {STEPS.map((step, index) => {
           const number = index + 1;
           const isCurrent = number === current;
@@ -31,6 +31,7 @@ export function CheckoutSteps({ current }: { current: 2 | 3 }) {
                 <span
                   className={cn(
                     "text-xs tracking-[0.06em]",
+                    !isCurrent && "sr-only sm:not-sr-only",
                     isCurrent && "font-semibold",
                     !isDone && !isCurrent && "text-placeholder",
                   )}

@@ -102,7 +102,7 @@ export function OrderCreateForm() {
       <AdminPageHeader title={t("adminOrders.new.title")} back={back} />
       <AdminPageBody>
         <form
-          className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px]"
+          className="grid grid-cols-[minmax(0,1fr)] gap-4 xl:grid-cols-[minmax(0,1fr)_420px]"
           onSubmit={(event) => {
             event.preventDefault();
             mutation.mutate({

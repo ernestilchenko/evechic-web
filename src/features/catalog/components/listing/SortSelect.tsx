@@ -13,7 +13,7 @@ export function SortSelect() {
   const { state, update } = useListingParams();
 
   return (
-    <div className="border-line focus-within:border-ink relative flex items-center border">
+    <div className="border-line focus-within:border-ink relative flex h-[42px] items-center border pr-10 pl-[18px]">
       <label htmlFor={id} className="sr-only">
         {t("catalog.sort.label")}
       </label>
@@ -24,7 +24,7 @@ export function SortSelect() {
           const sort = event.target.value as CatalogSort;
           update({ [LISTING_PARAMS.sort]: sort === DEFAULT_SORT ? null : sort });
         }}
-        className="text-ink h-[42px] cursor-pointer appearance-none bg-transparent py-0 pr-10 pl-[18px] text-[10.5px] font-semibold tracking-[0.14em] uppercase focus:outline-none"
+        className="absolute inset-0 size-full cursor-pointer appearance-none opacity-0"
       >
         {SORT_OPTIONS.map((option) => (
           <option key={option} value={option}>
@@ -32,6 +32,12 @@ export function SortSelect() {
           </option>
         ))}
       </select>
+      <span
+        aria-hidden
+        className="text-ink pointer-events-none text-[10.5px] font-semibold tracking-[0.14em] whitespace-nowrap uppercase"
+      >
+        {t(`catalog.sort.${state.sort}`)}
+      </span>
       <span aria-hidden className="text-muted pointer-events-none absolute right-[18px] text-[10px]">
         ▾
       </span>

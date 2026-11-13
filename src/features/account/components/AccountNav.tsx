@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { useLogout } from "@/features/auth";
 import { routes } from "@/data/routes";
@@ -22,10 +23,21 @@ export function AccountNav() {
   const pathname = usePathname();
   const { data: summary } = useAccountSummary();
   const logout = useLogout();
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const list = listRef.current;
+    const active = list?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!list || !active || list.scrollWidth <= list.clientWidth) return;
+    list.scrollTo({ left: active.offsetLeft - (list.clientWidth - active.offsetWidth) / 2 });
+  }, [pathname]);
 
   return (
     <nav aria-label={t("account.nav.label")}>
-      <ul className="-mx-4 flex gap-1 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0">
+      <ul
+        ref={listRef}
+        className="relative -mx-4 flex gap-1 overflow-x-auto overscroll-x-contain px-4 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
+      >
         {accountNavigation.map((item) => {
           const active = isActive(pathname, item.href);
           const count =

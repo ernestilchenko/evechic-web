@@ -113,7 +113,7 @@ export function OnboardingForm() {
         <button
           type="button"
           onClick={() => router.replace(currentNextParam() ?? routes.catalog)}
-          className="text-muted hover:text-ink text-center text-[12.5px] font-semibold"
+          className="text-muted hover:text-ink min-h-11 text-center text-[12.5px] font-semibold"
         >
           {t("auth.welcome.skip")}
         </button>

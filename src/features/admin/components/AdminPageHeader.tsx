@@ -37,7 +37,7 @@ export function AdminPageHeader({ title, back, meta, children }: AdminPageHeader
           </Link>
         ) : null}
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-[17px] font-semibold">{title}</h1>
+          <h1 className="min-w-0 text-[17px] font-semibold wrap-anywhere">{title}</h1>
           {meta}
         </div>
       </div>

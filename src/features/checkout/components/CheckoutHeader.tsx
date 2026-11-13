@@ -5,7 +5,8 @@ import { routes } from "@/data/routes";
 import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
 
-const linkClass = "text-muted hover:text-ink text-[10.5px] font-semibold tracking-[0.16em] uppercase";
+const linkClass =
+  "text-muted hover:text-ink inline-flex min-h-11 items-center text-[10.5px] font-semibold tracking-[0.16em] uppercase";
 
 export function CheckoutHeader() {
   return (

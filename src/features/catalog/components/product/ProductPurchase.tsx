@@ -112,7 +112,7 @@ export function ProductPurchase({ variants, sizes, favorite }: ProductPurchasePr
             >
               {t("productPage.size")}
             </p>
-            <Link href={routes.sizeGuide} className="text-gold hover:text-ink text-[11.5px]">
+            <Link href={routes.sizeGuide} className="text-gold hover:text-ink -my-2 py-2 text-[12px]">
               {t("productPage.sizeGuide")}
             </Link>
           </div>
@@ -143,7 +143,7 @@ export function ProductPurchase({ variants, sizes, favorite }: ProductPurchasePr
 
       <div className="flex flex-col gap-3 pt-2 sm:flex-row">
         <Button
-          className="h-[58px] flex-1 py-0"
+          className="h-[58px] w-full py-0 sm:w-auto sm:flex-1"
           onClick={() => add(false)}
           disabled={soldOut || busy}
           aria-describedby="purchase-feedback"
@@ -152,7 +152,7 @@ export function ProductPurchase({ variants, sizes, favorite }: ProductPurchasePr
             ? t("productPage.actions.adding")
             : t("productPage.actions.addToCart")}
         </Button>
-        <div className="flex flex-1 gap-3">
+        <div className="flex gap-3 sm:flex-1">
           <Button
             variant="outline"
             className="h-[58px] flex-1 py-0"

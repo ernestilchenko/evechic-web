@@ -107,7 +107,7 @@ export function CustomerDetailView({ id }: { id: number }) {
         }
       />
       <AdminPageBody>
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
           <div className="flex min-w-0 flex-col gap-4">
             <Panel title={t("adminCustomers.detail.profile")} titleId="customer-profile">
               <dl className="grid gap-4 sm:grid-cols-3">
