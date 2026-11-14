@@ -106,6 +106,18 @@ export function OrderWaybill({ order }: { order: AdminOrder }) {
             : t("adminOrders.waybill.needRefs")}
         </p>
       )}
+      {order.return_tracking_number ? (
+        <div className="border-admin-row mt-5 flex flex-col gap-1 border-t pt-4 text-[12.5px]">
+          <p className="text-muted text-[11px] font-semibold">{t("adminOrders.waybill.returnTitle")}</p>
+          <p className="font-medium tabular-nums">{order.return_tracking_number}</p>
+          <p>{order.return_tracking_status || "—"}</p>
+          {order.return_tracking_updated_at ? (
+            <p className="text-muted text-[11px]">
+              {t("adminOrders.waybill.updated", { time: formatDateTime(order.return_tracking_updated_at) })}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       <ConfirmDialog
         open={confirmDelete}
         tone="danger"

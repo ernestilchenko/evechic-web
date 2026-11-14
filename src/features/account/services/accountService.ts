@@ -91,3 +91,10 @@ export function deleteAddress(id: number) {
 export function makeDefaultAddress(id: number) {
   return accountFetch<Address>(`account/addresses/${id}/make-default/`, { method: "POST" });
 }
+
+export function saveReturnTracking(number: number | string, trackingNumber: string) {
+  return accountFetch<OrderDetail>(`account/orders/${number}/return-tracking/`, {
+    method: "POST",
+    body: { tracking_number: trackingNumber },
+  });
+}

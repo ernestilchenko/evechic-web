@@ -36,7 +36,7 @@ export function AccountNav() {
     <nav aria-label={t("account.nav.label")}>
       <ul
         ref={listRef}
-        className="relative -mx-4 flex gap-1 overflow-x-auto overscroll-x-contain px-4 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
+        className="relative -mx-4 flex [scrollbar-width:none] gap-1 overflow-x-auto overscroll-x-contain px-4 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {accountNavigation.map((item) => {
           const active = isActive(pathname, item.href);

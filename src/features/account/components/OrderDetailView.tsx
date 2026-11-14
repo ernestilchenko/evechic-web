@@ -17,6 +17,7 @@ import { useOrder } from "../hooks/useAccountQueries";
 
 import { OrderActions } from "./OrderActions";
 import { OrderStatusChip } from "./OrderStatusChip";
+import { ReturnShipment } from "./ReturnShipment";
 
 const blockClass = "border-line flex flex-col gap-4 border bg-white px-5 py-6 sm:px-[30px] sm:py-7";
 const blockTitleClass = "text-[11px] font-semibold tracking-[0.2em] uppercase";
@@ -214,6 +215,7 @@ export function OrderDetailView({ number }: { number: string }) {
         </p>
       </div>
       <OrderActions order={order} />
+      <ReturnShipment order={order} />
       <div className="grid gap-6 xl:grid-cols-[1fr_340px] xl:items-start">
         <section aria-labelledby="order-items-title" className={blockClass}>
           <h2 id="order-items-title" className={blockTitleClass}>

@@ -232,6 +232,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/account/orders/{number}/return-tracking/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add the return waybill number
+         * @description After requesting a return the customer sends the parcel to the shop with Nova Poshta and enters the waybill number here; the shop tracks it hourly.
+         */
+        post: operations["account_orders_return_tracking_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/account/reviews/": {
         parameters: {
             query?: never;
@@ -2359,6 +2379,11 @@ export interface components {
             readonly tracking_status: string;
             /** Format: date-time */
             readonly tracking_updated_at: string | null;
+            readonly return_tracking_number: string;
+            readonly return_tracking_status: string;
+            /** Format: date-time */
+            readonly return_tracking_updated_at: string | null;
+            readonly return_instructions: components["schemas"]["ReturnInstructions"] | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -2759,6 +2784,11 @@ export interface components {
             readonly tracking_status: string;
             /** Format: date-time */
             readonly tracking_updated_at: string | null;
+            readonly return_tracking_number: string;
+            readonly return_tracking_status: string;
+            /** Format: date-time */
+            readonly return_tracking_updated_at: string | null;
+            readonly return_instructions: components["schemas"]["ReturnInstructions"] | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -3187,6 +3217,11 @@ export interface components {
             readonly tracking_status: string;
             /** Format: date-time */
             readonly tracking_updated_at: string | null;
+            readonly return_tracking_number: string;
+            readonly return_tracking_status: string;
+            /** Format: date-time */
+            readonly return_tracking_updated_at: string | null;
+            readonly return_instructions: components["schemas"]["ReturnInstructions"] | null;
             readonly payment_method: components["schemas"]["PaymentMethodEnum"];
             readonly payment_status: components["schemas"]["PaymentStatusEnum"];
             readonly comment: string;
@@ -3734,6 +3769,14 @@ export interface components {
             quantity: number;
             reason?: string;
         };
+        ReturnInstructions: {
+            recipient: string;
+            phone: string;
+            address: string;
+        };
+        ReturnTrackingRequest: {
+            tracking_number: string;
+        };
         ReviewCreateRequest: {
             rating: number;
             text: string;
@@ -4261,6 +4304,47 @@ export interface operations {
                 };
             };
             /** @description The return period for this order has expired. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Order not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    account_orders_return_tracking_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReturnTrackingRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["ReturnTrackingRequest"];
+                "multipart/form-data": components["schemas"]["ReturnTrackingRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDetail"];
+                };
+            };
+            /** @description A return waybill can be added only after the return is requested. */
             400: {
                 headers: {
                     [name: string]: unknown;
