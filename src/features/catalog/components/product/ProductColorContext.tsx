@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { createContext, useContext, useState } from "react";
 
 import type { ProductVariant } from "@/lib/api/types";
@@ -23,7 +24,10 @@ export function ProductColorProvider({
   variants: ProductVariant[];
   children: React.ReactNode;
 }) {
-  const [colorId, setColorId] = useState(() => initialColorId(variants));
+  const requested = Number(useSearchParams().get("color"));
+  const [colorId, setColorId] = useState(() =>
+    variants.some((variant) => variant.color.id === requested) ? requested : initialColorId(variants),
+  );
   return <ProductColorContext value={{ colorId, setColorId }}>{children}</ProductColorContext>;
 }
 
