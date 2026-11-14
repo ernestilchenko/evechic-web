@@ -3567,6 +3567,7 @@ export interface components {
          */
         PaymentMethodEnum: "card" | "cod" | "parts";
         PaymentOptions: {
+            cod: boolean;
             parts: components["schemas"]["PartsOptions"];
         };
         /**
@@ -3801,7 +3802,6 @@ export interface components {
             /** Format: decimal */
             readonly total: string;
             readonly delivery_method: components["schemas"]["DeliveryMethodEnum"];
-            /** Format: email */
             readonly email: string;
             readonly skip_confirmation_call: boolean;
             readonly can_pay: boolean;

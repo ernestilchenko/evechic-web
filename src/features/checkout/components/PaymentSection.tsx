@@ -21,7 +21,11 @@ type PaymentSectionProps = Pick<CheckoutForm, "values" | "setField"> & { disable
 export function PaymentSection({ values, setField, disabled, payable }: PaymentSectionProps) {
   const options = usePaymentOptions();
   const showParts = partsAvailable(options.data, payable);
-  const methods: PaymentMethod[] = showParts ? [...PAYMENT_METHODS, "parts"] : PAYMENT_METHODS;
+  const methods: PaymentMethod[] = [
+    ...PAYMENT_METHODS,
+    ...(options.data?.cod ? (["cod"] as PaymentMethod[]) : []),
+    ...(showParts ? (["parts"] as PaymentMethod[]) : []),
+  ];
   const parts = options.data?.parts;
   const partsSelectedButHidden = values.payment_method === "parts" && !showParts && !options.isLoading;
   useEffect(() => {

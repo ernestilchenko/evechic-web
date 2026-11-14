@@ -2,7 +2,7 @@ import type { DeliveryMethod, PaymentMethod } from "@/lib/api/types";
 
 export const DELIVERY_METHODS: DeliveryMethod[] = ["np_branch", "np_locker", "np_courier"];
 
-export const PAYMENT_METHODS: PaymentMethod[] = ["card", "cod"];
+export const PAYMENT_METHODS: PaymentMethod[] = ["card"];
 
 export const FIELD_ORDER = [
   "first_name",
