@@ -9,7 +9,7 @@ export async function NewArrivals() {
   return (
     <section
       aria-labelledby="new-arrivals-title"
-      className="container-page flex flex-col gap-7 pt-[72px] pb-24"
+      className="container-page flex flex-col gap-7 pt-16 pb-20 lg:pt-24"
     >
       <SectionHeader
         id="new-arrivals-title"
