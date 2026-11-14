@@ -5,6 +5,7 @@ import type { CheckoutErrors, CheckoutValues } from "../types";
 import { isValidPhone } from "./phone";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const CYRILLIC_NAME = /^[А-Яа-яЁёҐґЄєІіЇї'’ʼ\- ]+$/;
 
 function required(value: string, limit?: number, message = t("checkout.validation.required")) {
   const trimmed = value.trim();
@@ -13,10 +14,16 @@ function required(value: string, limit?: number, message = t("checkout.validatio
   return undefined;
 }
 
+function name(value: string, limit: number) {
+  const error = required(value, limit);
+  if (error) return error;
+  return CYRILLIC_NAME.test(value.trim()) ? undefined : t("checkout.validation.nameCyrillic");
+}
+
 export function validateCheckout(values: CheckoutValues): CheckoutErrors {
   const errors: CheckoutErrors = {
-    first_name: required(values.first_name, FIELD_LIMITS.first_name),
-    last_name: required(values.last_name, FIELD_LIMITS.last_name),
+    first_name: name(values.first_name, FIELD_LIMITS.first_name),
+    last_name: name(values.last_name, FIELD_LIMITS.last_name),
     phone: isValidPhone(values.phone) ? undefined : t("checkout.validation.phone"),
     email: EMAIL_PATTERN.test(values.email.trim()) ? undefined : t("checkout.validation.email"),
   };

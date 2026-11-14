@@ -6,6 +6,8 @@ import type { CheckoutErrors, CheckoutField, UnavailableItem } from "../types";
 
 const knownMessages: Record<string, MessageKey> = {
   "Cart is empty.": "checkout.apiErrors.cartEmpty",
+  "Enter the name in Ukrainian letters, as in your documents: Nova Poshta requires it.":
+    "checkout.apiErrors.nameCyrillic",
   "Enter a Ukrainian phone number in the format +380XXXXXXXXX.": "checkout.apiErrors.phoneInvalid",
   "Branch or locker is required.": "checkout.apiErrors.deliveryPoint",
   "Street address is required for courier delivery.": "checkout.apiErrors.street",

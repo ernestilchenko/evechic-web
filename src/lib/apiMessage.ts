@@ -3,6 +3,8 @@ import { t, type MessageKey } from "@/lib/i18n";
 
 const knownMessages: Record<string, MessageKey> = {
   "Cash on delivery is not available, please pay by card or in installments.": "errors.api.codNotAvailable",
+  "Enter the name in Ukrainian letters, as in your documents: Nova Poshta requires it.":
+    "errors.api.nameCyrillic",
   "Not enough items in stock.": "errors.api.notEnoughStock",
   "This size is out of stock.": "errors.api.outOfStock",
   "This size is in stock, you can order it now.": "errors.api.sizeInStock",
