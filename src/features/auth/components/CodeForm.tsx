@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { cartQueryKey } from "@/features/cart";
 import { routes } from "@/data/routes";
@@ -42,17 +42,19 @@ export function CodeForm() {
   const { flow, isReady } = useLoginFlow();
   const [digits, setDigits] = useState(emptyDigits);
   const [notice, setNotice] = useState<string | null>(null);
+  const signedIn = useRef(false);
   const resend = useCountdown(flow?.resendAt ?? null);
   const expiry = useCountdown(flow?.expiresAt ?? null);
 
   useEffect(() => {
-    if (isReady && !flow) router.replace(routes.login);
+    if (isReady && !flow && !signedIn.current) router.replace(routes.login);
   }, [isReady, flow, router]);
 
   const verify = useMutation({
     mutationFn: verifyLoginCode,
     onSuccess: async (result) => {
       const next = flow?.next ?? null;
+      signedIn.current = true;
       forgetCartToken();
       queryClient.setQueryData(sessionQueryKey, result.user);
       await queryClient.invalidateQueries({ queryKey: cartQueryKey });
