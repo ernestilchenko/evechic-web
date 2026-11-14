@@ -37,6 +37,15 @@ export function clearSessionCookies(response: NextResponse) {
   response.cookies.delete(SESSION_COOKIE);
 }
 
+export function clientIpHeaders(request: { headers: Headers }): Record<string, string> {
+  const key = process.env.FRONTEND_PROXY_KEY;
+  const ip =
+    request.headers.get("cf-connecting-ip") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    "";
+  return key && ip ? { "x-evechic-proxy-key": key, "x-evechic-client-ip": ip } : {};
+}
+
 export function backendUrl(path: string, search = "") {
   return `${env.serverApiUrl.replace(/\/$/, "")}/${path.replace(/^\//, "")}${search}`;
 }

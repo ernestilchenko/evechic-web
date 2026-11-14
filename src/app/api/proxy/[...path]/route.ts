@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE } from "@/features/auth/constants/session";
 import {
   backendUrl,
+  clientIpHeaders,
   clearSessionCookies,
   decodeSession,
   refreshTokens,
@@ -25,6 +26,7 @@ async function forward(request: NextRequest, path: string, body: ArrayBuffer | n
     if (value) headers.set(name, value);
   });
   if (access) headers.set("Authorization", `Bearer ${access}`);
+  Object.entries(clientIpHeaders(request)).forEach(([name, value]) => headers.set(name, value));
 
   return fetch(backendUrl(`${path}/`, request.nextUrl.search), {
     method: request.method,

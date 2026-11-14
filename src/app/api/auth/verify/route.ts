@@ -1,6 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { backendUrl, setSessionCookies, type TokenPair } from "@/features/auth/server/session";
+import {
+  backendUrl,
+  clientIpHeaders,
+  setSessionCookies,
+  type TokenPair,
+} from "@/features/auth/server/session";
 
 type VerifyPayload = {
   data: TokenPair & { is_new: boolean; user: unknown };
@@ -12,7 +17,7 @@ export async function POST(request: NextRequest) {
   const body = await request.text();
   const backendResponse = await fetch(backendUrl("auth/code/verify/"), {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    headers: { "Content-Type": "application/json", Accept: "application/json", ...clientIpHeaders(request) },
     body,
     cache: "no-store",
   });
