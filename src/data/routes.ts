@@ -29,6 +29,7 @@ export const routes = {
   privacy: "/privacy",
   admin: {
     dashboard: "/admin",
+    analytics: "/admin/analytics",
     orders: "/admin/orders",
     orderNew: "/admin/orders/new",
     order: (number: number | string) => `/admin/orders/${number}`,

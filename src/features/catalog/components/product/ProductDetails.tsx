@@ -7,6 +7,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { Badge } from "@/components/ui/Badge";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { TrackOnMount } from "@/features/analytics";
 import { routes } from "@/data/routes";
 import type { ProductDetail } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
@@ -54,6 +55,7 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
   return (
     <>
       <JsonLd<Product> data={productJsonLd(product, productDescription(product, 5000))} />
+      <TrackOnMount kind="product_view" productId={product.id} />
       <JsonLd data={breadcrumbJsonLd(crumbs.map((crumb) => ({ name: crumb.label, path: crumb.href })))} />
       <div className="container-page">
         <Breadcrumbs
@@ -107,6 +109,7 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
               </p>
 
               <ProductPurchase
+                productId={product.id}
                 variants={product.variants}
                 sizes={product.sizes}
                 favorite={renderFavorite?.(product)}

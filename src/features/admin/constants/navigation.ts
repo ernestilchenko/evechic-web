@@ -17,5 +17,5 @@ export const adminNavigation: AdminNavItem[] = [
   { href: routes.admin.promoCodes, label: "admin.nav.promoCodes" },
   { href: routes.admin.reviews, label: "admin.nav.reviews", badge: "pending_reviews" },
   { href: routes.admin.content, label: "admin.nav.content" },
-  { href: `${routes.admin.dashboard}?days=90`, label: "admin.nav.analytics", exact: true },
+  { href: routes.admin.analytics, label: "admin.nav.analytics" },
 ];

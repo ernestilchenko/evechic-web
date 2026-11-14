@@ -1,3 +1,4 @@
+import { analyticsHeaders } from "@/features/analytics";
 import { PROXY_BASE_URL } from "@/features/auth";
 import { cartTokenHeaders } from "@/features/cart";
 import { apiFetch } from "@/lib/api/client";
@@ -8,7 +9,7 @@ export function placeOrder(payload: CheckoutRequest) {
     method: "POST",
     body: payload,
     baseUrl: PROXY_BASE_URL,
-    headers: cartTokenHeaders(),
+    headers: { ...cartTokenHeaders(), ...analyticsHeaders() },
   });
 }
 

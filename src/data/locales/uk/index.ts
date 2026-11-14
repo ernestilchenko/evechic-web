@@ -1,5 +1,6 @@
 import account from "./account.json";
 import admin from "./admin.json";
+import adminAnalytics from "./adminAnalytics.json";
 import adminCatalog from "./adminCatalog.json";
 import adminContent from "./adminContent.json";
 import adminCustomers from "./adminCustomers.json";
@@ -34,6 +35,7 @@ export const messages = {
   delivery,
   account,
   admin,
+  adminAnalytics,
   adminCatalog,
   adminContent,
   adminCustomers,

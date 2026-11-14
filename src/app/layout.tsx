@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 
 import { JsonLd } from "@/components/seo/JsonLd";
+import { AnalyticsTracker } from "@/features/analytics";
 import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structuredData";
@@ -51,6 +53,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           {t("layout.skipToContent")}
         </a>
         <AppProviders>{children}</AppProviders>
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       </body>
     </html>

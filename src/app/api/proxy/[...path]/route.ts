@@ -9,7 +9,14 @@ import {
   setSessionCookies,
 } from "@/features/auth/server/session";
 
-const FORWARDED_HEADERS = ["accept", "content-type", "x-cart-token"];
+const FORWARDED_HEADERS = [
+  "accept",
+  "content-type",
+  "x-cart-token",
+  "x-analytics-session",
+  "user-agent",
+  "cf-ipcountry",
+];
 
 async function forward(request: NextRequest, path: string, body: ArrayBuffer | null, access?: string) {
   const headers = new Headers();

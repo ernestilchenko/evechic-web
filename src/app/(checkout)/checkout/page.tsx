@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { routes } from "@/data/routes";
+import { TrackOnMount } from "@/features/analytics";
 import { CheckoutView } from "@/features/checkout";
 import { t } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
@@ -15,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function CheckoutPage() {
-  return <CheckoutView />;
+  return (
+    <>
+      <TrackOnMount kind="checkout_start" />
+      <CheckoutView />
+    </>
+  );
 }

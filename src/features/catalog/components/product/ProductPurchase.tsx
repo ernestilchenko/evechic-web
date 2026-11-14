@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ColorSwatch } from "@/components/ui/ColorSwatch";
 import { SizeChip } from "@/components/ui/SizeChip";
 import { routes } from "@/data/routes";
+import { track } from "@/features/analytics";
 import { useCart } from "@/features/cart";
 import { ApiError } from "@/lib/api/client";
 import type { Color, ProductVariant } from "@/lib/api/types";
@@ -16,6 +17,7 @@ import { t } from "@/lib/i18n";
 import { useProductColor } from "./ProductColorContext";
 
 type ProductPurchaseProps = {
+  productId: number;
   variants: ProductVariant[];
   sizes: string[];
   favorite?: React.ReactNode;
@@ -29,7 +31,7 @@ function uniqueColors(variants: ProductVariant[]) {
   return [...colors.values()];
 }
 
-export function ProductPurchase({ variants, sizes, favorite }: ProductPurchaseProps) {
+export function ProductPurchase({ productId, variants, sizes, favorite }: ProductPurchaseProps) {
   const router = useRouter();
   const { addItem } = useCart();
   const sizeLabelId = useId();
@@ -57,6 +59,7 @@ export function ProductPurchase({ variants, sizes, favorite }: ProductPurchasePr
     setFeedback(null);
     try {
       await addItem.mutateAsync({ variantId: selectedVariant.id });
+      track("add_to_cart", { productId });
       if (checkout) {
         setRedirecting(true);
         router.push(routes.checkout);

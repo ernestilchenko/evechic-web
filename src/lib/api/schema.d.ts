@@ -272,6 +272,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/admin/analytics/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Analytics overview
+         * @description Visitors, visits, page views, bounce rate and conversion (orders / unique visitors) for the last N days compared with the N days before; daily chart, funnel, traffic sources, devices, countries, browsers, top pages, product views vs purchases, sales by category, colour and size, new vs returning customers and the latest visits.
+         */
+        get: operations["admin_analytics_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/admin/categories/": {
         parameters: {
             query?: never;
@@ -1481,6 +1501,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/analytics/collect/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Record a storefront event
+         * @description Called by the storefront for page views, product views, add to cart and checkout start. session_id and visitor_id are random ids kept in the browser; no IP address is stored. Bots are ignored. The country comes from the CF-IPCountry header.
+         */
+        post: operations["analytics_collect_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/code/request/": {
         parameters: {
             query?: never;
@@ -2434,6 +2474,40 @@ export interface components {
             items: components["schemas"]["AdminReview"][];
             counts: components["schemas"]["ReviewStatusCounts"];
         };
+        AnalyticsKpis: {
+            visitors: components["schemas"]["NumberKpi"];
+            visits: components["schemas"]["NumberKpi"];
+            page_views: components["schemas"]["NumberKpi"];
+            pages_per_visit: components["schemas"]["NumberKpi"];
+            bounce_rate: components["schemas"]["NumberKpi"];
+            orders: components["schemas"]["NumberKpi"];
+            revenue: components["schemas"]["MoneyKpi"];
+            conversion: components["schemas"]["NumberKpi"];
+        };
+        AnalyticsOverview: {
+            period: components["schemas"]["AnalyticsPeriod"];
+            kpis: components["schemas"]["AnalyticsKpis"];
+            daily: components["schemas"]["Daily"][];
+            funnel: components["schemas"]["FunnelStep"][];
+            sources: components["schemas"]["Breakdown"][];
+            devices: components["schemas"]["Breakdown"][];
+            countries: components["schemas"]["Breakdown"][];
+            browsers: components["schemas"]["Breakdown"][];
+            top_pages: components["schemas"]["Page"][];
+            products: components["schemas"]["ProductStats"][];
+            sales_by_category: components["schemas"]["SalesRow"][];
+            sales_by_color: components["schemas"]["SalesRow"][];
+            sales_by_size: components["schemas"]["SalesRow"][];
+            customers: components["schemas"]["Customers"];
+            recent_visits: components["schemas"]["RecentVisit"][];
+        };
+        AnalyticsPeriod: {
+            days: number;
+            /** Format: date-time */
+            start: string;
+            /** Format: date-time */
+            end: string;
+        };
         Banner: {
             readonly id: number;
             readonly eyebrow: string;
@@ -2466,6 +2540,16 @@ export interface components {
             /** @default true */
             is_active: boolean;
             sort_order?: number;
+        };
+        Breakdown: {
+            key: string;
+            visits: number;
+            visitors: number;
+            orders: number;
+            /** Format: double */
+            share: number | null;
+            /** Format: double */
+            conversion: number | null;
         };
         BulkStatusRequest: {
             ids: number[];
@@ -2658,6 +2742,24 @@ export interface components {
             area: string;
             type: string;
         };
+        CollectRequest: {
+            /** Format: uuid */
+            session_id: string;
+            /** Format: uuid */
+            visitor_id: string;
+            kind: components["schemas"]["KindEnum"];
+            /** @default  */
+            path: string;
+            /** @default  */
+            referrer: string;
+            /** @default  */
+            utm_source: string;
+            /** @default  */
+            utm_medium: string;
+            /** @default  */
+            utm_campaign: string;
+            product_id?: number | null;
+        };
         Color: {
             readonly id: number;
             readonly name: string;
@@ -2757,6 +2859,22 @@ export interface components {
             /** Format: date-time */
             readonly last_order_at: string;
         };
+        Customers: {
+            customers: number;
+            new: number;
+            returning: number;
+            registered: number;
+            guests: number;
+        };
+        Daily: {
+            /** Format: date */
+            date: string;
+            visitors: number;
+            visits: number;
+            orders: number;
+            /** Format: decimal */
+            revenue: string;
+        };
         DashboardBadges: {
             new_orders: number;
             pending_reviews: number;
@@ -2796,6 +2914,13 @@ export interface components {
          */
         DeliveryMethodEnum: "np_branch" | "np_locker" | "np_courier" | "pickup";
         /**
+         * @description * `mobile` - Mobile
+         *     * `tablet` - Tablet
+         *     * `desktop` - Desktop
+         * @enum {string}
+         */
+        DeviceEnum: "mobile" | "tablet" | "desktop";
+        /**
          * @description * `percent` - Percent
          *     * `fixed` - Fixed amount
          * @enum {string}
@@ -2812,6 +2937,12 @@ export interface components {
             question: string;
             answer: string;
             sort_order?: number;
+        };
+        FunnelStep: {
+            step: string;
+            visits: number;
+            /** Format: double */
+            percent: number | null;
         };
         HomeContent: {
             hero: components["schemas"]["Banner"] | null;
@@ -2850,6 +2981,14 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusEnum: "created" | "processing" | "hold" | "success" | "failure" | "reversed" | "expired";
+        /**
+         * @description * `page_view` - Page view
+         *     * `product_view` - Product view
+         *     * `add_to_cart` - Add to cart
+         *     * `checkout_start` - Checkout started
+         * @enum {string}
+         */
+        KindEnum: "page_view" | "product_view" | "add_to_cart" | "checkout_start";
         LoginCodeRequestRequest: {
             /** Format: email */
             email: string;
@@ -2923,6 +3062,14 @@ export interface components {
             readonly status: components["schemas"]["ReviewStatusEnum"];
             /** Format: date-time */
             readonly created_at: string;
+        };
+        NumberKpi: {
+            /** Format: double */
+            value: number | null;
+            /** Format: double */
+            previous: number | null;
+            /** Format: double */
+            delta_percent: number | null;
         };
         OnboardingRequest: {
             first_name: string;
@@ -3032,6 +3179,11 @@ export interface components {
             /** Format: decimal */
             total: string;
             free_delivery: boolean;
+        };
+        Page: {
+            path: string;
+            views: number;
+            visitors: number;
         };
         PageDetail: {
             readonly slug: string;
@@ -3325,6 +3477,20 @@ export interface components {
             items: components["schemas"]["ProductReview"][];
             summary: components["schemas"]["ReviewSummary"];
         };
+        ProductStats: {
+            product_id: number;
+            name: string;
+            /** Format: uri */
+            image: string | null;
+            views: number;
+            add_to_cart: number;
+            orders: number;
+            quantity: number;
+            /** Format: decimal */
+            revenue: string;
+            /** Format: double */
+            view_to_order: number | null;
+        };
         /**
          * @description * `draft` - Draft
          *     * `published` - Published
@@ -3447,6 +3613,21 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        RecentVisit: {
+            /** Format: date-time */
+            started_at: string;
+            /** Format: date-time */
+            last_seen_at: string;
+            source: string;
+            device: components["schemas"]["DeviceEnum"];
+            browser: string;
+            country: string;
+            landing_path: string;
+            page_views: number;
+            /** Format: email */
+            customer: string | null;
+            ordered: boolean;
+        };
         RepeatItem: {
             variant_id: number | null;
             product_name: string;
@@ -3507,6 +3688,12 @@ export interface components {
             /** Format: decimal */
             revenue: string;
             orders: number;
+        };
+        SalesRow: {
+            key: string;
+            quantity: number;
+            /** Format: decimal */
+            revenue: string;
         };
         /**
          * @description * `active` - Active
@@ -4011,6 +4198,39 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["AccountSummary"];
                 };
+            };
+        };
+    };
+    admin_analytics_retrieve: {
+        parameters: {
+            query?: {
+                /**
+                 * @description * `7` - 7
+                 *     * `30` - 30
+                 *     * `90` - 90
+                 */
+                days?: 7 | 30 | 90;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AnalyticsOverview"];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -6131,6 +6351,30 @@ export interface operations {
             };
             /** @description Review not found. */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    analytics_collect_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CollectRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CollectRequest"];
+                "multipart/form-data": components["schemas"]["CollectRequest"];
+            };
+        };
+        responses: {
+            /** @description Event recorded. */
+            202: {
                 headers: {
                     [name: string]: unknown;
                 };
