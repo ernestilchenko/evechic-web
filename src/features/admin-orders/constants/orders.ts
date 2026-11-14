@@ -25,7 +25,7 @@ export const ORDER_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 
 export const DESTRUCTIVE_STATUSES: OrderStatus[] = ["cancelled", "returned"];
 
-export const DELIVERY_METHODS: DeliveryMethod[] = ["np_branch", "np_locker", "np_courier", "pickup"];
+export const DELIVERY_METHODS: DeliveryMethod[] = ["np_branch", "np_locker", "np_courier"];
 export const PAYMENT_METHODS: PaymentMethod[] = ["card", "cod"];
 export const ORDERS_PAGE_SIZE = 20;
 

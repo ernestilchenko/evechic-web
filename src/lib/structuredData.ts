@@ -17,7 +17,7 @@ export function organizationJsonLd(): WithContext<ClothingStore> {
     email: siteConfig.email,
     telephone: siteConfig.phone,
     sameAs: Object.values(siteConfig.socials),
-    address: { "@type": "PostalAddress", addressCountry: "UA", addressLocality: "Львів" },
+    address: { "@type": "PostalAddress", addressCountry: "UA", addressLocality: "Харків" },
     currenciesAccepted: "UAH",
     paymentAccepted: "Card, Cash on delivery",
   };

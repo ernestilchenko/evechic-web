@@ -25,7 +25,7 @@ export const orderStatusTone: Record<OrderStatus, string> = {
   returned: "border-sale text-sale",
 };
 
-export const deliveryMethods: DeliveryMethod[] = ["np_branch", "np_locker", "np_courier", "pickup"];
+export const deliveryMethods: DeliveryMethod[] = ["np_branch", "np_locker", "np_courier"];
 
 export type AccountNavItem = {
   href: string;

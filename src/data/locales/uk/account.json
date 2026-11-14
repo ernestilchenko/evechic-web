@@ -172,7 +172,7 @@
     "dialogEdit": "Редагувати адресу",
     "method": "Спосіб доставки",
     "city": "Місто",
-    "cityPlaceholder": "Львів",
+    "cityPlaceholder": "Почніть вводити назву міста",
     "deliveryPoint": "Відділення або поштомат",
     "deliveryPointPlaceholder": "Відділення № 12",
     "street": "Вулиця, будинок, квартира",
