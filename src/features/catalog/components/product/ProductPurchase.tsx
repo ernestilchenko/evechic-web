@@ -14,10 +14,12 @@ import { ApiError } from "@/lib/api/client";
 import type { Color, ProductVariant } from "@/lib/api/types";
 import { t } from "@/lib/i18n";
 
+import { NotifyStock } from "./NotifyStock";
 import { useProductColor } from "./ProductColorContext";
 
 type ProductPurchaseProps = {
   productId: number;
+  productSlug: string;
   variants: ProductVariant[];
   sizes: string[];
   favorite?: React.ReactNode;
@@ -31,7 +33,7 @@ function uniqueColors(variants: ProductVariant[]) {
   return [...colors.values()];
 }
 
-export function ProductPurchase({ productId, variants, sizes, favorite }: ProductPurchaseProps) {
+export function ProductPurchase({ productId, productSlug, variants, sizes, favorite }: ProductPurchaseProps) {
   const router = useRouter();
   const { addItem } = useCart();
   const sizeLabelId = useId();
@@ -140,6 +142,11 @@ export function ProductPurchase({ productId, variants, sizes, favorite }: Produc
           {selectedVariant?.stock_state === "low" ? (
             <p className="text-sale text-xs">{t("productPage.availability.low")}</p>
           ) : null}
+          <NotifyStock
+            key={colorId ?? "none"}
+            productSlug={productSlug}
+            variants={sizeVariants.filter((variant) => variant.stock <= 0)}
+          />
         </div>
       ) : null}
 

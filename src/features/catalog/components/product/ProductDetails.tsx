@@ -110,6 +110,7 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
 
               <ProductPurchase
                 productId={product.id}
+                productSlug={product.slug}
                 variants={product.variants}
                 sizes={product.sizes}
                 favorite={renderFavorite?.(product)}
