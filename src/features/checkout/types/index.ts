@@ -40,4 +40,5 @@ export type LastOrder = {
   delivery_method: DeliveryMethod;
   skip_confirmation_call: boolean;
   payment_started: boolean;
+  access_token?: string;
 };

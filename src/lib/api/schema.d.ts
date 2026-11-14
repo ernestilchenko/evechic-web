@@ -2028,9 +2028,29 @@ export interface paths {
         put?: never;
         /**
          * Retry online payment
-         * @description Creates a new Monobank invoice for an unpaid card order that is not cancelled and returns payment_url.
+         * @description Creates a new Monobank invoice (card) or installment request (parts) for an unpaid order. The order owner signs in, or anyone with the order link passes ?token=<access token>.
          */
         post: operations["orders_pay_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/orders/{number}/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Order status by link
+         * @description Payment and order status for the order link sent after checkout (no sign-in needed).
+         */
+        get: operations["orders_status_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2850,6 +2870,8 @@ export interface components {
             readonly return_deadline: string | null;
             /** Format: uri */
             payment_url: string | null;
+            /** Format: uuid */
+            readonly access_token: string;
         };
         City: {
             ref: string;
@@ -3770,6 +3792,19 @@ export interface components {
             first_order_only?: boolean;
             issued_to_email?: string;
             is_active?: boolean;
+        };
+        PublicOrderStatus: {
+            readonly number: number;
+            readonly status: components["schemas"]["OrderStatusEnum"];
+            readonly payment_method: components["schemas"]["PaymentMethodEnum"];
+            readonly payment_status: components["schemas"]["PaymentStatusEnum"];
+            /** Format: decimal */
+            readonly total: string;
+            readonly delivery_method: components["schemas"]["DeliveryMethodEnum"];
+            /** Format: email */
+            readonly email: string;
+            readonly skip_confirmation_call: boolean;
+            readonly can_pay: boolean;
         };
         RateKpi: {
             /** Format: double */
@@ -7404,7 +7439,9 @@ export interface operations {
     };
     orders_pay_create: {
         parameters: {
-            query?: never;
+            query?: {
+                token?: string;
+            };
             header?: never;
             path: {
                 number: number;
@@ -7437,6 +7474,36 @@ export interface operations {
             };
             /** @description Payment service is unavailable. Please try again later. */
             502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    orders_status_retrieve: {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path: {
+                number: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicOrderStatus"];
+                };
+            };
+            /** @description Order not found. */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

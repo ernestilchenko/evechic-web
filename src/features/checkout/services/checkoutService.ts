@@ -2,6 +2,7 @@ import { analyticsHeaders } from "@/features/analytics";
 import { PROXY_BASE_URL } from "@/features/auth";
 import { cartTokenHeaders } from "@/features/cart";
 import { apiFetch } from "@/lib/api/client";
+import type { components } from "@/lib/api/schema";
 import type { Address, CheckoutRequest, CheckoutResult, OrderDetail, PaymentLink } from "@/lib/api/types";
 
 export function placeOrder(payload: CheckoutRequest) {
@@ -21,6 +22,16 @@ export function fetchAccountOrder(number: number) {
   return apiFetch<OrderDetail>(`account/orders/${number}/`, { baseUrl: PROXY_BASE_URL });
 }
 
-export function payOrder(number: number) {
-  return apiFetch<PaymentLink>(`orders/${number}/pay/`, { method: "POST", baseUrl: PROXY_BASE_URL });
+export function payOrder(number: number, token?: string | null) {
+  return apiFetch<PaymentLink>(`orders/${number}/pay/`, {
+    method: "POST",
+    baseUrl: PROXY_BASE_URL,
+    query: token ? { token } : undefined,
+  });
+}
+
+export type PublicOrderStatus = components["schemas"]["PublicOrderStatus"];
+
+export function fetchPublicOrderStatus(number: number, token: string) {
+  return apiFetch<PublicOrderStatus>(`orders/${number}/status/`, { query: { token } });
 }

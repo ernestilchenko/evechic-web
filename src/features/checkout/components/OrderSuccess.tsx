@@ -12,22 +12,46 @@ import { formatPrice } from "@/lib/format";
 import { t, type MessageKey } from "@/lib/i18n";
 
 import { orderQueryKey } from "../constants/options";
-import { fetchAccountOrder, payOrder } from "../services/checkoutService";
+import { fetchAccountOrder, fetchPublicOrderStatus, payOrder } from "../services/checkoutService";
 import { checkoutErrorMessage } from "../utils/apiErrors";
 import { parseLastOrder, readLastOrderRaw } from "../utils/lastOrder";
 import { CheckoutSteps } from "./CheckoutSteps";
 
 const subscribe = () => () => {};
 
-export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
+const AWAITING_POLL_MS = 5000;
+
+function awaitingOnline(method: string | null | undefined, status: string | null | undefined) {
+  return (method === "card" || method === "parts") && status === "pending";
+}
+
+export function OrderSuccess({
+  orderNumber,
+  token: tokenParam = null,
+}: {
+  orderNumber: number | null;
+  token?: string | null;
+}) {
   const { isAuthenticated } = useSession();
   const raw = useSyncExternalStore(subscribe, readLastOrderRaw, () => null);
   const lastOrder = parseLastOrder(raw, orderNumber);
+  const token = tokenParam ?? lastOrder?.access_token ?? null;
+
+  const publicQuery = useQuery({
+    queryKey: ["order-public", orderNumber, token],
+    queryFn: () => fetchPublicOrderStatus(orderNumber ?? 0, token ?? ""),
+    enabled: orderNumber !== null && Boolean(token),
+    retry: false,
+    refetchInterval: (query) =>
+      awaitingOnline(query.state.data?.payment_method, query.state.data?.payment_status)
+        ? AWAITING_POLL_MS
+        : false,
+  });
 
   const orderQuery = useQuery({
     queryKey: orderQueryKey(orderNumber ?? 0),
     queryFn: () => fetchAccountOrder(orderNumber ?? 0),
-    enabled: isAuthenticated && orderNumber !== null,
+    enabled: isAuthenticated && orderNumber !== null && !token,
     retry: false,
     refetchInterval: (query) =>
       (query.state.data?.payment_method === "card" || query.state.data?.payment_method === "parts") &&
@@ -35,12 +59,13 @@ export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
         ? 5000
         : false,
   });
-  const order = orderQuery.data ?? null;
+  const order = publicQuery.data ?? orderQuery.data ?? null;
 
   const pay = useMutation({
-    mutationFn: () => payOrder(orderNumber ?? 0),
+    mutationFn: () => payOrder(orderNumber ?? 0, token),
     onSuccess: (link) => {
       if (link.payment_url) window.location.assign(link.payment_url);
+      else if (token) publicQuery.refetch();
       else orderQuery.refetch();
     },
   });
@@ -65,12 +90,19 @@ export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
     else paymentKey = "checkout.success.paymentPartsPending";
   }
   const canPay =
-    isAuthenticated &&
     order !== null &&
-    (order.payment_method === "card" ||
-      (order.payment_method === "parts" && order.payment_status === "failed")) &&
-    order.payment_status !== "paid" &&
-    order.status !== "cancelled";
+    (publicQuery.data
+      ? publicQuery.data.can_pay
+      : isAuthenticated &&
+        orderQuery.data !== undefined &&
+        (order.payment_method === "card" ||
+          (order.payment_method === "parts" && order.payment_status === "failed")) &&
+        order.payment_status !== "paid" &&
+        orderQuery.data.status !== "cancelled");
+  const awaitingPayment =
+    (paymentMethod === "card" || paymentMethod === "parts") &&
+    paymentStatus !== "paid" &&
+    Number(total ?? 0) > 0;
 
   const steps: MessageKey[] = [
     skipCall ? "checkout.success.nextSteps.confirmSkipped" : "checkout.success.nextSteps.confirm",
@@ -91,10 +123,14 @@ export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
               : t("checkout.success.noNumber")}
           </p>
           <h1 className="font-serif text-[40px] leading-tight font-light sm:text-[52px]">
-            {t("checkout.success.title")}
+            {awaitingPayment ? t("checkout.success.titleAwaiting") : t("checkout.success.title")}
           </h1>
           <p className="text-muted max-w-xl text-[14px] leading-[1.75]">
-            {email ? t("checkout.success.lead", { email }) : t("checkout.success.leadNoEmail")}
+            {awaitingPayment
+              ? t("checkout.success.leadAwaiting", { email: email ?? "" })
+              : email
+                ? t("checkout.success.lead", { email })
+                : t("checkout.success.leadNoEmail")}
           </p>
           {total ? (
             <p className="text-[15px] font-semibold">

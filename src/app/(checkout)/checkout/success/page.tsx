@@ -22,8 +22,10 @@ function parseOrderNumber(value: string | string[] | undefined) {
 }
 
 async function SuccessContent({ searchParams }: Pick<PageProps<"/checkout/success">, "searchParams">) {
-  const { order } = await searchParams;
-  return <OrderSuccess orderNumber={parseOrderNumber(order)} />;
+  const { order, token } = await searchParams;
+  const rawToken = Array.isArray(token) ? token[0] : token;
+  const safeToken = rawToken && /^[0-9a-f-]{36}$/i.test(rawToken) ? rawToken : null;
+  return <OrderSuccess orderNumber={parseOrderNumber(order)} token={safeToken} />;
 }
 
 export default function CheckoutSuccessPage({ searchParams }: PageProps<"/checkout/success">) {

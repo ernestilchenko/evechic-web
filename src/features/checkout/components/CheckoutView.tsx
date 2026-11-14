@@ -15,6 +15,7 @@ import { ContactSection } from "./ContactSection";
 import { DeliverySection } from "./DeliverySection";
 import { PaymentSection } from "./PaymentSection";
 import { UnavailableItemsNotice } from "./UnavailableItemsNotice";
+import { UnpaidOrderNotice } from "./UnpaidOrderNotice";
 
 function Loading() {
   return (
@@ -65,11 +66,14 @@ export function CheckoutView() {
     content = <Loading />;
   } else if (cart.items.length === 0) {
     content = (
-      <EmptyCart
-        title={t("checkout.empty.title")}
-        text={t("checkout.empty.text")}
-        cta={t("checkout.empty.cta")}
-      />
+      <>
+        <UnpaidOrderNotice />
+        <EmptyCart
+          title={t("checkout.empty.title")}
+          text={t("checkout.empty.text")}
+          cta={t("checkout.empty.cta")}
+        />
+      </>
     );
   } else {
     content = (
