@@ -2,12 +2,14 @@ import { env } from "@/lib/env";
 
 export const siteConfig = {
   name: "EVECHIC",
-  legalName: "ФОП EVECHIC",
+  legalName: "ФОП Ільченко Єва Вячеславівна",
+  taxId: "3954103928",
+  city: "Харків",
   url: env.siteUrl,
   locale: "uk_UA",
   language: "uk",
-  phone: "+380730000000",
-  phoneDisplay: "+380 (73) 000-00-00",
+  phone: "+380682774401",
+  phoneDisplay: "+380 (68) 277-44-01",
   email: "hello@evechic.info",
   instagramHandle: "@evechic_store",
   socials: {

@@ -13,7 +13,10 @@ function FooterColumn({ title, links }: { title: string; links: NavItem[] }) {
       <ul className="flex flex-col gap-1 lg:gap-[15px]">
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-footer-text hover:text-cream inline-flex min-h-9 items-center text-[13px] lg:min-h-0">
+            <Link
+              href={link.href}
+              className="text-footer-text hover:text-cream inline-flex min-h-9 items-center text-[13px] lg:min-h-0"
+            >
               {t(link.labelKey)}
             </Link>
           </li>
@@ -85,7 +88,14 @@ export async function SiteFooter() {
         </div>
         <div className="bg-footer-line h-px" />
         <div className="text-footer-dim flex flex-col gap-3 text-[11.5px] lg:flex-row lg:items-center lg:gap-6">
-          <p className="flex-1">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
+          <p className="flex-1">
+            {t("footer.copyright", {
+              year: new Date().getFullYear(),
+              legalName: siteConfig.legalName,
+              taxId: siteConfig.taxId,
+              city: siteConfig.city,
+            })}
+          </p>
           <p>{t("footer.payments")}</p>
           <Link href={routes.offer} className="hover:text-cream py-1.5 lg:py-0">
             {t("footer.offer")}
