@@ -8,6 +8,7 @@ export type AdminOrderUpdate = Schemas["PatchedAdminOrderUpdateRequest"];
 export type AdminOrderCreate = Schemas["AdminOrderCreateRequest"];
 export type CheckoutResult = Schemas["CheckoutResult"];
 export type MonobankInvoice = Schemas["MonobankInvoice"];
+export type FiscalReceipt = Schemas["FiscalReceipt"];
 export type DeliveryMethod = Schemas["DeliveryMethodEnum"];
 export type PaymentMethod = Schemas["PaymentMethodEnum"];
 export type PaymentStatus = Schemas["PaymentStatusEnum"];

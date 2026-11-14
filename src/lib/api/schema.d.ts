@@ -2344,6 +2344,7 @@ export interface components {
             readonly np_document_ref: string;
             readonly tracking_status_code: number | null;
             readonly can_create_waybill: boolean;
+            readonly fiscal_receipts: components["schemas"]["FiscalReceipt"][];
             readonly invoices: components["schemas"]["MonobankInvoice"][];
             /** Format: date-time */
             readonly updated_at: string;
@@ -2742,12 +2743,20 @@ export interface components {
             area: string;
             type: string;
         };
+        /**
+         * @description * `page_view` - Page view
+         *     * `product_view` - Product view
+         *     * `add_to_cart` - Add to cart
+         *     * `checkout_start` - Checkout started
+         * @enum {string}
+         */
+        CollectKindEnum: "page_view" | "product_view" | "add_to_cart" | "checkout_start";
         CollectRequest: {
             /** Format: uuid */
             session_id: string;
             /** Format: uuid */
             visitor_id: string;
-            kind: components["schemas"]["KindEnum"];
+            kind: components["schemas"]["CollectKindEnum"];
             /** @default  */
             path: string;
             /** @default  */
@@ -2938,6 +2947,34 @@ export interface components {
             answer: string;
             sort_order?: number;
         };
+        FiscalReceipt: {
+            /** Format: uuid */
+            readonly id: string;
+            readonly kind: components["schemas"]["FiscalReceiptKindEnum"];
+            readonly status: components["schemas"]["FiscalReceiptStatusEnum"];
+            /** Format: decimal */
+            readonly amount: string;
+            readonly payment_label: string;
+            readonly fiscal_code: string;
+            readonly error: string;
+            /** Format: uri */
+            readonly url: string | null;
+            /** Format: date-time */
+            readonly created_at: string;
+        };
+        /**
+         * @description * `sell` - Sell
+         *     * `return` - Return
+         * @enum {string}
+         */
+        FiscalReceiptKindEnum: "sell" | "return";
+        /**
+         * @description * `pending` - Pending
+         *     * `done` - Done
+         *     * `failed` - Failed
+         * @enum {string}
+         */
+        FiscalReceiptStatusEnum: "pending" | "done" | "failed";
         FunnelStep: {
             step: string;
             visits: number;
@@ -2981,14 +3018,6 @@ export interface components {
          * @enum {string}
          */
         InvoiceStatusEnum: "created" | "processing" | "hold" | "success" | "failure" | "reversed" | "expired";
-        /**
-         * @description * `page_view` - Page view
-         *     * `product_view` - Product view
-         *     * `add_to_cart` - Add to cart
-         *     * `checkout_start` - Checkout started
-         * @enum {string}
-         */
-        KindEnum: "page_view" | "product_view" | "add_to_cart" | "checkout_start";
         LoginCodeRequestRequest: {
             /** Format: email */
             email: string;

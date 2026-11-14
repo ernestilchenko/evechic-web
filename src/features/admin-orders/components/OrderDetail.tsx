@@ -24,6 +24,7 @@ import type { AdminOrder } from "../types";
 import { OrderContactForm } from "./OrderContactForm";
 import { OrderInvoices } from "./OrderInvoices";
 import { OrderNotesForm } from "./OrderNotesForm";
+import { OrderReceipts } from "./OrderReceipts";
 import { OrderWaybill } from "./OrderWaybill";
 import { useStatusFlow } from "./useStatusFlow";
 
@@ -191,6 +192,7 @@ export function OrderDetail({ number }: { number: number }) {
                 </div>
               </dl>
               <OrderInvoices invoices={order.invoices} />
+              <OrderReceipts receipts={order.fiscal_receipts} />
             </Panel>
           </div>
           <div className="flex min-w-0 flex-col gap-4">
