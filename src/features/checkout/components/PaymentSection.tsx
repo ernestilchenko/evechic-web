@@ -1,6 +1,7 @@
 "use client";
 
 import { RadioCard } from "@/components/ui/RadioCard";
+import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
 
 import { PAYMENT_METHODS } from "../constants/options";
@@ -22,7 +23,11 @@ export function PaymentSection({ values, setField, disabled }: PaymentSectionPro
             onChange={() => setField("payment_method", option)}
             disabled={disabled}
             label={t(`checkout.payment.${option}`)}
-            description={t(`checkout.payment.${option}Hint`)}
+            description={
+              option === "card" && siteConfig.installments.enabled
+                ? t("checkout.payment.cardHintInstallments")
+                : t(`checkout.payment.${option}Hint`)
+            }
           />
         ))}
       </div>

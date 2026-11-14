@@ -70,7 +70,8 @@
     "card": "Картка онлайн",
     "cardHint": "Visa / Mastercard · Apple Pay · Google Pay",
     "cod": "Післяплата",
-    "codHint": "Оплата при отриманні · комісія перевізника"
+    "codHint": "Оплата при отриманні · комісія перевізника",
+    "cardHintInstallments": "Visa / Mastercard · Apple Pay · Google Pay · частинами в monobank"
   },
   "comment": {
     "title": "Коментар до замовлення",

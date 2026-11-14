@@ -9,6 +9,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackOnMount } from "@/features/analytics";
 import { routes } from "@/data/routes";
+import { siteConfig } from "@/data/site";
 import type { ProductDetail } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
@@ -95,6 +96,15 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
                   </Badge>
                 ) : null}
               </div>
+              {siteConfig.installments.enabled &&
+              Number(product.price) >= siteConfig.installments.minAmount ? (
+                <p className="text-[12.5px]">
+                  {t("productPage.installments", {
+                    parts: siteConfig.installments.parts,
+                    amount: formatPrice(Math.ceil(Number(product.price) / siteConfig.installments.parts)),
+                  })}
+                </p>
+              ) : null}
               <p className="text-muted flex items-center gap-2 text-[12.5px]">
                 <span
                   aria-hidden
