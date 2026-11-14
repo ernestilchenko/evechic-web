@@ -30,7 +30,8 @@ export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
     enabled: isAuthenticated && orderNumber !== null,
     retry: false,
     refetchInterval: (query) =>
-      query.state.data?.payment_method === "card" && query.state.data.payment_status === "pending"
+      (query.state.data?.payment_method === "card" || query.state.data?.payment_method === "parts") &&
+      query.state.data.payment_status === "pending"
         ? 5000
         : false,
   });
@@ -58,11 +59,16 @@ export function OrderSuccess({ orderNumber }: { orderNumber: number | null }) {
     else if (paymentStatus === "failed") paymentKey = "checkout.success.paymentFailed";
     else if (paymentNotStarted) paymentKey = "checkout.success.paymentNotStarted";
     else paymentKey = "checkout.success.paymentPending";
+  } else if (paymentMethod === "parts") {
+    if (paymentStatus === "paid") paymentKey = "checkout.success.paymentPaid";
+    else if (paymentStatus === "failed") paymentKey = "checkout.success.paymentPartsFailed";
+    else paymentKey = "checkout.success.paymentPartsPending";
   }
   const canPay =
     isAuthenticated &&
     order !== null &&
-    order.payment_method === "card" &&
+    (order.payment_method === "card" ||
+      (order.payment_method === "parts" && order.payment_status === "failed")) &&
     order.payment_status !== "paid" &&
     order.status !== "cancelled";
 

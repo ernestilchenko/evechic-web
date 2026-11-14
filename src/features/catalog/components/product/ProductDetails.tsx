@@ -8,8 +8,8 @@ import { Badge } from "@/components/ui/Badge";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackOnMount } from "@/features/analytics";
+import { DISABLED_OPTIONS, fetchPaymentOptions, partsAvailable } from "@/features/payments/paymentOptions";
 import { routes } from "@/data/routes";
-import { siteConfig } from "@/data/site";
 import type { ProductDetail } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
@@ -39,7 +39,10 @@ const conditions = [
 
 export async function ProductDetails({ params, renderFavorite, renderReviews }: ProductDetailsProps) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const [product, paymentOptions] = await Promise.all([
+    getProduct(slug),
+    fetchPaymentOptions().catch(() => DISABLED_OPTIONS),
+  ]);
   if (!product) notFound();
 
   const category = product.category;
@@ -96,12 +99,13 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
                   </Badge>
                 ) : null}
               </div>
-              {siteConfig.installments.enabled &&
-              Number(product.price) >= siteConfig.installments.minAmount ? (
+              {partsAvailable(paymentOptions, Number(product.price)) ? (
                 <p className="text-[12.5px]">
                   {t("productPage.installments", {
-                    parts: siteConfig.installments.parts,
-                    amount: formatPrice(Math.ceil(Number(product.price) / siteConfig.installments.parts)),
+                    parts: Math.max(...paymentOptions.parts.counts),
+                    amount: formatPrice(
+                      Math.ceil(Number(product.price) / Math.max(...paymentOptions.parts.counts)),
+                    ),
                   })}
                 </p>
               ) : null}

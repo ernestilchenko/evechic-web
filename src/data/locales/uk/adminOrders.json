@@ -29,7 +29,8 @@
   },
   "payment": {
     "card": "Картка",
-    "cod": "Післяплата"
+    "cod": "Післяплата",
+    "parts": "Частинами monobank"
   },
   "paymentStatus": {
     "pending": "Очікує",

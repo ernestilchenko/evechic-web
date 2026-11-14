@@ -71,7 +71,10 @@
     "cardHint": "Visa / Mastercard · Apple Pay · Google Pay",
     "cod": "Післяплата",
     "codHint": "Оплата при отриманні · комісія перевізника",
-    "cardHintInstallments": "Visa / Mastercard · Apple Pay · Google Pay · частинами в monobank"
+    "cardHintInstallments": "Visa / Mastercard · Apple Pay · Google Pay · частинами в monobank",
+    "parts": "Частинами в monobank",
+    "partsHint": "Від {min} · {counts} платежів без переплат · підтвердження в застосунку monobank",
+    "partsPhoneNote": "Номер телефону має бути той, що в monobank — туди прийде запит на підтвердження."
   },
   "comment": {
     "title": "Коментар до замовлення",
@@ -149,6 +152,8 @@
     },
     "continue": "Продовжити покупки",
     "orders": "Мої замовлення",
-    "help": "Є питання? Телефонуйте {phone}"
+    "help": "Є питання? Телефонуйте {phone}",
+    "paymentPartsPending": "Підтвердіть покупку частинами в застосунку monobank — запит уже надіслано на ваш номер. Він діє 15 хвилин.",
+    "paymentPartsFailed": "Покупку частинами не підтверджено. Можна спробувати ще раз зі сторінки замовлення."
   }
 }

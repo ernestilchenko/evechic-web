@@ -53,13 +53,17 @@ export function OrderActions({ order }: { order: OrderDetail }) {
 
   const pay = useMutation({
     mutationFn: () => payOrder(order.number),
-    onSuccess: (link) => window.location.assign(link.payment_url),
+    onSuccess: (link) => {
+      if (link.payment_url) window.location.assign(link.payment_url);
+      else setMessage({ tone: "success", text: t("account.order.partsSent") });
+    },
     onError,
   });
 
   const canPay =
-    order.payment_method === "card" &&
-    (order.payment_status === "pending" || order.payment_status === "failed") &&
+    ((order.payment_method === "card" && order.payment_status === "pending") ||
+      order.payment_status === "failed") &&
+    (order.payment_method === "card" || order.payment_method === "parts") &&
     order.status !== "cancelled" &&
     Number(order.total) > 0;
 
@@ -76,7 +80,11 @@ export function OrderActions({ order }: { order: OrderDetail }) {
             disabled={pay.isPending}
             className="bg-gold text-cream hover:bg-gold/85 px-[22px] py-3.5 text-[10.5px] leading-none font-semibold tracking-[0.16em] uppercase disabled:opacity-60"
           >
-            {pay.isPending ? t("account.order.paying") : t("account.order.pay")}
+            {pay.isPending
+              ? t("account.order.paying")
+              : order.payment_method === "parts"
+                ? t("account.order.payParts")
+                : t("account.order.pay")}
           </button>
         ) : null}
         <RepeatOrderButton number={order.number} onError={(text) => setMessage({ tone: "error", text })} />

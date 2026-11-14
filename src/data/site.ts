@@ -19,5 +19,4 @@ export const siteConfig = {
   },
   freeDeliveryThreshold: 2000,
   returnDays: 14,
-  installments: { enabled: false, minAmount: 1000, parts: 3 },
 } as const;

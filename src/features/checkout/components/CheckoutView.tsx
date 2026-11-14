@@ -106,7 +106,12 @@ export function CheckoutView() {
             freeDeliveryThreshold={cart.totals.free_delivery_threshold}
             disabled={disabled}
           />
-          <PaymentSection values={form.values} setField={form.setField} disabled={disabled} />
+          <PaymentSection
+            values={form.values}
+            setField={form.setField}
+            disabled={disabled}
+            payable={cart ? Math.max(0, Number(cart.totals.total) - bonusesSpent) : 0}
+          />
           <CommentSection
             values={form.values}
             errors={form.errors}

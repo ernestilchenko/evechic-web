@@ -2057,6 +2057,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/payments/mono-parts/callback/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Monobank installments callback
+         * @description Called by monobank when the customer confirms the installment request or it fails. The signature header is Base64(HMAC-SHA256(body, sign key)). On WAITING_FOR_STORE_CONFIRM the shop confirms right away and the order becomes paid.
+         */
+        post: operations["payments_mono_parts_callback_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/payments/monobank/webhook/": {
         parameters: {
             query?: never;
@@ -2071,6 +2091,26 @@ export interface paths {
          * @description Called by Monobank on every invoice status change. The X-Sign header (ECDSA SHA-256, base64) is verified over the raw body with the merchant public key. Out-of-order events (older modifiedDate) are ignored. success marks the order paid only when the amount matches the order total; failure/expired marks it failed unless already paid; reversed marks it refunded. Idempotent. Unknown invoices are acknowledged with 200 so Monobank stops retrying.
          */
         post: operations["payments_monobank_webhook_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/payments/options/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Available payment options
+         * @description Whether monobank installments can be offered, from which order total and for how many payments.
+         */
+        get: operations["payments_options_retrieve"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -3343,6 +3383,12 @@ export interface components {
             /** @default true */
             is_published: boolean;
         };
+        PartsOptions: {
+            enabled: boolean;
+            /** Format: decimal */
+            min_amount: string;
+            counts: number[];
+        };
         PatchedAddressRequest: {
             delivery_method?: components["schemas"]["DeliveryMethodEnum"];
             city?: string;
@@ -3494,9 +3540,13 @@ export interface components {
         /**
          * @description * `card` - Card online
          *     * `cod` - Cash on delivery
+         *     * `parts` - Monobank installments
          * @enum {string}
          */
-        PaymentMethodEnum: "card" | "cod";
+        PaymentMethodEnum: "card" | "cod" | "parts";
+        PaymentOptions: {
+            parts: components["schemas"]["PartsOptions"];
+        };
         /**
          * @description * `pending` - Pending
          *     * `paid` - Paid
@@ -5461,8 +5511,9 @@ export interface operations {
                 /**
                  * @description * `card` - Card online
                  *     * `cod` - Cash on delivery
+                 *     * `parts` - Monobank installments
                  */
-                payment_method?: "card" | "cod";
+                payment_method?: "card" | "cod" | "parts";
                 q?: string;
                 /**
                  * @description * `new` - New
@@ -7427,6 +7478,24 @@ export interface operations {
             };
         };
     };
+    payments_mono_parts_callback_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Webhook processed. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     payments_monobank_webhook_create: {
         parameters: {
             query?: never;
@@ -7455,6 +7524,25 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    payments_options_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaymentOptions"];
+                };
             };
         };
     };
