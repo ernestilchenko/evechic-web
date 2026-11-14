@@ -5,6 +5,7 @@ import { footerHelpLinks, footerShopLinks, type NavItem } from "@/data/navigatio
 import { routes } from "@/data/routes";
 import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
+import { NovaPoshtaLogo, PaymentLogos } from "@/components/ui/BrandLogos";
 
 function FooterColumn({ title, links }: { title: string; links: NavItem[] }) {
   return (
@@ -85,6 +86,10 @@ export async function SiteFooter() {
               <span>{t("footer.workingHours")}</span>
             </address>
           </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <PaymentLogos tone="dark" />
+          <NovaPoshtaLogo className="text-cream text-[12px]" />
         </div>
         <div className="bg-footer-line h-px" />
         <div className="text-footer-dim flex flex-col gap-3 text-[11.5px] lg:flex-row lg:items-center lg:gap-6">

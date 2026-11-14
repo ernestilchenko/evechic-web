@@ -15,6 +15,7 @@ import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { breadcrumbJsonLd } from "@/lib/structuredData";
+import { NovaPoshtaLogo, PaymentLogos } from "@/components/ui/BrandLogos";
 
 import { getProduct } from "../../services/catalogService";
 import { productDescription, productImages } from "../../utils/productText";
@@ -144,6 +145,10 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
                     <dd className="text-muted flex-1 text-xs">{t(text)}</dd>
                   </div>
                 ))}
+                <div className="border-line flex flex-wrap items-center gap-x-5 gap-y-3 border-t pt-3">
+                  <NovaPoshtaLogo className="text-[11.5px]" />
+                  <PaymentLogos tone="light" />
+                </div>
               </dl>
 
               <div className="pt-2.5">

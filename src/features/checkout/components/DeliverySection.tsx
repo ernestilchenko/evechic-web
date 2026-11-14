@@ -6,6 +6,7 @@ import { NovaPoshtaCityField, NovaPoshtaWarehouseField } from "@/features/delive
 import { cn } from "@/lib/cn";
 import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
+import { NovaPoshtaLogo } from "@/components/ui/BrandLogos";
 
 import { DELIVERY_METHODS } from "../constants/options";
 import { fieldId, type CheckoutForm } from "../hooks/useCheckoutForm";
@@ -38,6 +39,7 @@ export function DeliverySection({
 
   return (
     <FormSection title={t("checkout.delivery.title")}>
+      <NovaPoshtaLogo className="text-[12.5px]" />
       {addresses.length > 0 ? (
         <div role="radiogroup" aria-label={t("checkout.delivery.saved")} className="flex flex-col gap-3">
           <p className="text-muted text-[11px] tracking-[0.06em]">{t("checkout.delivery.saved")}</p>

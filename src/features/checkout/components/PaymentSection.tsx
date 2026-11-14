@@ -11,6 +11,7 @@ import { usePaymentOptions } from "@/features/payments/usePaymentOptions";
 import type { PaymentMethod } from "@/lib/api/types";
 import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
+import { PaymentLogos } from "@/components/ui/BrandLogos";
 
 import { PAYMENT_METHODS } from "../constants/options";
 import type { CheckoutForm } from "../hooks/useCheckoutForm";
@@ -56,6 +57,7 @@ export function PaymentSection({ values, setField, disabled, payable }: PaymentS
           />
         ))}
       </div>
+      <PaymentLogos tone="light" />
       {values.payment_method === "parts" ? (
         <p className="text-muted text-[12px]">
           {t("checkout.payment.partsPhoneNote")}{" "}
