@@ -20,6 +20,9 @@ type ReviewFormProps = {
 
 const MIN_LENGTH = 10;
 const MAX_LENGTH = 2000;
+const MAX_PHOTOS = 3;
+const FITS = ["small", "true_to_size", "large"] as const;
+type Fit = (typeof FITS)[number];
 
 export function ReviewForm({ slug, sizes }: ReviewFormProps) {
   const id = useId();
@@ -27,10 +30,19 @@ export function ReviewForm({ slug, sizes }: ReviewFormProps) {
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
   const [size, setSize] = useState("");
+  const [fit, setFit] = useState<Fit | "">("");
+  const [photos, setPhotos] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const mutation = useMutation({
-    mutationFn: () =>
-      createReview(slug, { rating, text: text.trim(), ...(size ? { size_purchased: size } : {}) }),
+    mutationFn: () => {
+      const body = new FormData();
+      body.append("rating", String(rating));
+      body.append("text", text.trim());
+      if (size) body.append("size_purchased", size);
+      if (fit) body.append("fit", fit);
+      photos.forEach((photo) => body.append("photos", photo));
+      return createReview(slug, body);
+    },
     onError: (cause) =>
       setError(cause instanceof ApiError && cause.message ? cause.message : t("reviews.form.error")),
   });
@@ -146,6 +158,56 @@ export function ReviewForm({ slug, sizes }: ReviewFormProps) {
           </select>
         </div>
       ) : null}
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-muted mb-2 text-[10.5px] font-semibold tracking-[0.2em] uppercase">
+          {t("reviews.form.fit")}
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {(["", ...FITS] as const).map((value) => (
+            <label
+              key={value || "none"}
+              className={cn(
+                "cursor-pointer border px-3 py-2 text-[12px]",
+                fit === value ? "border-ink bg-ink text-cream" : "border-field hover:border-ink",
+              )}
+            >
+              <input
+                type="radio"
+                name={`${id}-fit`}
+                value={value}
+                checked={fit === value}
+                onChange={() => setFit(value)}
+                className="sr-only"
+              />
+              {value ? t(`reviews.fit.${value}`) : t("reviews.form.fitNone")}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <div className="flex flex-col gap-2">
+        <label
+          htmlFor={`${id}-photos`}
+          className="text-muted text-[10.5px] font-semibold tracking-[0.2em] uppercase"
+        >
+          {t("reviews.form.photos")}
+        </label>
+        <input
+          id={`${id}-photos`}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          aria-describedby={`${id}-photos-hint`}
+          onChange={(event) => {
+            const files = Array.from(event.target.files ?? []);
+            if (files.length > MAX_PHOTOS) setError(t("reviews.form.photosTooMany"));
+            setPhotos(files.slice(0, MAX_PHOTOS));
+          }}
+          className="text-[12px]"
+        />
+        <p id={`${id}-photos-hint`} className="text-placeholder text-xs">
+          {t("reviews.form.photosHint")}
+        </p>
+      </div>
       <p aria-live="assertive" className="text-sale min-h-4 text-[12.5px]">
         {error}
       </p>

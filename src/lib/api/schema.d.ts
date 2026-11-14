@@ -1863,6 +1863,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/delivery/price/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Estimate Nova Poshta delivery price
+         * @description Estimated cost from the shop sender city for a 1 kg parcel, rounded to whole hryvnias. Orders from the free-delivery threshold return free=true. The recipient pays NP on delivery.
+         */
+        get: operations["delivery_price_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/delivery/warehouses/": {
         parameters: {
             query?: never;
@@ -2071,6 +2091,26 @@ export interface paths {
         get: operations["products_retrieve"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/products/{slug}/notify-stock/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Notify me when a size is back in stock
+         * @description Only for sizes that are out of stock. One waiting subscription per email and size.
+         */
+        post: operations["products_notify_stock_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2465,6 +2505,8 @@ export interface components {
             readonly rating: number;
             readonly text: string;
             readonly size_purchased: string;
+            readonly fit: components["schemas"]["FitEnum"];
+            readonly photos: string[];
             readonly status: components["schemas"]["ReviewStatusEnum"];
             /** Format: date-time */
             readonly created_at: string;
@@ -2542,6 +2584,8 @@ export interface components {
             is_active: boolean;
             sort_order?: number;
         };
+        /** @enum {unknown} */
+        BlankEnum: "";
         Breakdown: {
             key: string;
             visits: number;
@@ -2975,6 +3019,19 @@ export interface components {
          * @enum {string}
          */
         FiscalReceiptStatusEnum: "pending" | "done" | "failed";
+        /**
+         * @description * `small` - Runs small
+         *     * `true_to_size` - True to size
+         *     * `large` - Runs large
+         * @enum {string}
+         */
+        FitEnum: "small" | "true_to_size" | "large";
+        FitSummary: {
+            small: number;
+            true_to_size: number;
+            large: number;
+            verdict: (components["schemas"]["VerdictEnum"] | components["schemas"]["NullEnum"]) | null;
+        };
         FunnelStep: {
             step: string;
             visits: number;
@@ -3092,6 +3149,8 @@ export interface components {
             /** Format: date-time */
             readonly created_at: string;
         };
+        /** @enum {unknown} */
+        NullEnum: null;
         NumberKpi: {
             /** Format: double */
             value: number | null;
@@ -3417,6 +3476,13 @@ export interface components {
          * @enum {string}
          */
         PlacementEnum: "hero" | "lookbook";
+        Price: {
+            free: boolean;
+            /** Format: decimal */
+            cost: string | null;
+            /** Format: decimal */
+            free_delivery_threshold: string;
+        };
         PriceRange: {
             /** Format: decimal */
             min: string | null;
@@ -3497,6 +3563,8 @@ export interface components {
             readonly rating: number;
             readonly text: string;
             readonly size_purchased: string;
+            readonly fit: components["schemas"]["FitEnum"];
+            readonly photos: string[];
             readonly author_name: string;
             /** Format: date-time */
             readonly created_at: string;
@@ -3630,6 +3698,7 @@ export interface components {
             /** Format: decimal */
             average: string | null;
             count: number;
+            fit: (components["schemas"]["FitEnum"] | components["schemas"]["NullEnum"]) | null;
         };
         RecentOrder: {
             readonly id: number;
@@ -3669,6 +3738,8 @@ export interface components {
             rating: number;
             text: string;
             size_purchased?: string;
+            fit?: components["schemas"]["FitEnum"] | components["schemas"]["BlankEnum"];
+            photos?: string[];
         };
         ReviewModerateRequest: {
             status: components["schemas"]["ReviewModerateStatusEnum"];
@@ -3704,6 +3775,7 @@ export interface components {
             distribution: {
                 [key: string]: number;
             };
+            fit: components["schemas"]["FitSummary"];
         };
         ReviewUser: {
             id: number;
@@ -3740,6 +3812,11 @@ export interface components {
          * @enum {string}
          */
         StockStateEnum: "in_stock" | "low" | "out_of_stock";
+        StockSubscribeRequest: {
+            variant_id: number;
+            /** Format: email */
+            email: string;
+        };
         SubscribeRequest: {
             /** Format: email */
             email: string;
@@ -3806,6 +3883,13 @@ export interface components {
             size: string;
             stock: number;
         };
+        /**
+         * @description * `small` - Runs small
+         *     * `true_to_size` - True to size
+         *     * `large` - Runs large
+         * @enum {string}
+         */
+        VerdictEnum: "small" | "true_to_size" | "large";
         Warehouse: {
             ref: string;
             number: string;
@@ -6945,6 +7029,48 @@ export interface operations {
             };
         };
     };
+    delivery_price_retrieve: {
+        parameters: {
+            query: {
+                amount: string;
+                city_ref: string;
+                /**
+                 * @description * `branch` - branch
+                 *     * `locker` - locker
+                 *     * `courier` - courier
+                 */
+                service?: "branch" | "locker" | "courier";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Price"];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Nova Poshta is unavailable right now. Please try again later. */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     delivery_warehouses_list: {
         parameters: {
             query: {
@@ -7324,6 +7450,46 @@ export interface operations {
             };
         };
     };
+    products_notify_stock_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StockSubscribeRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["StockSubscribeRequest"];
+                "multipart/form-data": components["schemas"]["StockSubscribeRequest"];
+            };
+        };
+        responses: {
+            /** @description We will email you when this size is back in stock. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description This size is in stock, you can order it now. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Size not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     products_reviews_retrieve: {
         parameters: {
             query?: never;
@@ -7363,9 +7529,8 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["ReviewCreateRequest"];
-                "application/x-www-form-urlencoded": components["schemas"]["ReviewCreateRequest"];
                 "multipart/form-data": components["schemas"]["ReviewCreateRequest"];
+                "application/json": components["schemas"]["ReviewCreateRequest"];
             };
         };
         responses: {

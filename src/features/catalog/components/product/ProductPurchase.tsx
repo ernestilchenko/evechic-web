@@ -20,6 +20,7 @@ import { useProductColor } from "./ProductColorContext";
 type ProductPurchaseProps = {
   productId: number;
   productSlug: string;
+  fitVerdict?: "small" | "true_to_size" | "large" | null;
   variants: ProductVariant[];
   sizes: string[];
   favorite?: React.ReactNode;
@@ -33,7 +34,14 @@ function uniqueColors(variants: ProductVariant[]) {
   return [...colors.values()];
 }
 
-export function ProductPurchase({ productId, productSlug, variants, sizes, favorite }: ProductPurchaseProps) {
+export function ProductPurchase({
+  productId,
+  productSlug,
+  fitVerdict,
+  variants,
+  sizes,
+  favorite,
+}: ProductPurchaseProps) {
   const router = useRouter();
   const { addItem } = useCart();
   const sizeLabelId = useId();
@@ -141,6 +149,9 @@ export function ProductPurchase({ productId, productSlug, variants, sizes, favor
           </div>
           {selectedVariant?.stock_state === "low" ? (
             <p className="text-sale text-xs">{t("productPage.availability.low")}</p>
+          ) : null}
+          {fitVerdict ? (
+            <p className="text-muted text-[12px]">{t(`productPage.fitHint.${fitVerdict}`)}</p>
           ) : null}
           <NotifyStock
             key={colorId ?? "none"}
