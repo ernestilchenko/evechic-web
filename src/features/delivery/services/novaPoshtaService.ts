@@ -12,3 +12,10 @@ export function searchCities(q: string) {
 export function searchWarehouses(cityRef: string, type: NpWarehouseType, q: string) {
   return apiFetch<NpWarehouse[]>("delivery/warehouses/", { query: { city_ref: cityRef, type, q } });
 }
+
+export type DeliveryPrice = { free: boolean; cost: string | null; free_delivery_threshold: string };
+export type PriceService = "branch" | "locker" | "courier";
+
+export function fetchDeliveryPrice(cityRef: string, service: PriceService, amount: number) {
+  return apiFetch<DeliveryPrice>("delivery/price/", { query: { city_ref: cityRef, service, amount } });
+}

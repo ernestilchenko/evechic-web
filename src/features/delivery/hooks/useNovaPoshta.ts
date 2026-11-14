@@ -3,7 +3,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-import { searchCities, searchWarehouses, type NpWarehouseType } from "../services/novaPoshtaService";
+import {
+  fetchDeliveryPrice,
+  searchCities,
+  searchWarehouses,
+  type NpWarehouseType,
+  type PriceService,
+} from "../services/novaPoshtaService";
 
 const DEBOUNCE_MS = 250;
 const STALE_MS = 10 * 60_000;
@@ -37,6 +43,17 @@ export function useWarehouseSearch(cityRef: string, type: NpWarehouseType, query
     enabled: enabled && Boolean(cityRef),
     staleTime: STALE_MS,
     placeholderData: keepPreviousData,
+    retry: 1,
+  });
+}
+
+export function useDeliveryPrice(cityRef: string, service: PriceService | null, amount: number) {
+  const rounded = Math.ceil(amount / 100) * 100;
+  return useQuery({
+    queryKey: ["np", "price", cityRef, service, rounded],
+    queryFn: () => fetchDeliveryPrice(cityRef, service as PriceService, amount),
+    enabled: Boolean(cityRef && service),
+    staleTime: STALE_MS,
     retry: 1,
   });
 }

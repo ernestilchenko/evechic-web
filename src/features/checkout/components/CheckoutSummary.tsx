@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 import { SummaryRow } from "@/features/cart";
+import { useDeliveryPrice } from "@/features/delivery";
+import type { PriceService } from "@/features/delivery/services/novaPoshtaService";
 import { Spinner } from "@/components/ui/Spinner";
 import { routes } from "@/data/routes";
 import type { Cart, DeliveryMethod } from "@/lib/api/types";
@@ -11,9 +13,16 @@ import { t, tPlural } from "@/lib/i18n";
 
 import { interpolateNodes } from "../utils/interpolateNodes";
 
+const SERVICE_BY_METHOD: Partial<Record<DeliveryMethod, PriceService>> = {
+  np_branch: "branch",
+  np_locker: "locker",
+  np_courier: "courier",
+};
+
 type CheckoutSummaryProps = {
   cart: Cart;
   deliveryMethod: DeliveryMethod;
+  cityRef: string;
   bonusesSpent: number;
   isSubmitting: boolean;
   isRedirecting: boolean;
@@ -23,6 +32,7 @@ type CheckoutSummaryProps = {
 export function CheckoutSummary({
   cart,
   deliveryMethod,
+  cityRef,
   bonusesSpent,
   isSubmitting,
   isRedirecting,
@@ -34,6 +44,10 @@ export function CheckoutSummary({
   const payable = Math.max(0, Number(totals.total) - bonusesSpent);
   const freeDelivery = deliveryMethod === "pickup" || payable >= Number(totals.free_delivery_threshold);
   const busy = isSubmitting || isRedirecting;
+  const priceService = SERVICE_BY_METHOD[deliveryMethod] ?? null;
+  const price = useDeliveryPrice(freeDelivery ? "" : cityRef, priceService, payable);
+  const estimate =
+    !freeDelivery && price.data && !price.data.free && price.data.cost ? price.data.cost : null;
 
   const linkClass = "text-ink underline underline-offset-2 hover:text-gold";
 
@@ -103,8 +117,21 @@ export function CheckoutSummary({
         ) : null}
         <SummaryRow
           label={t("cart.summary.delivery")}
-          value={freeDelivery ? t("cart.summary.deliveryFree") : t("cart.summary.deliveryCarrier")}
+          value={
+            freeDelivery
+              ? t("cart.summary.deliveryFree")
+              : estimate
+                ? t("checkout.summary.deliveryEstimate", { price: formatPrice(estimate) })
+                : t("cart.summary.deliveryCarrier")
+          }
         />
+        {estimate ? (
+          <p className="text-muted -mt-2.5 text-[11px] leading-relaxed">
+            {t("checkout.summary.deliveryEstimateHint", {
+              threshold: formatPrice(totals.free_delivery_threshold),
+            })}
+          </p>
+        ) : null}
       </dl>
       <dl aria-live="polite">
         <SummaryRow label={t("checkout.summary.total")} value={formatPrice(payable)} tone="total" />

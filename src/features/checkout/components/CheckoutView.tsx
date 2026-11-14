@@ -118,6 +118,7 @@ export function CheckoutView() {
         <CheckoutSummary
           cart={cart}
           deliveryMethod={form.values.delivery_method}
+          cityRef={form.values.city_ref}
           bonusesSpent={bonusesSpent}
           isSubmitting={form.isSubmitting}
           isRedirecting={isRedirecting}
