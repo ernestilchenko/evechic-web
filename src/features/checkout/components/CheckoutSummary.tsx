@@ -42,7 +42,7 @@ export function CheckoutSummary({
   const promoDiscount = Number(totals.promo_discount);
   const loyaltyDiscount = Number(totals.loyalty_discount);
   const payable = Math.max(0, Number(totals.total) - bonusesSpent);
-  const freeDelivery = deliveryMethod === "pickup" || payable >= Number(totals.free_delivery_threshold);
+  const freeDelivery = Number(totals.total) >= Number(totals.free_delivery_threshold);
   const busy = isSubmitting || isRedirecting;
   const priceService = SERVICE_BY_METHOD[deliveryMethod] ?? null;
   const price = useDeliveryPrice(freeDelivery ? "" : cityRef, priceService, payable);

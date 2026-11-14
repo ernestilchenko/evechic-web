@@ -1,3 +1,4 @@
+import { translateApiMessage } from "@/lib/apiMessage";
 import { ApiError } from "@/lib/api/client";
 import { t, type MessageKey } from "@/lib/i18n";
 
@@ -37,7 +38,7 @@ const FORM_FIELDS = new Set<CheckoutField>([
 export function translateCheckoutMessage(message: string | null | undefined) {
   if (!message) return t("checkout.apiErrors.generic");
   const key = knownMessages[message];
-  return key ? t(key) : message;
+  return key ? t(key) : (translateApiMessage(message) ?? t("checkout.apiErrors.generic"));
 }
 
 export type ParsedCheckoutError = {

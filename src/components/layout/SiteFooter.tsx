@@ -97,6 +97,9 @@ export async function SiteFooter() {
             })}
           </p>
           <p>{t("footer.payments")}</p>
+          <Link href={routes.installments} className="hover:text-cream py-1.5 lg:py-0">
+            {t("footer.installments")}
+          </Link>
           <Link href={routes.offer} className="hover:text-cream py-1.5 lg:py-0">
             {t("footer.offer")}
           </Link>

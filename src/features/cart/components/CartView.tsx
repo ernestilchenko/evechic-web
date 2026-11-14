@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import { routes } from "@/data/routes";
 import { t, tPlural } from "@/lib/i18n";
+import { UnpaidOrderNotice } from "@/features/checkout/components/UnpaidOrderNotice";
 
 import { useCart } from "../hooks/useCart";
 import { cartErrorMessage } from "../utils/cartErrorMessage";
@@ -54,7 +55,12 @@ export function CartView() {
         </div>
       ) : null}
 
-      {cart && items.length === 0 ? <EmptyCart /> : null}
+      {cart && items.length === 0 ? (
+        <>
+          <UnpaidOrderNotice />
+          <EmptyCart />
+        </>
+      ) : null}
 
       {cart && items.length > 0 ? (
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">

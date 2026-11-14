@@ -99,14 +99,17 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
                   </Badge>
                 ) : null}
               </div>
-              {partsAvailable(paymentOptions, Number(product.price)) ? (
+              {partsAvailable(paymentOptions, Number(product.price)) && paymentOptions.parts.counts.length ? (
                 <p className="text-[12.5px]">
                   {t("productPage.installments", {
                     parts: Math.max(...paymentOptions.parts.counts),
                     amount: formatPrice(
                       Math.ceil(Number(product.price) / Math.max(...paymentOptions.parts.counts)),
                     ),
-                  })}
+                  })}{" "}
+                  <Link href={routes.installments} className="text-muted underline underline-offset-2">
+                    {t("productPage.installmentsTerms")}
+                  </Link>
                 </p>
               ) : null}
               <p className="text-muted flex items-center gap-2 text-[12.5px]">

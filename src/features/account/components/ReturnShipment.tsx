@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useId, useState } from "react";
 
-import { ApiError } from "@/lib/api/client";
+import { apiErrorText } from "@/lib/apiMessage";
 import type { OrderDetail } from "@/lib/api/types";
 import { formatDate } from "@/lib/format";
 import { t } from "@/lib/i18n";
@@ -76,11 +76,7 @@ export function ReturnShipment({ order }: { order: OrderDetail }) {
         </button>
       </form>
       {save.isError ? (
-        <p className="text-sale text-[12px]">
-          {save.error instanceof ApiError && save.error.message
-            ? save.error.message
-            : t("account.returnShipment.error")}
-        </p>
+        <p className="text-sale text-[12px]">{apiErrorText(save.error, "account.returnShipment.error")}</p>
       ) : null}
       {order.return_tracking_number ? (
         <p className="text-[13px]">

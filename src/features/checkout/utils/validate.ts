@@ -21,9 +21,7 @@ export function validateCheckout(values: CheckoutValues): CheckoutErrors {
     email: EMAIL_PATTERN.test(values.email.trim()) ? undefined : t("checkout.validation.email"),
   };
 
-  if (values.delivery_method !== "pickup") {
-    errors.city = required(values.city, FIELD_LIMITS.city, t("checkout.validation.city"));
-  }
+  errors.city = required(values.city, FIELD_LIMITS.city, t("checkout.validation.city"));
   if (values.delivery_method === "np_branch") {
     errors.delivery_point = required(
       values.delivery_point,

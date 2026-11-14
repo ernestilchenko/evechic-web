@@ -1,3 +1,4 @@
+import { translateApiMessage } from "@/lib/apiMessage";
 import { ApiError } from "@/lib/api/client";
 import { t, type MessageKey } from "@/lib/i18n";
 
@@ -18,7 +19,7 @@ const knownMessages: Record<string, MessageKey> = {
 export function translateCartMessage(message: string | null | undefined) {
   if (!message) return t("cart.apiErrors.generic");
   const key = knownMessages[message];
-  return key ? t(key) : message;
+  return key ? t(key) : (translateApiMessage(message) ?? t("cart.apiErrors.generic"));
 }
 
 export function cartErrorMessage(error: unknown) {

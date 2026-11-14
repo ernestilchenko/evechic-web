@@ -89,57 +89,53 @@ export function DeliverySection({
         ))}
       </div>
 
-      {method === "pickup" ? (
-        <p className="text-muted text-[12.5px]">{t("checkout.delivery.pickupNote")}</p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <NovaPoshtaCityField
-            id={fieldId("city")}
-            label={t("checkout.delivery.city")}
-            placeholder={t("checkout.delivery.cityPlaceholder")}
-            city={values.city}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <NovaPoshtaCityField
+          id={fieldId("city")}
+          label={t("checkout.delivery.city")}
+          placeholder={t("checkout.delivery.cityPlaceholder")}
+          city={values.city}
+          cityRef={values.city_ref}
+          error={errors.city}
+          disabled={disabled}
+          inputClassName={inputClassName}
+          labelClassName={labelClassName}
+          onChange={(city) =>
+            setFields(
+              city.city_ref !== values.city_ref ? { ...city, delivery_point: "", warehouse_ref: "" } : city,
+            )
+          }
+        />
+        {method === "np_courier" ? (
+          <TextField
+            id={fieldId("street")}
+            label={t("checkout.delivery.street")}
+            placeholder={t("checkout.delivery.streetPlaceholder")}
+            autoComplete="street-address"
+            required
+            maxLength={255}
+            value={values.street}
+            onChange={(event) => setField("street", event.target.value)}
+            error={errors.street}
+            disabled={disabled}
+          />
+        ) : (
+          <NovaPoshtaWarehouseField
+            key={method}
+            id={fieldId("delivery_point")}
+            label={t(method === "np_locker" ? "checkout.delivery.locker" : "checkout.delivery.branch")}
+            type={method === "np_locker" ? "locker" : "branch"}
             cityRef={values.city_ref}
-            error={errors.city}
+            deliveryPoint={values.delivery_point}
+            warehouseRef={values.warehouse_ref}
+            error={errors.delivery_point}
             disabled={disabled}
             inputClassName={inputClassName}
             labelClassName={labelClassName}
-            onChange={(city) =>
-              setFields(
-                city.city_ref !== values.city_ref ? { ...city, delivery_point: "", warehouse_ref: "" } : city,
-              )
-            }
+            onChange={setFields}
           />
-          {method === "np_courier" ? (
-            <TextField
-              id={fieldId("street")}
-              label={t("checkout.delivery.street")}
-              placeholder={t("checkout.delivery.streetPlaceholder")}
-              autoComplete="street-address"
-              required
-              maxLength={255}
-              value={values.street}
-              onChange={(event) => setField("street", event.target.value)}
-              error={errors.street}
-              disabled={disabled}
-            />
-          ) : (
-            <NovaPoshtaWarehouseField
-              key={method}
-              id={fieldId("delivery_point")}
-              label={t(method === "np_locker" ? "checkout.delivery.locker" : "checkout.delivery.branch")}
-              type={method === "np_locker" ? "locker" : "branch"}
-              cityRef={values.city_ref}
-              deliveryPoint={values.delivery_point}
-              warehouseRef={values.warehouse_ref}
-              error={errors.delivery_point}
-              disabled={disabled}
-              inputClassName={inputClassName}
-              labelClassName={labelClassName}
-              onChange={setFields}
-            />
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </FormSection>
   );
 }

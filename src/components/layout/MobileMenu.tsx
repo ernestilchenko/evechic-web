@@ -105,7 +105,11 @@ export function MobileMenu() {
         </nav>
 
         <div className="border-line mt-6 flex flex-col border-t pt-4">
-          <Link href={isAuthenticated ? routes.account : routes.login} onClick={close} className={secondaryLinkClass}>
+          <Link
+            href={isAuthenticated ? routes.account : routes.login}
+            onClick={close}
+            className={secondaryLinkClass}
+          >
             {isAuthenticated ? t("layout.mobile.account") : t("layout.mobile.login")}
           </Link>
           {isAuthenticated ? (

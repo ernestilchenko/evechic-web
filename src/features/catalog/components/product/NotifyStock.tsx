@@ -4,7 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useId, useState } from "react";
 
 import { useSession } from "@/features/auth";
-import { apiFetch, ApiError } from "@/lib/api/client";
+import { apiFetch } from "@/lib/api/client";
+import { apiErrorText } from "@/lib/apiMessage";
 import type { ProductVariant } from "@/lib/api/types";
 import { t } from "@/lib/i18n";
 
@@ -95,9 +96,7 @@ export function NotifyStock({ productSlug, variants }: NotifyStockProps) {
       </div>
       {subscribe.isError ? (
         <p className="text-sale text-[12px]">
-          {subscribe.error instanceof ApiError && subscribe.error.message
-            ? subscribe.error.message
-            : t("productPage.notifyStock.error")}
+          {apiErrorText(subscribe.error, "productPage.notifyStock.error")}
         </p>
       ) : null}
     </form>

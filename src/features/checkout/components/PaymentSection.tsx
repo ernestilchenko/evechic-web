@@ -1,6 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
+
+import Link from "next/link";
+
 import { RadioCard } from "@/components/ui/RadioCard";
+import { routes } from "@/data/routes";
 import { partsAvailable } from "@/features/payments/paymentOptions";
 import { usePaymentOptions } from "@/features/payments/usePaymentOptions";
 import type { PaymentMethod } from "@/lib/api/types";
@@ -18,6 +23,10 @@ export function PaymentSection({ values, setField, disabled, payable }: PaymentS
   const showParts = partsAvailable(options.data, payable);
   const methods: PaymentMethod[] = showParts ? [...PAYMENT_METHODS, "parts"] : PAYMENT_METHODS;
   const parts = options.data?.parts;
+  const partsSelectedButHidden = values.payment_method === "parts" && !showParts && !options.isLoading;
+  useEffect(() => {
+    if (partsSelectedButHidden) setField("payment_method", "card");
+  }, [partsSelectedButHidden, setField]);
   const description = (option: PaymentMethod) => {
     if (option === "parts" && parts) {
       return t("checkout.payment.partsHint", {
@@ -44,7 +53,12 @@ export function PaymentSection({ values, setField, disabled, payable }: PaymentS
         ))}
       </div>
       {values.payment_method === "parts" ? (
-        <p className="text-muted text-[12px]">{t("checkout.payment.partsPhoneNote")}</p>
+        <p className="text-muted text-[12px]">
+          {t("checkout.payment.partsPhoneNote")}{" "}
+          <Link href={routes.installments} target="_blank" className="text-ink underline underline-offset-2">
+            {t("checkout.payment.partsTerms")}
+          </Link>
+        </p>
       ) : null}
     </FormSection>
   );

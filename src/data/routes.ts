@@ -26,6 +26,7 @@ export const routes = {
   care: "/care",
   faq: "/faq",
   offer: "/offer",
+  installments: "/installments",
   privacy: "/privacy",
   admin: {
     dashboard: "/admin",

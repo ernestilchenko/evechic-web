@@ -74,7 +74,6 @@ export function OrderSuccess({
   const total = order?.total ?? lastOrder?.total ?? null;
   const paymentMethod = order?.payment_method ?? lastOrder?.payment_method ?? null;
   const paymentStatus = order?.payment_status ?? lastOrder?.payment_status ?? null;
-  const deliveryMethod = order?.delivery_method ?? lastOrder?.delivery_method ?? null;
   const skipCall = order?.skip_confirmation_call ?? lastOrder?.skip_confirmation_call ?? false;
   const paymentNotStarted = !order && lastOrder?.payment_method === "card" && !lastOrder.payment_started;
 
@@ -104,9 +103,16 @@ export function OrderSuccess({
     paymentStatus !== "paid" &&
     Number(total ?? 0) > 0;
 
+  const isPaid = paymentStatus === "paid";
   const steps: MessageKey[] = [
-    skipCall ? "checkout.success.nextSteps.confirmSkipped" : "checkout.success.nextSteps.confirm",
-    deliveryMethod === "pickup" ? "checkout.success.nextSteps.pickup" : "checkout.success.nextSteps.ship",
+    awaitingPayment
+      ? paymentMethod === "parts"
+        ? "checkout.success.nextSteps.confirmParts"
+        : "checkout.success.nextSteps.pay"
+      : skipCall
+        ? "checkout.success.nextSteps.confirmSkipped"
+        : "checkout.success.nextSteps.confirm",
+    "checkout.success.nextSteps.ship",
     "checkout.success.nextSteps.returns",
   ];
 
@@ -127,14 +133,23 @@ export function OrderSuccess({
           </h1>
           <p className="text-muted max-w-xl text-[14px] leading-[1.75]">
             {awaitingPayment
-              ? t("checkout.success.leadAwaiting", { email: email ?? "" })
+              ? t(
+                  paymentMethod === "parts"
+                    ? "checkout.success.leadAwaitingParts"
+                    : "checkout.success.leadAwaiting",
+                  {
+                    email: email ?? "",
+                  },
+                )
               : email
                 ? t("checkout.success.lead", { email })
                 : t("checkout.success.leadNoEmail")}
           </p>
-          {total ? (
+          {Number(total ?? 0) > 0 ? (
             <p className="text-[15px] font-semibold">
-              {t("checkout.success.total", { amount: formatPrice(total) })}
+              {t(isPaid ? "checkout.success.totalPaid" : "checkout.success.total", {
+                amount: formatPrice(total ?? 0),
+              })}
             </p>
           ) : null}
           <div aria-live="polite" className="flex flex-col items-start gap-4 empty:hidden">
@@ -153,7 +168,11 @@ export function OrderSuccess({
             {canPay ? (
               <Button onClick={() => pay.mutate()} disabled={pay.isPending} className="gap-3">
                 {pay.isPending ? <Spinner className="size-3.5" /> : null}
-                {pay.isPending ? t("checkout.success.paying") : t("checkout.success.pay")}
+                {pay.isPending
+                  ? t("checkout.success.paying")
+                  : paymentMethod === "parts"
+                    ? t("checkout.success.resendParts")
+                    : t("checkout.success.pay")}
               </Button>
             ) : null}
             <ButtonLink href={routes.catalog} variant={canPay ? "outline" : "primary"}>

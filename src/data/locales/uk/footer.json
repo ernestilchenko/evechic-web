@@ -19,7 +19,8 @@
   },
   "workingHours": "Пн–Нд · 10:00–20:00",
   "copyright": "© {year} EVECHIC · {legalName} · РНОКПП {taxId} · м. {city}",
-  "payments": "Оплата: картка · післяплата",
+  "payments": "Оплата: картка · післяплата · частинами monobank",
   "offer": "Публічна оферта",
-  "privacy": "Політика конфіденційності"
+  "privacy": "Політика конфіденційності",
+  "installments": "Покупка частинами monobank"
 }

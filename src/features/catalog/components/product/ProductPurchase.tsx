@@ -10,7 +10,7 @@ import { SizeChip } from "@/components/ui/SizeChip";
 import { routes } from "@/data/routes";
 import { track } from "@/features/analytics";
 import { useCart } from "@/features/cart";
-import { ApiError } from "@/lib/api/client";
+import { apiErrorText } from "@/lib/apiMessage";
 import type { Color, ProductVariant } from "@/lib/api/types";
 import { t } from "@/lib/i18n";
 
@@ -79,7 +79,7 @@ export function ProductPurchase({
     } catch (error) {
       setFeedback({
         tone: "error",
-        text: error instanceof ApiError && error.message ? error.message : t("productPage.messages.error"),
+        text: apiErrorText(error, "productPage.messages.error"),
       });
     }
   };

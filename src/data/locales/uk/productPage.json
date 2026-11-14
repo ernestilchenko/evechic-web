@@ -64,5 +64,6 @@
     "true_to_size": "За відгуками сідає в розмір",
     "large": "За відгуками великомірить — радимо брати на розмір менше"
   },
-  "installments": "Частинами в monobank: до {parts} платежів, від {amount} на місяць"
+  "installments": "Частинами в monobank: до {parts} платежів, від {amount} на місяць",
+  "installmentsTerms": "Умови"
 }

@@ -7,7 +7,7 @@ import { useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { routes } from "@/data/routes";
 import { useSession } from "@/features/auth";
-import { ApiError } from "@/lib/api/client";
+import { apiErrorText } from "@/lib/apiMessage";
 import { cn } from "@/lib/cn";
 import { t } from "@/lib/i18n";
 
@@ -43,8 +43,7 @@ export function ReviewForm({ slug, sizes }: ReviewFormProps) {
       photos.forEach((photo) => body.append("photos", photo));
       return createReview(slug, body);
     },
-    onError: (cause) =>
-      setError(cause instanceof ApiError && cause.message ? cause.message : t("reviews.form.error")),
+    onError: (cause) => setError(apiErrorText(cause, "reviews.form.error")),
   });
 
   if (isLoading) return null;
