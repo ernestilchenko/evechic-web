@@ -82,7 +82,13 @@ export function CategoriesManager() {
                           <div className="flex items-center gap-3" style={{ paddingLeft: node.depth * 24 }}>
                             <span className="bg-sand relative block h-11 w-9 shrink-0 overflow-hidden rounded-[3px]">
                               {node.image ? (
-                                <Image src={node.image} alt="" fill sizes="36px" className="object-cover" />
+                                <Image
+                                  src={node.image}
+                                  alt=""
+                                  fill
+                                  sizes="36px"
+                                  className="object-cover object-top"
+                                />
                               ) : null}
                             </span>
                             <span className="font-medium">

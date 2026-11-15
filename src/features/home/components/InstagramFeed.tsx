@@ -35,7 +35,7 @@ export function InstagramFeed({ posts }: { posts: InstagramPost[] }) {
                 alt={post.alt || t("home.instagram.imageAlt")}
                 fill
                 sizes="(min-width: 640px) 20vw, 50vw"
-                className="object-cover transition-opacity hover:opacity-85"
+                className="object-cover object-top transition-opacity hover:opacity-85"
               />
             </a>
           </li>

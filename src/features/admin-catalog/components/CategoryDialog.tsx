@@ -140,7 +140,7 @@ export function CategoryDialog({ category, nodes, onClose }: CategoryDialogProps
                     alt=""
                     fill
                     sizes="64px"
-                    className="object-cover"
+                    className="object-cover object-top"
                     unoptimized={preview.startsWith("blob:")}
                   />
                 </span>

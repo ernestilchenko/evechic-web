@@ -41,7 +41,7 @@ export function HeroSection({ banner }: { banner: Banner }) {
             fill
             priority
             sizes="(min-width: 1024px) 660px, 100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
       ) : null}

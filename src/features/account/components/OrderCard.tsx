@@ -44,7 +44,7 @@ export function OrderCard({ order }: { order: AccountOrder }) {
                   alt={t("account.orders.thumbnailAlt", { number: order.number })}
                   fill
                   sizes="56px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               </li>
             ))}

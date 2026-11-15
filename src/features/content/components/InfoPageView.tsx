@@ -38,7 +38,7 @@ export function InfoPageView({ slug, page }: InfoPageViewProps) {
             fill
             priority
             sizes="(min-width: 1024px) 960px, 100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
       ) : null}

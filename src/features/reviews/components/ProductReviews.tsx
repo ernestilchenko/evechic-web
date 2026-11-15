@@ -111,7 +111,7 @@ export async function ProductReviews({ slug, sizes }: ProductReviewsProps) {
                               alt={t("reviews.photo", { index: index + 1 })}
                               fill
                               sizes="80px"
-                              className="object-cover"
+                              className="object-cover object-top"
                             />
                           </a>
                         </li>

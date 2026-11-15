@@ -35,7 +35,13 @@ function ItemRow({ item }: { item: OrderItem }) {
     <li className="border-line flex gap-4 border-t pt-4 first:border-t-0 first:pt-0">
       <div className="bg-sand relative h-[96px] w-[74px] shrink-0 overflow-hidden">
         {item.image ? (
-          <Image src={item.image} alt={item.product_name} fill sizes="74px" className="object-cover" />
+          <Image
+            src={item.image}
+            alt={item.product_name}
+            fill
+            sizes="74px"
+            className="object-cover object-top"
+          />
         ) : null}
       </div>
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">

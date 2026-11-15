@@ -33,7 +33,7 @@ export function ImageInput({ label, current, error, removable = true, required, 
                 alt=""
                 fill
                 sizes="80px"
-                className="object-cover"
+                className="object-cover object-top"
                 unoptimized={preview.startsWith("blob:")}
               />
             </span>

@@ -61,7 +61,13 @@ export function CartItemRow({
         className="bg-sand relative h-[115px] w-[88px] shrink-0 overflow-hidden sm:h-[146px] sm:w-[112px]"
       >
         {item.product.main_image ? (
-          <Image src={item.product.main_image} alt="" fill sizes="112px" className="object-cover" />
+          <Image
+            src={item.product.main_image}
+            alt=""
+            fill
+            sizes="112px"
+            className="object-cover object-top"
+          />
         ) : null}
       </Link>
       <div className="flex min-w-0 flex-1 flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">

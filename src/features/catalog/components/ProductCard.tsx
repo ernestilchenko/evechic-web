@@ -38,7 +38,7 @@ export function ProductCard({
             fill
             sizes={sizes}
             priority={priority}
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : null}
         {badge ? <span className="absolute top-3.5 left-3.5">{badge}</span> : null}

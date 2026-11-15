@@ -113,7 +113,7 @@ export function AboutView({ page }: { page: ContentPage }) {
               fill
               priority
               sizes="(min-width: 1024px) 620px, 100vw"
-              className="object-cover"
+              className="object-cover object-top"
             />
           </div>
         ) : null}

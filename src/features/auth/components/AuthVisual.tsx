@@ -7,7 +7,7 @@ export function AuthVisual({ image }: { image: string | null }) {
     <div className="bg-ink relative hidden overflow-hidden lg:block">
       {image ? (
         <>
-          <Image src={image} alt="" fill sizes="600px" className="object-cover" />
+          <Image src={image} alt="" fill sizes="600px" className="object-cover object-top" />
           <div aria-hidden className="bg-ink/35 absolute inset-0" />
         </>
       ) : null}

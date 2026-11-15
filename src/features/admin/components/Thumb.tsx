@@ -13,7 +13,7 @@ export function Thumb({ src, alt, className }: ThumbProps) {
     <span
       className={cn("bg-sand relative block h-14 w-11 shrink-0 overflow-hidden rounded-[3px]", className)}
     >
-      {src ? <Image src={src} alt={alt} fill sizes="44px" className="object-cover" /> : null}
+      {src ? <Image src={src} alt={alt} fill sizes="44px" className="object-cover object-top" /> : null}
     </span>
   );
 }

@@ -72,7 +72,7 @@ export function ProductGallery({ images, badge }: ProductGalleryProps) {
                 index === active ? "ring-ink ring-1" : "opacity-70 hover:opacity-100",
               )}
             >
-              <Image src={image.url} alt="" fill sizes="84px" className="object-cover" />
+              <Image src={image.url} alt="" fill sizes="84px" className="object-cover object-top" />
             </button>
           ))}
         </div>
@@ -90,7 +90,7 @@ export function ProductGallery({ images, badge }: ProductGalleryProps) {
             fill
             priority={active === 0}
             sizes="(min-width: 1440px) 560px, (min-width: 1024px) 40vw, 100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
         ) : null}
         {badge ? <span className="absolute top-3.5 left-3.5">{badge}</span> : null}
