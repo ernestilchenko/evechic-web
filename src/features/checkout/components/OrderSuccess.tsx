@@ -1,8 +1,9 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
+import { reportPurchase } from "@/features/analytics";
 import { useSession } from "@/features/auth";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
@@ -104,6 +105,11 @@ export function OrderSuccess({
     Number(total ?? 0) > 0;
 
   const isPaid = paymentStatus === "paid";
+  const confirmedPaid = order?.payment_status === "paid" ? order : null;
+
+  useEffect(() => {
+    if (confirmedPaid && orderNumber !== null) reportPurchase(orderNumber, confirmedPaid.total);
+  }, [confirmedPaid, orderNumber]);
   const steps: MessageKey[] = [
     awaitingPayment
       ? paymentMethod === "parts"

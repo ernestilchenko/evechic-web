@@ -17,6 +17,7 @@ export const siteConfig = {
     telegram: "https://t.me/evechic_store",
     tiktok: "https://www.tiktok.com/@evechic_store",
   },
+  googleAds: { tagId: "AW-18575251017", purchaseLabel: "AW-18575251017/OhtHCLes87gdEMmsr5lF" },
   freeDeliveryThreshold: 2000,
   returnDays: 14,
 } as const;

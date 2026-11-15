@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { GoogleTag } from "@/features/analytics";
 import { CheckoutHeader } from "@/features/checkout";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function CheckoutLayout({ children }: LayoutProps<"/">) {
       <CheckoutHeader />
       <main id="main">{children}</main>
       <SiteFooter />
+      <GoogleTag />
     </>
   );
 }
