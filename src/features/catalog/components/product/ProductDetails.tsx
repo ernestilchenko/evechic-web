@@ -67,7 +67,7 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
           items={crumbs.map((crumb, index) => (index === crumbs.length - 1 ? { label: crumb.label } : crumb))}
           className="py-6 lg:py-8"
         />
-        <ProductColorProvider variants={product.variants}>
+        <ProductColorProvider variants={product.variants} images={product.images}>
           <article className="grid gap-10 pb-6 lg:grid-cols-[minmax(0,658fr)_minmax(0,598fr)] lg:gap-14">
             <div className="lg:sticky lg:top-6 lg:self-start">
               <ProductColorGallery images={images} badge={badge} />
