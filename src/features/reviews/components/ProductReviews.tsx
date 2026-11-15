@@ -25,7 +25,11 @@ export async function ProductReviews({ slug, sizes }: ProductReviewsProps) {
   const fitTotal = summary.fit.small + summary.fit.true_to_size + summary.fit.large;
 
   return (
-    <section aria-labelledby="reviews-title" className="container-page border-line border-t pt-16 pb-6">
+    <section
+      id="reviews"
+      aria-labelledby="reviews-title"
+      className="container-page border-line scroll-mt-24 border-t pt-16 pb-6"
+    >
       <div className="grid gap-12 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-20">
         <div className="flex flex-col gap-6">
           <h2 id="reviews-title" className="font-serif text-[32px] font-light sm:text-[40px]">

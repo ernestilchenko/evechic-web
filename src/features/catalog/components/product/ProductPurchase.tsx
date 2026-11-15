@@ -12,7 +12,7 @@ import { track } from "@/features/analytics";
 import { useCart } from "@/features/cart";
 import { apiErrorText } from "@/lib/apiMessage";
 import type { Color, ProductVariant } from "@/lib/api/types";
-import { t } from "@/lib/i18n";
+import { t, type MessageKey } from "@/lib/i18n";
 
 import { NotifyStock } from "./NotifyStock";
 import { useProductColor } from "./ProductColorContext";
@@ -34,6 +34,23 @@ function uniqueColors(variants: ProductVariant[]) {
   return [...colors.values()];
 }
 
+const FINISHES: { suffix: string; label: MessageKey }[] = [
+  { suffix: "матовий", label: "productPage.finishMatte" },
+  { suffix: "глянцевий", label: "productPage.finishGlossy" },
+];
+
+function colorGroups(colors: Color[]) {
+  const finishOf = (color: Color) =>
+    FINISHES.find((finish) => color.name.toLowerCase().endsWith(` ${finish.suffix}`));
+  if (!colors.some(finishOf)) return [{ label: null, colors }];
+  const groups = FINISHES.map((finish) => ({
+    label: finish.label as MessageKey | null,
+    colors: colors.filter((color) => finishOf(color) === finish),
+  }));
+  groups.push({ label: null, colors: colors.filter((color) => !finishOf(color)) });
+  return groups.filter((group) => group.colors.length > 0);
+}
+
 export function ProductPurchase({
   productId,
   productSlug,
@@ -46,6 +63,7 @@ export function ProductPurchase({
   const { addItem } = useCart();
   const sizeLabelId = useId();
   const colors = useMemo(() => uniqueColors(variants), [variants]);
+  const groups = useMemo(() => colorGroups(colors), [colors]);
   const { colorId, setColorId } = useProductColor();
   const [size, setSize] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<Feedback>(null);
@@ -93,25 +111,34 @@ export function ProductPurchase({
               ? t("productPage.colorSelected", { name: selectedColor.name })
               : t("productPage.color")}
           </p>
-          <div role="group" aria-label={t("productPage.color")} className="flex flex-wrap gap-2.5">
-            {colors.map((color) => (
-              <ColorSwatch
-                key={color.id}
-                size="md"
-                hex={color.hex}
-                label={color.name}
-                selected={color.id === colorId}
-                onClick={() => {
-                  setColorId(color.id);
-                  setFeedback(null);
-                  const match = variants.find(
-                    (variant) => variant.color.id === color.id && variant.size === size,
-                  );
-                  if (!match || match.stock <= 0) setSize(null);
-                }}
-              />
-            ))}
-          </div>
+          {groups.map((group) => (
+            <div key={group.label ?? "other"} className="flex flex-col gap-2">
+              {group.label ? <p className="text-muted text-[11px]">{t(group.label)}</p> : null}
+              <div
+                role="group"
+                aria-label={group.label ? t(group.label) : t("productPage.color")}
+                className="flex flex-wrap gap-2.5"
+              >
+                {group.colors.map((color) => (
+                  <ColorSwatch
+                    key={color.id}
+                    size="md"
+                    hex={color.hex}
+                    label={color.name}
+                    selected={color.id === colorId}
+                    onClick={() => {
+                      setColorId(color.id);
+                      setFeedback(null);
+                      const match = variants.find(
+                        (variant) => variant.color.id === color.id && variant.size === size,
+                      );
+                      if (!match || match.stock <= 0) setSize(null);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ) : null}
 
