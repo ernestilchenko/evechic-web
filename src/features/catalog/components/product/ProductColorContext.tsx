@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { createContext, useContext, useState } from "react";
+import { createContext, Suspense, useContext, useEffect, useState } from "react";
 
 import type { ProductImage, ProductVariant } from "@/lib/api/types";
 
@@ -28,11 +28,29 @@ export function ProductColorProvider({
   images: ProductImage[];
   children: React.ReactNode;
 }) {
-  const requested = Number(useSearchParams().get("color"));
-  const [colorId, setColorId] = useState(() =>
-    variants.some((variant) => variant.color.id === requested) ? requested : initialColorId(variants, images),
+  const [colorId, setColorId] = useState(() => initialColorId(variants, images));
+  return (
+    <ProductColorContext value={{ colorId, setColorId }}>
+      {children}
+      <Suspense fallback={null}>
+        <ColorFromLink variants={variants} onColor={setColorId} />
+      </Suspense>
+    </ProductColorContext>
   );
-  return <ProductColorContext value={{ colorId, setColorId }}>{children}</ProductColorContext>;
+}
+
+function ColorFromLink({
+  variants,
+  onColor,
+}: {
+  variants: ProductVariant[];
+  onColor: (colorId: number) => void;
+}) {
+  const requested = Number(useSearchParams().get("color"));
+  useEffect(() => {
+    if (variants.some((variant) => variant.color.id === requested)) onColor(requested);
+  }, [requested, variants, onColor]);
+  return null;
 }
 
 export function useProductColor() {

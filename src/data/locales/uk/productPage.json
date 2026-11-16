@@ -1,6 +1,6 @@
 {
   "meta": {
-    "descriptionTemplate": "{name} від EVECHIC за {price}. Доставка Новою Поштою по Україні, оплата карткою онлайн або частинами monobank, обмін і повернення 14 днів."
+    "descriptionTemplate": "{name} — {price}. Жіночий одяг EVECHIC з доставкою Новою Поштою по Україні, оплата частинами monobank, обмін і повернення 14 днів."
   },
   "sku": "Арт. {sku}",
   "gallery": {

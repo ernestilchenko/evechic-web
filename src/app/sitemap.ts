@@ -39,11 +39,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticPages,
-    ...flattenCategories(categories).map((category) => ({
-      url: absoluteUrl(routes.category(category.slug)),
-      changeFrequency: "daily" as const,
-      priority: 0.8,
-    })),
+    ...flattenCategories(categories)
+      .filter((category) => category.products_count > 0)
+      .map((category) => ({
+        url: absoluteUrl(routes.category(category.slug)),
+        changeFrequency: "daily" as const,
+        priority: 0.8,
+      })),
     ...products.map((product) => ({
       url: absoluteUrl(routes.product(product.slug)),
       changeFrequency: "weekly" as const,

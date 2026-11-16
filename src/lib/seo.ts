@@ -15,6 +15,8 @@ type PageMetadataInput = {
   absoluteTitle?: boolean;
 };
 
+const DEFAULT_IMAGES = [{ url: "/opengraph-image", alt: siteConfig.name }];
+
 export function buildMetadata({
   title,
   description,
@@ -23,6 +25,7 @@ export function buildMetadata({
   noIndex,
   absoluteTitle,
 }: PageMetadataInput): Metadata {
+  const shareImages = images?.length ? images : DEFAULT_IMAGES;
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
@@ -34,13 +37,13 @@ export function buildMetadata({
       siteName: siteConfig.name,
       locale: siteConfig.locale,
       type: "website",
-      ...(images ? { images } : {}),
+      images: shareImages,
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(images ? { images: images.map((i) => i.url) } : {}),
+      images: shareImages.map((image) => image.url),
     },
     ...(noIndex ? { robots: { index: false, follow: true } } : {}),
   };
