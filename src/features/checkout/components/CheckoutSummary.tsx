@@ -42,12 +42,11 @@ export function CheckoutSummary({
   const promoDiscount = Number(totals.promo_discount);
   const loyaltyDiscount = Number(totals.loyalty_discount);
   const payable = Math.max(0, Number(totals.total) - bonusesSpent);
-  const freeDelivery = Number(totals.total) >= Number(totals.free_delivery_threshold);
+  const freeDelivery = totals.free_delivery;
   const busy = isSubmitting || isRedirecting;
   const priceService = SERVICE_BY_METHOD[deliveryMethod] ?? null;
   const price = useDeliveryPrice(freeDelivery ? "" : cityRef, priceService, payable);
-  const estimate =
-    !freeDelivery && price.data && !price.data.free && price.data.cost ? price.data.cost : null;
+  const estimate = !freeDelivery && price.data?.cost ? price.data.cost : null;
 
   const linkClass = "text-ink underline underline-offset-2 hover:text-gold";
 
@@ -127,9 +126,7 @@ export function CheckoutSummary({
         />
         {estimate ? (
           <p className="text-muted -mt-2.5 text-[11px] leading-relaxed">
-            {t("checkout.summary.deliveryEstimateHint", {
-              threshold: formatPrice(totals.free_delivery_threshold),
-            })}
+            {t("checkout.summary.deliveryEstimateHint", { count: totals.free_delivery_min_items })}
           </p>
         ) : null}
       </dl>

@@ -13,7 +13,7 @@ export function searchWarehouses(cityRef: string, type: NpWarehouseType, q: stri
   return apiFetch<NpWarehouse[]>("delivery/warehouses/", { query: { city_ref: cityRef, type, q } });
 }
 
-export type DeliveryPrice = { free: boolean; cost: string | null; free_delivery_threshold: string };
+export type DeliveryPrice = { cost: string };
 export type PriceService = "branch" | "locker" | "courier";
 
 export function fetchDeliveryPrice(cityRef: string, service: PriceService, amount: number) {

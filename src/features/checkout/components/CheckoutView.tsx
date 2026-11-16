@@ -107,7 +107,7 @@ export function CheckoutView() {
             addresses={form.addresses}
             activeChoice={form.activeChoice}
             chooseAddress={form.chooseAddress}
-            freeDeliveryThreshold={cart.totals.free_delivery_threshold}
+            freeDeliveryMinItems={cart.totals.free_delivery_min_items}
             disabled={disabled}
           />
           <PaymentSection

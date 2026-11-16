@@ -1892,7 +1892,7 @@ export interface paths {
         };
         /**
          * Estimate Nova Poshta delivery price
-         * @description Estimated cost from the shop sender city for a 1 kg parcel, rounded to whole hryvnias. Orders from the free-delivery threshold return free=true. The recipient pays NP on delivery.
+         * @description Estimated cost from the shop sender city for a 1 kg parcel, rounded to whole hryvnias. The recipient pays NP on delivery; orders with enough items ship free (see cart totals).
          */
         get: operations["delivery_price_retrieve"];
         put?: never;
@@ -2751,10 +2751,8 @@ export interface components {
             /** Format: decimal */
             total: string;
             free_delivery: boolean;
-            /** Format: decimal */
-            free_delivery_threshold: string;
-            /** Format: decimal */
-            amount_to_free_delivery: string;
+            free_delivery_min_items: number;
+            items_to_free_delivery: number;
         };
         CategoryBreadcrumb: {
             readonly id: number;
@@ -3585,11 +3583,8 @@ export interface components {
          */
         PlacementEnum: "hero" | "lookbook";
         Price: {
-            free: boolean;
             /** Format: decimal */
-            cost: string | null;
-            /** Format: decimal */
-            free_delivery_threshold: string;
+            cost: string;
         };
         PriceRange: {
             /** Format: decimal */

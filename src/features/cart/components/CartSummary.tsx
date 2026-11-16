@@ -65,7 +65,7 @@ export function CartTotalsList({ totals }: { totals: CartTotals }) {
 }
 
 export function CartSummary({ totals, canCheckout, busy, applyPromo, removePromo }: CartSummaryProps) {
-  const toFreeDelivery = Number(totals.amount_to_free_delivery);
+  const toFreeDelivery = totals.items_to_free_delivery;
 
   return (
     <aside
@@ -81,7 +81,7 @@ export function CartSummary({ totals, canCheckout, busy, applyPromo, removePromo
       <CartTotalsList totals={totals} />
       {!totals.free_delivery && toFreeDelivery > 0 ? (
         <p className="text-muted -mt-2 text-[11.5px]">
-          {t("cart.summary.toFreeDelivery", { amount: formatPrice(toFreeDelivery) })}
+          {tPlural("cart.summary.toFreeDelivery", toFreeDelivery)}
         </p>
       ) : null}
       <div className="bg-field h-px" />

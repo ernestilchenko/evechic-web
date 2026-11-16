@@ -4,7 +4,6 @@ import { RadioCard } from "@/components/ui/RadioCard";
 import { fieldInputClass, TextField } from "@/components/ui/TextField";
 import { NovaPoshtaCityField, NovaPoshtaWarehouseField } from "@/features/delivery";
 import { cn } from "@/lib/cn";
-import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { NovaPoshtaLogo } from "@/components/ui/BrandLogos";
 
@@ -17,7 +16,7 @@ type DeliverySectionProps = Pick<
   CheckoutForm,
   "values" | "errors" | "setField" | "setFields" | "addresses" | "activeChoice" | "chooseAddress"
 > & {
-  freeDeliveryThreshold: string;
+  freeDeliveryMinItems: number;
   disabled: boolean;
 };
 
@@ -29,13 +28,12 @@ export function DeliverySection({
   addresses,
   activeChoice,
   chooseAddress,
-  freeDeliveryThreshold,
+  freeDeliveryMinItems,
   disabled,
 }: DeliverySectionProps) {
   const inputClassName = cn(fieldInputClass, "h-[52px]");
   const labelClassName = "text-muted text-[11px] tracking-[0.06em]";
   const method = values.delivery_method;
-  const threshold = formatPrice(freeDeliveryThreshold);
 
   return (
     <FormSection title={t("checkout.delivery.title")}>
@@ -86,7 +84,7 @@ export function DeliverySection({
             onChange={() => setField("delivery_method", option)}
             disabled={disabled}
             label={t(`checkout.delivery.methods.${option}`)}
-            description={t(`checkout.delivery.hints.${option}`, { threshold })}
+            description={t(`checkout.delivery.hints.${option}`, { count: freeDeliveryMinItems })}
           />
         ))}
       </div>
