@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Select } from "@/components/ui/Select";
-import { AdminButton, Field, getFieldErrors, Panel, TextArea, TextInput } from "@/features/admin";
+import { AdminButton, Checkbox, Field, getFieldErrors, Panel, TextArea, TextInput } from "@/features/admin";
 import { routes } from "@/data/routes";
 import { t } from "@/lib/i18n";
 
@@ -22,6 +22,7 @@ type FormState = {
   description: string;
   composition_care: string;
   status: ProductStatus;
+  shipped_by_supplier: boolean;
 };
 
 function initialState(product: Product | null): FormState {
@@ -35,6 +36,7 @@ function initialState(product: Product | null): FormState {
     description: product?.description ?? "",
     composition_care: product?.composition_care ?? "",
     status: product?.status ?? "draft",
+    shipped_by_supplier: product?.shipped_by_supplier ?? false,
   };
 }
 
@@ -60,6 +62,7 @@ export function ProductForm({ product }: { product: Product | null }) {
             old_price: form.old_price ? form.old_price : null,
             description: form.description,
             composition_care: form.composition_care,
+            shipped_by_supplier: form.shipped_by_supplier,
             ...(form.slug.trim() ? { slug: form.slug.trim() } : {}),
             ...(product ? {} : { status: form.status }),
           };
@@ -193,6 +196,14 @@ export function ProductForm({ product }: { product: Product | null }) {
             />
           )}
         </Field>
+        <div className="flex flex-col gap-1.5 sm:col-span-2">
+          <Checkbox
+            label={t("adminProducts.form.shippedBySupplier")}
+            checked={form.shipped_by_supplier}
+            onChange={(event) => set({ shipped_by_supplier: event.target.checked })}
+          />
+          <p className="text-muted text-[11.5px]">{t("adminProducts.form.shippedBySupplierHint")}</p>
+        </div>
         <div className="sm:col-span-2">
           <AdminButton type="submit" disabled={mutation.isPending}>
             {mutation.isPending

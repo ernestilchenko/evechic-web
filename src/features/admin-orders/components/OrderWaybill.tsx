@@ -12,6 +12,17 @@ import type { AdminOrder } from "../types";
 const DEFAULT_WEIGHT = "0.5";
 const NOT_HANDED_OVER = [null, 1];
 
+function SupplierNotice({ order }: { order: AdminOrder }) {
+  const supplierCount = order.supplier_item_ids.length;
+  if (supplierCount === 0) return null;
+  const all = supplierCount === order.items.length;
+  return (
+    <p className="bg-admin-warn-bg text-admin-warn mb-4 rounded-md px-3.5 py-2.5 text-[12px] leading-relaxed">
+      {t(all ? "adminOrders.waybill.supplierAll" : "adminOrders.waybill.supplierPart")}
+    </p>
+  );
+}
+
 export function OrderWaybill({ order }: { order: AdminOrder }) {
   const waybill = useWaybill(order.number);
   const [weight, setWeight] = useState(DEFAULT_WEIGHT);
@@ -25,6 +36,7 @@ export function OrderWaybill({ order }: { order: AdminOrder }) {
 
   return (
     <Panel title={t("adminOrders.waybill.title")} titleId="order-waybill">
+      <SupplierNotice order={order} />
       {order.tracking_number ? (
         <div className="flex flex-col gap-4 text-[12.5px]">
           <dl className="flex flex-col gap-3">

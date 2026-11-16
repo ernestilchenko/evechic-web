@@ -68,6 +68,11 @@ function OrderItems({ order }: { order: AdminOrder }) {
               <span className="text-placeholder text-[11px]">
                 {t("adminOrders.detail.itemMeta", { sku: item.sku, color: item.color_name, size: item.size })}
               </span>
+              {order.supplier_item_ids.includes(item.id) ? (
+                <span className="bg-admin-warn-bg text-admin-warn w-fit rounded px-1.5 py-0.5 text-[10.5px] font-semibold">
+                  {t("adminOrders.detail.supplierItem")}
+                </span>
+              ) : null}
             </div>
             <span className="text-muted text-[12px] whitespace-nowrap">
               {item.quantity} × {formatPrice(item.unit_price)}

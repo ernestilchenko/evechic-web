@@ -90,7 +90,9 @@
     "oldPriceHint": "Заповніть, щоб показати знижку.",
     "description": "Опис",
     "composition": "Склад і догляд",
-    "createSubmit": "Створити товар"
+    "createSubmit": "Створити товар",
+    "shippedBySupplier": "Відправляє постачальник",
+    "shippedBySupplierHint": "У замовленнях такі речі будуть позначені, а в Telegram прийде підказка взяти ТТН у постачальника."
   },
   "images": {
     "title": "Фото",

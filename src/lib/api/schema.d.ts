@@ -2469,6 +2469,7 @@ export interface components {
             readonly np_document_ref: string;
             readonly tracking_status_code: number | null;
             readonly can_create_waybill: boolean;
+            readonly supplier_item_ids: number[];
             readonly fiscal_receipts: components["schemas"]["FiscalReceipt"][];
             readonly invoices: components["schemas"]["MonobankInvoice"][];
             /** Format: date-time */
@@ -2540,6 +2541,7 @@ export interface components {
             readonly status: components["schemas"]["ProductStatusEnum"];
             /** Format: date-time */
             readonly published_at: string | null;
+            readonly shipped_by_supplier: boolean;
             readonly total_stock: number;
             readonly stock_state: components["schemas"]["StockStateEnum"];
             readonly images: components["schemas"]["AdminProductImage"][];
@@ -2575,6 +2577,7 @@ export interface components {
             readonly status: components["schemas"]["ProductStatusEnum"];
             /** Format: uri */
             readonly main_image: string | null;
+            readonly shipped_by_supplier: boolean;
         };
         AdminProductTabCounts: {
             all: number;
@@ -3520,6 +3523,7 @@ export interface components {
             /** Format: decimal */
             old_price?: string | null;
             status?: components["schemas"]["ProductStatusEnum"];
+            shipped_by_supplier?: boolean;
         };
         PatchedProfileUpdateRequest: {
             first_name?: string;
@@ -3717,6 +3721,7 @@ export interface components {
             /** Format: decimal */
             old_price?: string | null;
             status?: components["schemas"]["ProductStatusEnum"];
+            shipped_by_supplier?: boolean;
         };
         PromoCodeDetail: {
             readonly id: number;
