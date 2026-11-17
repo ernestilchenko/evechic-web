@@ -38,10 +38,10 @@ export function GiftCardBanner() {
           className="relative mx-auto block w-full max-w-[400px] pb-10"
         >
           <span className="absolute top-10 right-0 w-[78%] rotate-6 opacity-90">
-            <GiftCardVisual amount={2000} />
+            <GiftCardVisual amount={3000} />
           </span>
           <span className="relative block w-[82%]">
-            <GiftCardVisual amount={1000} />
+            <GiftCardVisual amount={2000} />
           </span>
         </Link>
       </div>

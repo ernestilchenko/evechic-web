@@ -10,12 +10,12 @@ import { t } from "@/lib/i18n";
 import { purchaseGiftCard } from "../services/giftCardsService";
 import { GiftCardVisual } from "./GiftCardVisual";
 
-const AMOUNTS = [500, 1000, 2000];
+const AMOUNTS = [1000, 2000, 3000];
 const inputClass =
   "border-field bg-cream placeholder:text-placeholder focus:border-ink h-[50px] w-full border px-4 text-[13px] focus:outline-none";
 
 export function GiftCardsView() {
-  const [amount, setAmount] = useState(1000);
+  const [amount, setAmount] = useState(2000);
   const [forSomeone, setForSomeone] = useState(true);
   const [form, setForm] = useState({
     buyer_name: "",
