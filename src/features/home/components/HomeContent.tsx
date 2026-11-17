@@ -2,6 +2,7 @@ import { getHomeContent } from "@/features/content";
 
 import { BenefitsSection } from "./BenefitsSection";
 import { DeliveryBanner } from "./DeliveryBanner";
+import { GiftCardBanner } from "./GiftCardBanner";
 import { HeroSection } from "./HeroSection";
 import { InstagramFeed } from "./InstagramFeed";
 import { NewArrivals } from "./NewArrivals";
@@ -16,6 +17,7 @@ export async function HomeContent() {
       <NewArrivals />
       <PaymentBanner />
       <DeliveryBanner />
+      <GiftCardBanner />
       <BenefitsSection />
       {content.instagram.length > 0 ? <InstagramFeed posts={content.instagram} /> : null}
     </>
