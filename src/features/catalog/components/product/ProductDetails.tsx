@@ -24,6 +24,7 @@ import { productJsonLd } from "../../utils/structuredData";
 import { ProductColorProvider } from "./ProductColorContext";
 import { ProductColorGallery } from "./ProductColorGallery";
 import { ProductPurchase } from "./ProductPurchase";
+import { PairedProducts } from "./PairedProducts";
 import { SimilarProducts } from "./SimilarProducts";
 
 type ProductDetailsProps = {
@@ -179,6 +180,9 @@ export async function ProductDetails({ params, renderFavorite, renderReviews }: 
           </article>
         </ProductColorProvider>
       </div>
+      <Suspense fallback={null}>
+        <PairedProducts slug={product.slug} />
+      </Suspense>
       {renderReviews ? renderReviews(product) : null}
       <Suspense fallback={null}>
         <SimilarProducts slug={product.slug} categorySlug={category.slug} />

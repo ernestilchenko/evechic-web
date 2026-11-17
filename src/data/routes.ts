@@ -27,6 +27,9 @@ export const routes = {
   faq: "/faq",
   offer: "/offer",
   installments: "/installments",
+  giftCards: "/gift-cards",
+  giftCardSuccess: "/gift-cards/success",
+  unsubscribe: "/unsubscribe",
   privacy: "/privacy",
   admin: {
     dashboard: "/admin",

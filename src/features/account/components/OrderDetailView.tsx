@@ -98,8 +98,14 @@ function Totals({ order }: { order: OrderDetail }) {
             value={minus(totals.promo_discount)}
           />
         ) : null}
+        {Number(totals.quantity_discount) > 0 ? (
+          <TotalRow label={t("account.order.quantity")} value={minus(totals.quantity_discount)} />
+        ) : null}
         {Number(totals.loyalty_discount) > 0 ? (
           <TotalRow label={t("account.order.loyalty")} value={minus(totals.loyalty_discount)} />
+        ) : null}
+        {Number(totals.gift_card_amount) > 0 ? (
+          <TotalRow label={t("account.order.giftCard")} value={minus(totals.gift_card_amount)} />
         ) : null}
         {Number(totals.bonuses_spent) > 0 ? (
           <TotalRow label={t("account.order.bonusesSpent")} value={minus(totals.bonuses_spent)} />

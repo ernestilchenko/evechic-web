@@ -23,13 +23,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl(routes.catalog), changeFrequency: "daily", priority: 0.9 },
     { url: absoluteUrl(routes.newArrivals), changeFrequency: "daily", priority: 0.8 },
     { url: absoluteUrl(routes.sale), changeFrequency: "daily", priority: 0.8 },
-    ...[routes.about, routes.delivery, routes.returns, routes.sizeGuide, routes.care, routes.faq].map(
-      (path) => ({
-        url: absoluteUrl(path),
-        changeFrequency: "monthly" as const,
-        priority: 0.4,
-      }),
-    ),
+    ...[
+      routes.giftCards,
+      routes.about,
+      routes.delivery,
+      routes.returns,
+      routes.sizeGuide,
+      routes.care,
+      routes.faq,
+    ].map((path) => ({
+      url: absoluteUrl(path),
+      changeFrequency: "monthly" as const,
+      priority: 0.4,
+    })),
   ];
 
   const [categories, products] = await Promise.all([

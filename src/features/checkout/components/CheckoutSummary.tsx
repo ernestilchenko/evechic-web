@@ -41,6 +41,8 @@ export function CheckoutSummary({
   const { totals } = cart;
   const promoDiscount = Number(totals.promo_discount);
   const loyaltyDiscount = Number(totals.loyalty_discount);
+  const quantityDiscount = Number(totals.quantity_discount);
+  const giftCardAmount = Number(totals.gift_card_amount);
   const payable = Math.max(0, Number(totals.total) - bonusesSpent);
   const freeDelivery = totals.free_delivery;
   const busy = isSubmitting || isRedirecting;
@@ -89,6 +91,13 @@ export function CheckoutSummary({
           label={`${t("cart.summary.subtotalShort")} (${tPlural("cart.itemsCount", totals.items_count)})`}
           value={formatPrice(totals.subtotal)}
         />
+        {quantityDiscount > 0 ? (
+          <SummaryRow
+            label={t("cart.summary.quantity", { percent: Number(totals.quantity_discount_percent) })}
+            value={`−${formatPrice(quantityDiscount)}`}
+            tone="discount"
+          />
+        ) : null}
         {promoDiscount > 0 ? (
           <SummaryRow
             label={
@@ -104,6 +113,13 @@ export function CheckoutSummary({
           <SummaryRow
             label={t("cart.summary.loyalty", { percent: Number(totals.loyalty_percent) })}
             value={`−${formatPrice(loyaltyDiscount)}`}
+            tone="discount"
+          />
+        ) : null}
+        {giftCardAmount > 0 ? (
+          <SummaryRow
+            label={t("cart.summary.giftCard")}
+            value={`−${formatPrice(giftCardAmount)}`}
             tone="discount"
           />
         ) : null}

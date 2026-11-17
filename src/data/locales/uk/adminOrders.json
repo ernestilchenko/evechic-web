@@ -103,7 +103,9 @@
     "fulfilment": "Відправлення",
     "customerProfile": "Профіль клієнта",
     "returnReason": "Причина повернення",
-    "supplierItem": "📦 Відправляє постачальник"
+    "supplierItem": "📦 Відправляє постачальник",
+    "quantity": "Знижка за кількість",
+    "giftCard": "Сертифікат {code}"
   },
   "invoice": {
     "id": "Рахунок",

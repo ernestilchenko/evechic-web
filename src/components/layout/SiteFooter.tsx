@@ -6,6 +6,7 @@ import { routes } from "@/data/routes";
 import { siteConfig } from "@/data/site";
 import { t } from "@/lib/i18n";
 import { NovaPoshtaLogo, PaymentLogos } from "@/components/ui/BrandLogos";
+import { NewsletterForm } from "@/features/newsletter";
 
 function FooterColumn({ title, links }: { title: string; links: NavItem[] }) {
   return (
@@ -47,6 +48,10 @@ export async function SiteFooter() {
               {t("footer.tagline")}
             </p>
             <p className="text-footer-muted max-w-[320px] text-[13px] leading-[1.75]">{t("footer.about")}</p>
+            <div className="flex max-w-[340px] flex-col gap-2.5 pt-2">
+              <p className="text-cream text-[12.5px]">{t("newsletter.footer")}</p>
+              <NewsletterForm tone="dark" />
+            </div>
             <ul className="flex gap-[22px] pt-1.5">
               {socials.map((social) => (
                 <li key={social.href}>

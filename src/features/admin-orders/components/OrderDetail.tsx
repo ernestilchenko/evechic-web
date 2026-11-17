@@ -85,6 +85,12 @@ function OrderItems({ order }: { order: AdminOrder }) {
       </ul>
       <dl className="border-admin-row mt-4 flex flex-col gap-2 border-t pt-4 text-[12.5px]">
         <TotalsRow label={t("adminOrders.detail.subtotal")} value={formatPrice(totals.subtotal)} />
+        {Number(totals.quantity_discount) > 0 ? (
+          <TotalsRow
+            label={t("adminOrders.detail.quantity")}
+            value={`−${formatPrice(totals.quantity_discount)}`}
+          />
+        ) : null}
         {Number(totals.promo_discount) > 0 ? (
           <TotalsRow
             label={t("adminOrders.detail.promo", { code: totals.promo_code ?? "" })}
@@ -95,6 +101,12 @@ function OrderItems({ order }: { order: AdminOrder }) {
           <TotalsRow
             label={t("adminOrders.detail.loyalty")}
             value={`−${formatPrice(totals.loyalty_discount)}`}
+          />
+        ) : null}
+        {Number(totals.gift_card_amount) > 0 ? (
+          <TotalsRow
+            label={t("adminOrders.detail.giftCard", { code: totals.gift_card_code ?? "" })}
+            value={`−${formatPrice(totals.gift_card_amount)}`}
           />
         ) : null}
         {Number(totals.bonuses_spent) > 0 ? (

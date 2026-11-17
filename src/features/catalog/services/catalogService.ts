@@ -47,3 +47,14 @@ export async function getSimilarProducts(slug: string) {
     throw error;
   }
 }
+
+export async function getPairedProducts(slug: string) {
+  cacheLife("minutes");
+  cacheTag(catalogCacheTags.products, catalogCacheTags.product(slug));
+  try {
+    return await apiFetch<ProductCard[]>(`products/${encodeURIComponent(slug)}/pairs/`);
+  } catch (error) {
+    if (isNotFound(error)) return [];
+    throw error;
+  }
+}

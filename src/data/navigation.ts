@@ -15,10 +15,10 @@ export const mainNavigation: NavItem[] = [
 export const footerShopLinks: NavItem[] = [
   { href: routes.newArrivals, labelKey: "footer.links.new" },
   { href: routes.category("outerwear"), labelKey: "footer.links.outerwear" },
-  { href: routes.category("suits"), labelKey: "footer.links.suits" },
   { href: routes.category("dresses"), labelKey: "footer.links.dresses" },
-  { href: routes.category("jeans"), labelKey: "footer.links.jeans" },
-  { href: routes.sale, labelKey: "footer.links.sale" },
+  { href: routes.category("tops"), labelKey: "footer.links.tops" },
+  { href: routes.category("skirts"), labelKey: "footer.links.skirts" },
+  { href: routes.giftCards, labelKey: "footer.links.giftCards" },
 ];
 
 export const footerHelpLinks: NavItem[] = [

@@ -65,3 +65,7 @@ export async function applyPromoCode(code: string) {
 export async function removePromoCode() {
   return storeToken(await cartRequest<Cart>("cart/promo/remove/", { method: "DELETE" }));
 }
+
+export async function removeGiftCard() {
+  return storeToken(await cartRequest<Cart>("cart/gift-card/remove/", { method: "DELETE" }));
+}

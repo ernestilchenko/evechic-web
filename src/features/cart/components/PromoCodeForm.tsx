@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 
 import { Spinner } from "@/components/ui/Spinner";
 import type { CartTotals } from "@/lib/api/types";
+import { formatPrice } from "@/lib/format";
 import { t } from "@/lib/i18n";
 
 import type { useCart } from "../hooks/useCart";
@@ -15,20 +16,52 @@ type PromoCodeFormProps = {
   totals: CartTotals;
   applyPromo: CartMutations["applyPromo"];
   removePromo: CartMutations["removePromo"];
+  removeGiftCard: CartMutations["removeGiftCard"];
 };
 
-export function PromoCodeForm({ totals, applyPromo, removePromo }: PromoCodeFormProps) {
+function AppliedCode({
+  text,
+  removeLabel,
+  pending,
+  disabled,
+  onRemove,
+}: {
+  text: string;
+  removeLabel: string;
+  pending: boolean;
+  disabled: boolean;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="border-field flex min-h-[50px] items-center gap-3 border border-dashed px-4">
+      <p className="min-w-0 flex-1 text-[12.5px]">{text}</p>
+      <button
+        type="button"
+        onClick={onRemove}
+        disabled={disabled}
+        aria-label={removeLabel}
+        className="caps text-gold hover:text-ink inline-flex items-center gap-2 text-[10.5px] disabled:opacity-50"
+      >
+        {pending ? <Spinner className="size-3" /> : null}
+        {t("cart.promo.remove")}
+      </button>
+    </div>
+  );
+}
+
+export function PromoCodeForm({ totals, applyPromo, removePromo, removeGiftCard }: PromoCodeFormProps) {
   const [code, setCode] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
   const inputId = useId();
   const statusId = `${inputId}-status`;
 
-  const busy = applyPromo.isPending || removePromo.isPending;
+  const busy = applyPromo.isPending || removePromo.isPending || removeGiftCard.isPending;
   const error =
     localError ??
     (applyPromo.error ? cartErrorMessage(applyPromo.error) : null) ??
     (removePromo.error ? cartErrorMessage(removePromo.error) : null) ??
-    (totals.promo_error ? translateCartMessage(totals.promo_error) : null);
+    (totals.promo_error ? translateCartMessage(totals.promo_error) : null) ??
+    (totals.gift_card_error ? translateCartMessage(totals.gift_card_error) : null);
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,22 +77,27 @@ export function PromoCodeForm({ totals, applyPromo, removePromo }: PromoCodeForm
   return (
     <div className="flex flex-col gap-2">
       {totals.promo_code ? (
-        <div className="border-field flex min-h-[50px] items-center gap-3 border border-dashed px-4">
-          <p className="min-w-0 flex-1 text-[12.5px]">
-            {t("cart.promo.applied", { code: totals.promo_code })}
-          </p>
-          <button
-            type="button"
-            onClick={() => removePromo.mutate()}
-            disabled={busy}
-            aria-label={t("cart.promo.removeLabel", { code: totals.promo_code })}
-            className="caps text-gold hover:text-ink inline-flex items-center gap-2 text-[10.5px] disabled:opacity-50"
-          >
-            {removePromo.isPending ? <Spinner className="size-3" /> : null}
-            {t("cart.promo.remove")}
-          </button>
-        </div>
-      ) : (
+        <AppliedCode
+          text={t("cart.promo.applied", { code: totals.promo_code })}
+          removeLabel={t("cart.promo.removeLabel", { code: totals.promo_code })}
+          pending={removePromo.isPending}
+          disabled={busy}
+          onRemove={() => removePromo.mutate()}
+        />
+      ) : null}
+      {totals.gift_card_code ? (
+        <AppliedCode
+          text={t("cart.promo.giftCardApplied", {
+            code: totals.gift_card_code,
+            balance: formatPrice(totals.gift_card_balance),
+          })}
+          removeLabel={t("cart.promo.removeLabel", { code: totals.gift_card_code })}
+          pending={removeGiftCard.isPending}
+          disabled={busy}
+          onRemove={() => removeGiftCard.mutate()}
+        />
+      ) : null}
+      {totals.promo_code && totals.gift_card_code ? null : (
         <form onSubmit={submit} noValidate className="flex">
           <label htmlFor={inputId} className="sr-only">
             {t("cart.promo.label")}

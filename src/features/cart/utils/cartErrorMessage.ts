@@ -4,6 +4,10 @@ import { t, type MessageKey } from "@/lib/i18n";
 
 const knownMessages: Record<string, MessageKey> = {
   "Promo code not found.": "cart.apiErrors.promoNotFound",
+  "This gift card is not paid yet.": "cart.apiErrors.giftCardNotPaid",
+  "This gift card is no longer valid.": "cart.apiErrors.giftCardInactive",
+  "This gift card has expired.": "cart.apiErrors.giftCardExpired",
+  "This gift card has no balance left.": "cart.apiErrors.giftCardEmpty",
   "Promo code is not active.": "cart.apiErrors.promoInactive",
   "Promo code is not active yet.": "cart.apiErrors.promoNotStarted",
   "Promo code has expired.": "cart.apiErrors.promoExpired",

@@ -11,6 +11,7 @@ import {
   applyPromoCode,
   fetchCart,
   removeCartItem,
+  removeGiftCard as removeGiftCardRequest,
   removePromoCode,
   updateCartItem,
 } from "../services/cartService";
@@ -35,6 +36,7 @@ export function useCart() {
   const removeItem = useMutation({ mutationFn: removeCartItem, onSuccess });
   const applyPromo = useMutation({ mutationFn: applyPromoCode, onSuccess });
   const removePromo = useMutation({ mutationFn: removePromoCode, onSuccess });
+  const removeGiftCard = useMutation({ mutationFn: removeGiftCardRequest, onSuccess });
 
   const data = hydrated ? query.data : undefined;
 
@@ -50,5 +52,6 @@ export function useCart() {
     removeItem,
     applyPromo,
     removePromo,
+    removeGiftCard,
   };
 }

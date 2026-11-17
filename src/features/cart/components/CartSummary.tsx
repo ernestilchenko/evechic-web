@@ -18,12 +18,15 @@ type CartSummaryProps = {
   busy: boolean;
   applyPromo: CartMutations["applyPromo"];
   removePromo: CartMutations["removePromo"];
+  removeGiftCard: CartMutations["removeGiftCard"];
 };
 
 export function CartTotalsList({ totals }: { totals: CartTotals }) {
   const promoDiscount = Number(totals.promo_discount);
   const loyaltyDiscount = Number(totals.loyalty_discount);
   const bonusesSpent = Number(totals.bonuses_spent);
+  const quantityDiscount = Number(totals.quantity_discount);
+  const giftCardAmount = Number(totals.gift_card_amount);
 
   return (
     <dl className="flex flex-col gap-5">
@@ -31,6 +34,13 @@ export function CartTotalsList({ totals }: { totals: CartTotals }) {
         label={t("cart.summary.subtotal", { items: tPlural("cart.itemsCount", totals.items_count) })}
         value={formatPrice(totals.subtotal)}
       />
+      {quantityDiscount > 0 ? (
+        <SummaryRow
+          label={t("cart.summary.quantity", { percent: Number(totals.quantity_discount_percent) })}
+          value={`−${formatPrice(quantityDiscount)}`}
+          tone="discount"
+        />
+      ) : null}
       {promoDiscount > 0 ? (
         <SummaryRow
           label={
@@ -56,6 +66,13 @@ export function CartTotalsList({ totals }: { totals: CartTotals }) {
           tone="discount"
         />
       ) : null}
+      {giftCardAmount > 0 ? (
+        <SummaryRow
+          label={t("cart.summary.giftCard")}
+          value={`−${formatPrice(giftCardAmount)}`}
+          tone="discount"
+        />
+      ) : null}
       <SummaryRow
         label={t("cart.summary.delivery")}
         value={totals.free_delivery ? t("cart.summary.deliveryFree") : t("cart.summary.deliveryCarrier")}
@@ -64,7 +81,14 @@ export function CartTotalsList({ totals }: { totals: CartTotals }) {
   );
 }
 
-export function CartSummary({ totals, canCheckout, busy, applyPromo, removePromo }: CartSummaryProps) {
+export function CartSummary({
+  totals,
+  canCheckout,
+  busy,
+  applyPromo,
+  removePromo,
+  removeGiftCard,
+}: CartSummaryProps) {
   const toFreeDelivery = totals.items_to_free_delivery;
 
   return (
@@ -79,6 +103,13 @@ export function CartSummary({ totals, canCheckout, busy, applyPromo, removePromo
         {t("cart.summary.title")}
       </h2>
       <CartTotalsList totals={totals} />
+      {totals.next_quantity_discount_items > 0 ? (
+        <p className="text-success -mt-2 text-[11.5px] font-medium">
+          {tPlural("cart.summary.toQuantityDiscount", totals.next_quantity_discount_items, {
+            percent: Number(totals.next_quantity_discount_percent),
+          })}
+        </p>
+      ) : null}
       {!totals.free_delivery && toFreeDelivery > 0 ? (
         <p className="text-muted -mt-2 text-[11.5px]">
           {tPlural("cart.summary.toFreeDelivery", toFreeDelivery)}
@@ -88,7 +119,12 @@ export function CartSummary({ totals, canCheckout, busy, applyPromo, removePromo
       <dl aria-live="polite" aria-busy={busy || undefined}>
         <SummaryRow label={t("cart.summary.total")} value={formatPrice(totals.total)} tone="total" />
       </dl>
-      <PromoCodeForm totals={totals} applyPromo={applyPromo} removePromo={removePromo} />
+      <PromoCodeForm
+        totals={totals}
+        applyPromo={applyPromo}
+        removePromo={removePromo}
+        removeGiftCard={removeGiftCard}
+      />
       {canCheckout ? (
         <ButtonLink href={routes.checkout} className="h-[58px] w-full py-0">
           {t("cart.summary.checkout")}

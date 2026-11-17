@@ -16,12 +16,18 @@ import { CartSummary } from "./CartSummary";
 import { EmptyCart } from "./EmptyCart";
 
 export function CartView() {
-  const { cart, isError, refetch, updateItem, removeItem, applyPromo, removePromo } = useCart();
+  const { cart, isError, refetch, updateItem, removeItem, applyPromo, removePromo, removeGiftCard } =
+    useCart();
 
   const pendingUpdateId = updateItem.isPending ? updateItem.variables?.itemId : undefined;
   const pendingRemoveId = removeItem.isPending ? removeItem.variables : undefined;
   const mutationError = updateItem.error ?? removeItem.error;
-  const busy = updateItem.isPending || removeItem.isPending || applyPromo.isPending || removePromo.isPending;
+  const busy =
+    updateItem.isPending ||
+    removeItem.isPending ||
+    applyPromo.isPending ||
+    removePromo.isPending ||
+    removeGiftCard.isPending;
   const items = cart?.items ?? [];
 
   return (
@@ -92,6 +98,7 @@ export function CartView() {
             busy={busy}
             applyPromo={applyPromo}
             removePromo={removePromo}
+            removeGiftCard={removeGiftCard}
           />
         </div>
       ) : null}

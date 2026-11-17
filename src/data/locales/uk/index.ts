@@ -24,6 +24,8 @@ import favorites from "./favorites.json";
 import search from "./search.json";
 import contentPages from "./contentPages.json";
 import delivery from "./delivery.json";
+import newsletter from "./newsletter.json";
+import giftCards from "./giftCards.json";
 
 export const messages = {
   catalog,
@@ -33,6 +35,8 @@ export const messages = {
   search,
   contentPages,
   delivery,
+  newsletter,
+  giftCards,
   account,
   admin,
   adminAnalytics,

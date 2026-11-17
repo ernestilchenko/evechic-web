@@ -1681,6 +1681,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/cart/gift-card/remove/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove gift card
+         * @description Gift cards are applied through the promo code endpoint; this detaches the one on the cart.
+         */
+        delete: operations["cart_gift_card_remove_destroy"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/cart/items/{item_id}/remove/": {
         parameters: {
             query?: never;
@@ -1977,6 +1997,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/gift-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Buy a gift card
+         * @description Creates a gift card waiting for payment and a monobank invoice. After the payment the code is emailed to the recipient (or the buyer) and the card can be used at checkout in the promo code field.
+         */
+        post: operations["gift_cards_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/gift-cards/{token}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gift card status by its private token
+         * @description Used by the page the buyer returns to after paying. The code is shown once the card is paid.
+         */
+        get: operations["gift_cards_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/gift-cards/options/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gift card amounts
+         * @description Amounts a gift card can be bought for and how many days it stays valid.
+         */
+        get: operations["gift_cards_options_retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/newsletter/subscribe/": {
         parameters: {
             query?: never;
@@ -2191,6 +2271,26 @@ export interface paths {
          * @description Only for sizes that are out of stock. One waiting subscription per email and size.
          */
         post: operations["products_notify_stock_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/products/{slug}/pairs/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Pairs well with
+         * @description Up to 4 products chosen in the admin to wear together with this one; filled up with new in-stock products from other categories.
+         */
+        get: operations["products_pairs_list"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2542,6 +2642,7 @@ export interface components {
             /** Format: date-time */
             readonly published_at: string | null;
             readonly shipped_by_supplier: boolean;
+            readonly pairs_with: number[];
             readonly total_stock: number;
             readonly stock_state: components["schemas"]["StockStateEnum"];
             readonly images: components["schemas"]["AdminProductImage"][];
@@ -2746,6 +2847,13 @@ export interface components {
             /** Format: decimal */
             loyalty_discount: string;
             /** Format: decimal */
+            quantity_discount_percent: string;
+            /** Format: decimal */
+            quantity_discount: string;
+            next_quantity_discount_items: number;
+            /** Format: decimal */
+            next_quantity_discount_percent: string;
+            /** Format: decimal */
             bonuses_available: string;
             /** Format: decimal */
             bonuses_spent: string;
@@ -2756,6 +2864,12 @@ export interface components {
             free_delivery: boolean;
             free_delivery_min_items: number;
             items_to_free_delivery: number;
+            gift_card_code: string | null;
+            gift_card_error: string | null;
+            /** Format: decimal */
+            gift_card_balance: string;
+            /** Format: decimal */
+            gift_card_amount: string;
         };
         CategoryBreadcrumb: {
             readonly id: number;
@@ -3131,6 +3245,50 @@ export interface components {
             /** Format: double */
             percent: number | null;
         };
+        GiftCardOptions: {
+            amounts: string[];
+            valid_days: number;
+        };
+        GiftCardPurchaseRequest: {
+            /** Format: decimal */
+            amount: string;
+            buyer_name: string;
+            /** Format: email */
+            buyer_email: string;
+            /** @default  */
+            recipient_name: string;
+            recipient_email?: string;
+            /** @default  */
+            message: string;
+        };
+        GiftCardPurchaseResult: {
+            /** Format: uuid */
+            token: string;
+            /** Format: uri */
+            payment_url: string;
+        };
+        GiftCardStatus: {
+            readonly number: number;
+            readonly status: components["schemas"]["GiftCardStatusStatusEnum"];
+            /** Format: decimal */
+            readonly amount: string;
+            /** Format: decimal */
+            readonly balance: string;
+            readonly code: string | null;
+            /** Format: email */
+            readonly recipient_email: string;
+            /** Format: email */
+            readonly buyer_email: string;
+            /** Format: date-time */
+            readonly expires_at: string | null;
+        };
+        /**
+         * @description * `pending` - Pending payment
+         *     * `active` - Active
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        GiftCardStatusStatusEnum: "pending" | "active" | "cancelled";
         HomeContent: {
             hero: components["schemas"]["Banner"] | null;
             lookbook: components["schemas"]["Banner"] | null;
@@ -3357,6 +3515,11 @@ export interface components {
             /** Format: decimal */
             loyalty_discount: string;
             /** Format: decimal */
+            quantity_discount: string;
+            gift_card_code?: string | null;
+            /** Format: decimal */
+            gift_card_amount: string;
+            /** Format: decimal */
             bonuses_spent: string;
             /** Format: decimal */
             bonuses_earned: string;
@@ -3524,6 +3687,7 @@ export interface components {
             old_price?: string | null;
             status?: components["schemas"]["ProductStatusEnum"];
             shipped_by_supplier?: boolean;
+            pairs_with?: number[];
         };
         PatchedProfileUpdateRequest: {
             first_name?: string;
@@ -3722,6 +3886,7 @@ export interface components {
             old_price?: string | null;
             status?: components["schemas"]["ProductStatusEnum"];
             shipped_by_supplier?: boolean;
+            pairs_with?: number[];
         };
         PromoCodeDetail: {
             readonly id: number;
@@ -6878,6 +7043,28 @@ export interface operations {
             };
         };
     };
+    cart_gift_card_remove_destroy: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Guest cart token returned in data.token. Ignored for authenticated users. */
+                "X-Cart-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Cart"];
+                };
+            };
+        };
+    };
     cart_items_remove_destroy: {
         parameters: {
             query?: never;
@@ -7358,6 +7545,92 @@ export interface operations {
             };
         };
     };
+    gift_cards_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GiftCardPurchaseRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GiftCardPurchaseRequest"];
+                "multipart/form-data": components["schemas"]["GiftCardPurchaseRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardPurchaseResult"];
+                };
+            };
+            /** @description Validation failed. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Payment service is unavailable. Please try again later. */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    gift_cards_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                token: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardStatus"];
+                };
+            };
+            /** @description Gift card not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    gift_cards_options_retrieve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GiftCardOptions"];
+                };
+            };
+        };
+    };
     newsletter_subscribe_create: {
         parameters: {
             query?: never;
@@ -7721,6 +7994,34 @@ export interface operations {
                 content?: never;
             };
             /** @description Size not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    products_pairs_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductCard"][];
+                };
+            };
+            /** @description Product not found. */
             404: {
                 headers: {
                     [name: string]: unknown;

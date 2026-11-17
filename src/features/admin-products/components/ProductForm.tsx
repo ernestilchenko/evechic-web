@@ -8,7 +8,7 @@ import { AdminButton, Checkbox, Field, getFieldErrors, Panel, TextArea, TextInpu
 import { routes } from "@/data/routes";
 import { t } from "@/lib/i18n";
 
-import { useCategoriesOptions, useSaveProduct } from "../hooks/useProducts";
+import { useCategoriesOptions, useProducts, useSaveProduct } from "../hooks/useProducts";
 import type { Product, ProductStatus, ProductWrite } from "../types";
 import { CategorySelect } from "./CategorySelect";
 
@@ -23,6 +23,7 @@ type FormState = {
   composition_care: string;
   status: ProductStatus;
   shipped_by_supplier: boolean;
+  pairs_with: number[];
 };
 
 function initialState(product: Product | null): FormState {
@@ -37,7 +38,40 @@ function initialState(product: Product | null): FormState {
     composition_care: product?.composition_care ?? "",
     status: product?.status ?? "draft",
     shipped_by_supplier: product?.shipped_by_supplier ?? false,
+    pairs_with: product?.pairs_with ?? [],
   };
+}
+
+function PairsPicker({
+  productId,
+  value,
+  onChange,
+}: {
+  productId: number;
+  value: number[];
+  onChange: (value: number[]) => void;
+}) {
+  const { data } = useProducts({ tab: "published", q: "", category: null, page: 1 });
+  const options = (data?.data.items ?? []).filter((item) => item.id !== productId);
+  const toggle = (id: number, checked: boolean) =>
+    onChange(checked ? [...value, id] : value.filter((item) => item !== id));
+
+  return (
+    <fieldset className="flex flex-col gap-2 sm:col-span-2">
+      <legend className="text-muted mb-1 text-[11.5px]">{t("adminProducts.form.pairsWith")}</legend>
+      <p className="text-muted text-[11.5px]">{t("adminProducts.form.pairsWithHint")}</p>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {options.map((item) => (
+          <Checkbox
+            key={item.id}
+            label={item.name}
+            checked={value.includes(item.id)}
+            onChange={(event) => toggle(item.id, event.target.checked)}
+          />
+        ))}
+      </div>
+    </fieldset>
+  );
 }
 
 export function ProductForm({ product }: { product: Product | null }) {
@@ -63,6 +97,7 @@ export function ProductForm({ product }: { product: Product | null }) {
             description: form.description,
             composition_care: form.composition_care,
             shipped_by_supplier: form.shipped_by_supplier,
+            pairs_with: form.pairs_with,
             ...(form.slug.trim() ? { slug: form.slug.trim() } : {}),
             ...(product ? {} : { status: form.status }),
           };
@@ -204,6 +239,13 @@ export function ProductForm({ product }: { product: Product | null }) {
           />
           <p className="text-muted text-[11.5px]">{t("adminProducts.form.shippedBySupplierHint")}</p>
         </div>
+        {product ? (
+          <PairsPicker
+            productId={product.id}
+            value={form.pairs_with}
+            onChange={(pairs_with) => set({ pairs_with })}
+          />
+        ) : null}
         <div className="sm:col-span-2">
           <AdminButton type="submit" disabled={mutation.isPending}>
             {mutation.isPending
