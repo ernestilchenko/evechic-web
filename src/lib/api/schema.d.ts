@@ -922,6 +922,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/admin/gift-cards/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List gift cards
+         * @description Paginated, newest first, with the balance left and how many orders used each card.
+         */
+        get: operations["admin_gift_cards_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/admin/gift-cards/{id}/refund/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refund an unused gift card
+         * @description Refunds the card payment in monobank, cancels the card and issues a return receipt. Only paid cards that were never used can be refunded.
+         */
+        post: operations["admin_gift_cards_refund_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/admin/orders/": {
         parameters: {
             query?: never;
@@ -2476,6 +2516,31 @@ export interface components {
             /** Format: date-time */
             readonly updated_at: string;
         };
+        AdminGiftCard: {
+            readonly id: number;
+            readonly number: number;
+            readonly code: string;
+            readonly status: components["schemas"]["Status014Enum"];
+            /** Format: decimal */
+            readonly amount: string;
+            /** Format: decimal */
+            readonly balance: string;
+            readonly buyer_name: string;
+            /** Format: email */
+            readonly buyer_email: string;
+            readonly recipient_name: string;
+            /** Format: email */
+            readonly recipient_email: string;
+            readonly message: string;
+            readonly orders_count: number;
+            readonly can_refund: boolean;
+            /** Format: date-time */
+            readonly created_at: string;
+            /** Format: date-time */
+            readonly paid_at: string | null;
+            /** Format: date-time */
+            readonly expires_at: string | null;
+        };
         AdminInstagramPost: {
             readonly id: number;
             /** Format: uri */
@@ -3269,7 +3334,7 @@ export interface components {
         };
         GiftCardStatus: {
             readonly number: number;
-            readonly status: components["schemas"]["GiftCardStatusStatusEnum"];
+            readonly status: components["schemas"]["Status014Enum"];
             /** Format: decimal */
             readonly amount: string;
             /** Format: decimal */
@@ -3282,13 +3347,6 @@ export interface components {
             /** Format: date-time */
             readonly expires_at: string | null;
         };
-        /**
-         * @description * `pending` - Pending payment
-         *     * `active` - Active
-         *     * `cancelled` - Cancelled
-         * @enum {string}
-         */
-        GiftCardStatusStatusEnum: "pending" | "active" | "cancelled";
         HomeContent: {
             hero: components["schemas"]["Banner"] | null;
             lookbook: components["schemas"]["Banner"] | null;
@@ -4098,6 +4156,13 @@ export interface components {
          * @enum {string}
          */
         StateEnum: "active" | "scheduled" | "expired" | "exhausted" | "inactive";
+        /**
+         * @description * `pending` - Pending payment
+         *     * `active` - Active
+         *     * `cancelled` - Cancelled
+         * @enum {string}
+         */
+        Status014Enum: "pending" | "active" | "cancelled";
         /**
          * @description * `in_stock` - In stock
          *     * `low` - Low
@@ -5698,6 +5763,73 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["DashboardBadges"];
                 };
+            };
+        };
+    };
+    admin_gift_cards_list: {
+        parameters: {
+            query?: {
+                page?: number;
+                page_size?: number;
+                /** @description Search by code, name or email */
+                q?: string;
+                status?: "active" | "cancelled" | "pending";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminGiftCard"][];
+                };
+            };
+        };
+    };
+    admin_gift_cards_refund_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminGiftCard"];
+                };
+            };
+            /** @description Only a paid gift card that has not been used yet can be refunded. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Gift card not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The payment could not be refunded right now. The gift card was not changed, please try again later. */
+            502: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

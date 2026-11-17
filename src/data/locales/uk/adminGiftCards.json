@@ -1,0 +1,49 @@
+{
+  "title": "Подарункові сертифікати",
+  "searchLabel": "Пошук сертифікатів",
+  "searchPlaceholder": "Код, ім'я або email",
+  "filterLabel": "Статус",
+  "filter": {
+    "all": "Усі",
+    "active": "Активні",
+    "pending": "Очікують оплати",
+    "cancelled": "Скасовані"
+  },
+  "status": {
+    "active": "Активний",
+    "pending": "Не оплачено",
+    "cancelled": "Скасовано"
+  },
+  "empty": "Сертифікатів ще немає",
+  "col": {
+    "code": "Код",
+    "balance": "Залишок",
+    "buyer": "Покупець",
+    "recipient": "Отримувач",
+    "dates": "Оплачено / діє до",
+    "status": "Статус",
+    "actions": "Дії"
+  },
+  "of": "з {amount}",
+  "orders": {
+    "one": "{count} замовлення",
+    "few": "{count} замовлення",
+    "many": "{count} замовлень",
+    "other": "{count} замовлення"
+  },
+  "self": "собі",
+  "until": "до {date}",
+  "refund": "Повернути гроші",
+  "cancel": "Скасувати",
+  "confirmRefund": "Повернути {amount} за сертифікат {code}? Гроші повернуться на картку покупця, сертифікат перестане діяти.",
+  "toast": {
+    "refunded": "Гроші за сертифікат {code} повернуто",
+    "refundFailed": "Не вдалося повернути гроші. Спробуйте пізніше."
+  },
+  "summary": {
+    "one": "{from}–{to} з {count} сертифіката",
+    "few": "{from}–{to} з {count} сертифікатів",
+    "many": "{from}–{to} з {count} сертифікатів",
+    "other": "{from}–{to} з {count} сертифікатів"
+  }
+}

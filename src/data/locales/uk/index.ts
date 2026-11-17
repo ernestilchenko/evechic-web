@@ -7,6 +7,7 @@ import adminCustomers from "./adminCustomers.json";
 import adminOrders from "./adminOrders.json";
 import adminProducts from "./adminProducts.json";
 import adminPromo from "./adminPromo.json";
+import adminGiftCards from "./adminGiftCards.json";
 import adminReviews from "./adminReviews.json";
 import auth from "./auth.json";
 import common from "./common.json";
@@ -46,6 +47,7 @@ export const messages = {
   adminOrders,
   adminProducts,
   adminPromo,
+  adminGiftCards,
   adminReviews,
   auth,
   cart,

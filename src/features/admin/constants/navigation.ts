@@ -15,6 +15,7 @@ export const adminNavigation: AdminNavItem[] = [
   { href: routes.admin.categories, label: "admin.nav.categories" },
   { href: routes.admin.customers, label: "admin.nav.customers" },
   { href: routes.admin.promoCodes, label: "admin.nav.promoCodes" },
+  { href: routes.admin.giftCards, label: "admin.nav.giftCards" },
   { href: routes.admin.reviews, label: "admin.nav.reviews", badge: "pending_reviews" },
   { href: routes.admin.content, label: "admin.nav.content" },
   { href: routes.admin.analytics, label: "admin.nav.analytics" },

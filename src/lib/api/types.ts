@@ -52,3 +52,4 @@ export type PaymentMethod = Schemas["PaymentMethodEnum"];
 export type PaymentStatus = Schemas["PaymentStatusEnum"];
 export type CheckoutRequest = Schemas["CheckoutRequest"];
 export type CheckoutResult = Schemas["CheckoutResult"];
+export type AdminGiftCard = Schemas["AdminGiftCard"];

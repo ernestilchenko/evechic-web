@@ -6,6 +6,9 @@ const knownMessages: Record<string, MessageKey> = {
   "Enter the name in Ukrainian letters, as in your documents: Nova Poshta requires it.":
     "errors.api.nameCyrillic",
   "Not enough items in stock.": "errors.api.notEnoughStock",
+  "Only a paid gift card that has not been used yet can be refunded.": "errors.api.giftCardRefundNotAllowed",
+  "The payment could not be refunded right now. The gift card was not changed, please try again later.":
+    "errors.api.giftCardRefundFailed",
   "This size is out of stock.": "errors.api.outOfStock",
   "This size is in stock, you can order it now.": "errors.api.sizeInStock",
   "Size not found.": "errors.api.sizeNotFound",

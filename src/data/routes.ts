@@ -44,6 +44,7 @@ export const routes = {
     customers: "/admin/customers",
     customer: (id: number | string) => `/admin/customers/${id}`,
     promoCodes: "/admin/promo-codes",
+    giftCards: "/admin/gift-cards",
     reviews: "/admin/reviews",
     content: "/admin/content",
     contentPageNew: "/admin/content/pages/new",
