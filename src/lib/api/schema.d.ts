@@ -4057,6 +4057,14 @@ export interface components {
             readonly email: string;
             readonly skip_confirmation_call: boolean;
             readonly can_pay: boolean;
+            readonly items: components["schemas"]["PurchasedItem"][];
+        };
+        PurchasedItem: {
+            readonly variant_id: number | null;
+            readonly sku: string;
+            readonly quantity: number;
+            /** Format: decimal */
+            readonly unit_price: string;
         };
         RateKpi: {
             /** Format: double */

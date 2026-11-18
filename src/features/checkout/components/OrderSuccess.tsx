@@ -72,6 +72,7 @@ export function OrderSuccess({
   });
 
   const email = order?.email ?? lastOrder?.email ?? null;
+  const fullEmail = orderQuery.data?.email ?? lastOrder?.email ?? null;
   const total = order?.total ?? lastOrder?.total ?? null;
   const paymentMethod = order?.payment_method ?? lastOrder?.payment_method ?? null;
   const paymentStatus = order?.payment_status ?? lastOrder?.payment_status ?? null;
@@ -108,7 +109,8 @@ export function OrderSuccess({
   const confirmedPaid = order?.payment_status === "paid" ? order : null;
 
   useEffect(() => {
-    if (confirmedPaid && orderNumber !== null) reportPurchase(orderNumber, confirmedPaid.total);
+    if (confirmedPaid && orderNumber !== null)
+      reportPurchase(orderNumber, confirmedPaid.total, confirmedPaid.items ?? []);
   }, [confirmedPaid, orderNumber]);
   const steps: MessageKey[] = [
     awaitingPayment
@@ -124,8 +126,8 @@ export function OrderSuccess({
 
   return (
     <div className="container-page pb-20 lg:pb-[100px]">
-      {order && email && orderNumber !== null && !awaitingPayment ? (
-        <CustomerReviewsOptIn orderNumber={orderNumber} email={email} />
+      {order && fullEmail && orderNumber !== null && !awaitingPayment ? (
+        <CustomerReviewsOptIn orderNumber={orderNumber} email={fullEmail} />
       ) : null}
       <div className="pt-10 pb-10 sm:pt-[52px]">
         <CheckoutSteps current={3} />

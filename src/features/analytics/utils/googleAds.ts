@@ -39,7 +39,9 @@ export function reportAddToCart(id: string, price: string | number) {
   reportItems("add_to_cart", [id], price);
 }
 
-export function reportPurchase(orderNumber: number, total: string | number) {
+export type PurchasedItem = { variant_id: number | null; sku: string; quantity: number; unit_price: string };
+
+export function reportPurchase(orderNumber: number, total: string | number, items: PurchasedItem[] = []) {
   if (typeof window === "undefined") return;
   const gtag = tagFunction();
   const key = `${REPORTED_PREFIX}${orderNumber}`;
@@ -47,6 +49,18 @@ export function reportPurchase(orderNumber: number, total: string | number) {
     if (window.localStorage.getItem(key)) return;
     window.localStorage.setItem(key, "1");
   } catch {}
+  gtag("event", "purchase", {
+    transaction_id: String(orderNumber),
+    value: Number(total),
+    currency: "UAH",
+    items: items
+      .filter((item) => item.variant_id !== null)
+      .map((item) => ({
+        item_id: feedItemId(item.sku, item.variant_id as number),
+        quantity: item.quantity,
+        price: Number(item.unit_price),
+      })),
+  });
   gtag("event", "conversion", {
     send_to: siteConfig.googleAds.purchaseLabel,
     value: Number(total),
