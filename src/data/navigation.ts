@@ -27,4 +27,5 @@ export const footerHelpLinks: NavItem[] = [
   { href: routes.sizeGuide, labelKey: "footer.links.sizeGuide" },
   { href: routes.care, labelKey: "footer.links.care" },
   { href: routes.faq, labelKey: "footer.links.faq" },
+  { href: routes.contacts, labelKey: "footer.links.contacts" },
 ];

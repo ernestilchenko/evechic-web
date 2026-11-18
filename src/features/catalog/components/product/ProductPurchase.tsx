@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { ColorSwatch } from "@/components/ui/ColorSwatch";
 import { SizeChip } from "@/components/ui/SizeChip";
 import { routes } from "@/data/routes";
-import { track } from "@/features/analytics";
+import { feedItemId, reportAddToCart, reportViewItem, track } from "@/features/analytics";
 import { useCart } from "@/features/cart";
 import { apiErrorText } from "@/lib/apiMessage";
 import type { Color, ProductVariant } from "@/lib/api/types";
@@ -20,6 +20,8 @@ import { useProductColor } from "./ProductColorContext";
 type ProductPurchaseProps = {
   productId: number;
   productSlug: string;
+  productSku: string;
+  price: string;
   fitVerdict?: "small" | "true_to_size" | "large" | null;
   variants: ProductVariant[];
   sizes: string[];
@@ -54,6 +56,8 @@ function colorGroups(colors: Color[]) {
 export function ProductPurchase({
   productId,
   productSlug,
+  productSku,
+  price,
   fitVerdict,
   variants,
   sizes,
@@ -79,6 +83,14 @@ export function ProductPurchase({
   const soldOut = !variants.some((variant) => variant.stock > 0);
   const busy = addItem.isPending || redirecting;
 
+  useEffect(() => {
+    const shown = variants.filter((variant) => variant.color.id === colorId);
+    reportViewItem(
+      shown.map((variant) => feedItemId(productSku, variant.id)),
+      price,
+    );
+  }, [variants, colorId, productSku, price]);
+
   const add = async (checkout: boolean) => {
     if (!selectedVariant || selectedVariant.stock <= 0) {
       setFeedback({ tone: "error", text: t("productPage.messages.selectSize") });
@@ -88,6 +100,7 @@ export function ProductPurchase({
     try {
       await addItem.mutateAsync({ variantId: selectedVariant.id });
       track("add_to_cart", { productId });
+      reportAddToCart(feedItemId(productSku, selectedVariant.id), price);
       if (checkout) {
         setRedirecting(true);
         router.push(routes.checkout);

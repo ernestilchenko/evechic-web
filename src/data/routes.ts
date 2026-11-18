@@ -25,6 +25,7 @@ export const routes = {
   sizeGuide: "/size-guide",
   care: "/care",
   faq: "/faq",
+  contacts: "/contacts",
   offer: "/offer",
   installments: "/installments",
   giftCards: "/gift-cards",
