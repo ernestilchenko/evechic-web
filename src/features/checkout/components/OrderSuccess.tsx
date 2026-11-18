@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useSyncExternalStore } from "react";
 
-import { reportPurchase } from "@/features/analytics";
+import { CustomerReviewsOptIn, reportPurchase } from "@/features/analytics";
 import { useSession } from "@/features/auth";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
@@ -124,6 +124,9 @@ export function OrderSuccess({
 
   return (
     <div className="container-page pb-20 lg:pb-[100px]">
+      {order && email && orderNumber !== null && !awaitingPayment ? (
+        <CustomerReviewsOptIn orderNumber={orderNumber} email={email} />
+      ) : null}
       <div className="pt-10 pb-10 sm:pt-[52px]">
         <CheckoutSteps current={3} />
       </div>

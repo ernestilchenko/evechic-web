@@ -17,6 +17,7 @@ export const siteConfig = {
     telegram: "https://t.me/evechic_store",
     tiktok: "https://www.tiktok.com/@evechic_store",
   },
+  googleMerchantId: 5904473491,
   googleClientId: "589403387980-8f8c6thnghlr33d260putgjhsmqsa3ua.apps.googleusercontent.com",
   googleAds: { tagId: "AW-18575251017", purchaseLabel: "AW-18575251017/OhtHCLes87gdEMmsr5lF" },
   freeDeliveryMinItems: 5,
