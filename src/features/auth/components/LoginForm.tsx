@@ -14,6 +14,7 @@ import { saveLoginFlow } from "../utils/loginFlow";
 import { currentNextParam } from "../utils/currentNext";
 
 import { AuthHeading } from "./AuthHeading";
+import { GoogleSignIn } from "./GoogleSignIn";
 
 function retryAfterFrom(error: unknown) {
   if (!(error instanceof ApiError) || error.status !== 429) return null;
@@ -107,6 +108,7 @@ export function LoginForm() {
           {error}
         </p>
       </form>
+      <GoogleSignIn />
       <p className="flex flex-wrap justify-center gap-2 pt-2 text-[12.5px]">
         <span className="text-muted">{t("auth.login.guestPrompt")}</span>
         <Link href={routes.checkout} className="text-gold hover:text-ink font-semibold">

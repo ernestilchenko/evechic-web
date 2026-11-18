@@ -1621,6 +1621,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/auth/google/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign in with Google
+         * @description Verifies a Google Identity Services ID token and returns a JWT pair. Creates the account on first sign-in (is_new=true). Pass cart_token to merge a guest cart.
+         */
+        post: operations["auth_google_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/logout/": {
         parameters: {
             query?: never;
@@ -3346,6 +3366,11 @@ export interface components {
             readonly buyer_email: string;
             /** Format: date-time */
             readonly expires_at: string | null;
+        };
+        GoogleLoginRequest: {
+            credential: string;
+            /** Format: uuid */
+            cart_token?: string | null;
         };
         HomeContent: {
             hero: components["schemas"]["Banner"] | null;
@@ -7023,6 +7048,44 @@ export interface operations {
                 content?: never;
             };
             /** @description Invalid or expired code. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Account is disabled. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    auth_google_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GoogleLoginRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["GoogleLoginRequest"];
+                "multipart/form-data": components["schemas"]["GoogleLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Logged in successfully. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Google sign-in failed. Try again or use the email code. */
             400: {
                 headers: {
                     [name: string]: unknown;

@@ -30,6 +30,12 @@ export function verifyLoginCode(input: VerifyInput) {
   return apiFetch<VerifyResult>("verify", { baseUrl: AUTH_BASE_URL, method: "POST", body: input });
 }
 
+export type GoogleLoginInput = { credential: string; cart_token?: string | null };
+
+export function googleLogin(input: GoogleLoginInput) {
+  return apiFetch<VerifyResult>("google", { baseUrl: AUTH_BASE_URL, method: "POST", body: input });
+}
+
 export function logout() {
   return apiFetch<null>("logout", { baseUrl: AUTH_BASE_URL, method: "POST" });
 }
