@@ -14,6 +14,7 @@ import { CategorySelect } from "./CategorySelect";
 
 type FormState = {
   name: string;
+  search_title: string;
   sku: string;
   slug: string;
   category: string;
@@ -29,6 +30,7 @@ type FormState = {
 function initialState(product: Product | null): FormState {
   return {
     name: product?.name ?? "",
+    search_title: product?.search_title ?? "",
     sku: product?.sku ?? "",
     slug: product?.slug ?? "",
     category: product ? String(product.category) : "",
@@ -90,6 +92,7 @@ export function ProductForm({ product }: { product: Product | null }) {
           event.preventDefault();
           const body: ProductWrite = {
             name: form.name.trim(),
+            search_title: form.search_title.trim(),
             sku: form.sku.trim(),
             category: Number(form.category),
             price: form.price,
@@ -200,6 +203,21 @@ export function ProductForm({ product }: { product: Product | null }) {
               inputMode="decimal"
               value={form.old_price}
               onChange={(event) => set({ old_price: event.target.value })}
+            />
+          )}
+        </Field>
+        <Field
+          label={t("adminProducts.form.searchTitle")}
+          hint={t("adminProducts.form.searchTitleHint")}
+          error={errors.search_title}
+          className="sm:col-span-2"
+        >
+          {(props) => (
+            <TextInput
+              {...props}
+              maxLength={150}
+              value={form.search_title}
+              onChange={(event) => set({ search_title: event.target.value })}
             />
           )}
         </Field>

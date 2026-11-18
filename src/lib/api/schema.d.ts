@@ -2715,6 +2715,7 @@ export interface components {
             readonly name: string;
             readonly slug: string;
             readonly sku: string;
+            readonly search_title: string;
             readonly description: string;
             readonly composition_care: string;
             /** Format: decimal */
@@ -3760,6 +3761,7 @@ export interface components {
         PatchedProductWriteRequest: {
             category?: number;
             name?: string;
+            search_title?: string;
             slug?: string;
             sku?: string;
             description?: string;
@@ -3883,6 +3885,7 @@ export interface components {
             readonly colors: components["schemas"]["Color"][];
             readonly in_stock: boolean;
             readonly sku: string;
+            readonly search_title: string;
             readonly description: string;
             readonly composition_care: string;
             readonly category: components["schemas"]["ProductCategory"];
@@ -3959,6 +3962,7 @@ export interface components {
         ProductWriteRequest: {
             category: number;
             name: string;
+            search_title?: string;
             slug?: string;
             sku: string;
             description?: string;

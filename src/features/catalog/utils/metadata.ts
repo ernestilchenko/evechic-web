@@ -55,9 +55,9 @@ export async function buildProductMetadata(params: Promise<{ slug: string }>): P
   if (!product) notFound();
   const images = productImages(product).slice(0, 1);
   return buildMetadata({
-    title: product.name,
+    title: product.search_title || product.name,
     description: t("productPage.meta.descriptionTemplate", {
-      name: product.name,
+      name: product.search_title || product.name,
       price: formatPrice(product.price),
     }),
     path: routes.product(product.slug),
