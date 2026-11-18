@@ -43,7 +43,13 @@ export function clientIpHeaders(request: { headers: Headers }): Record<string, s
     request.headers.get("cf-connecting-ip") ??
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "";
-  return key && ip ? { "x-evechic-proxy-key": key, "x-evechic-client-ip": ip } : {};
+  const country = request.headers.get("cf-ipcountry") ?? "";
+  if (!key || !ip) return {};
+  return {
+    "x-evechic-proxy-key": key,
+    "x-evechic-client-ip": ip,
+    ...(country ? { "x-evechic-client-country": country } : {}),
+  };
 }
 
 export function backendUrl(path: string, search = "") {
