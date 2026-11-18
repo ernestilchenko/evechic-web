@@ -21,13 +21,18 @@ export function feedItemId(sku: string, variantId: number) {
   return `${sku}-${variantId}`;
 }
 
+function destinations() {
+  const analyticsId: string = siteConfig.googleAnalyticsId;
+  return analyticsId ? [siteConfig.googleAds.tagId, analyticsId] : siteConfig.googleAds.tagId;
+}
+
 function reportItems(event: "view_item" | "add_to_cart", ids: string[], price: string | number) {
   if (typeof window === "undefined" || ids.length === 0) return;
   tagFunction()("event", event, {
-    send_to: siteConfig.googleAds.tagId,
+    send_to: destinations(),
     value: Number(price),
     currency: "UAH",
-    items: ids.map((id) => ({ id, google_business_vertical: "retail" })),
+    items: ids.map((id) => ({ id, item_id: id, google_business_vertical: "retail" })),
   });
 }
 

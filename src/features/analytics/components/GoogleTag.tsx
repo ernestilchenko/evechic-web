@@ -4,6 +4,8 @@ import { siteConfig } from "@/data/site";
 
 export function GoogleTag() {
   const { tagId } = siteConfig.googleAds;
+  const analyticsId: string = siteConfig.googleAnalyticsId;
+  const analyticsConfig = analyticsId ? `gtag('config','${analyticsId}');` : "";
   return (
     <>
       <Script
@@ -12,7 +14,7 @@ export function GoogleTag() {
       />
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${tagId}`} strategy="afterInteractive" />
       <Script id="google-tag" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${tagId}');`}
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${tagId}');${analyticsConfig}`}
       </Script>
     </>
   );

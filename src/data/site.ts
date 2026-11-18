@@ -17,6 +17,7 @@ export const siteConfig = {
     telegram: "https://t.me/evechic_store",
     tiktok: "https://www.tiktok.com/@evechic_store",
   },
+  googleAnalyticsId: "G-CSW8TZZBQS",
   googleMerchantId: 5904473491,
   googleMerchantTagId: "GTM-PJ5ZXFQJ",
   googleClientId: "589403387980-8f8c6thnghlr33d260putgjhsmqsa3ua.apps.googleusercontent.com",
