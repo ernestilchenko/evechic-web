@@ -95,11 +95,6 @@ export function GoogleSignIn() {
         strategy="afterInteractive"
         onReady={() => setLoaded(true)}
       />
-      <div className="text-placeholder flex items-center gap-3 text-[10.5px] tracking-[0.2em] uppercase">
-        <span className="bg-line h-px flex-1" />
-        {t("auth.google.divider")}
-        <span className="bg-line h-px flex-1" />
-      </div>
       <div
         ref={container}
         aria-busy={mutation.isPending || undefined}

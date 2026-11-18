@@ -67,8 +67,16 @@ export function LoginForm() {
         title={t("auth.login.title")}
         lead={t("auth.login.lead")}
       />
+      <div className="flex flex-col gap-5 pt-2.5">
+        <GoogleSignIn />
+        <div className="text-placeholder flex items-center gap-3 text-[10.5px] tracking-[0.2em] uppercase">
+          <span className="bg-line h-px flex-1" />
+          {t("auth.google.divider")}
+          <span className="bg-line h-px flex-1" />
+        </div>
+      </div>
       <form
-        className="flex flex-col gap-5 pt-2.5"
+        className="flex flex-col gap-5"
         onSubmit={(event) => {
           event.preventDefault();
           mutation.mutate(email.trim().toLowerCase());
@@ -88,7 +96,6 @@ export function LoginForm() {
             required
             autoComplete="email"
             inputMode="email"
-            autoFocus
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder={t("auth.login.emailPlaceholder")}
@@ -108,7 +115,6 @@ export function LoginForm() {
           {error}
         </p>
       </form>
-      <GoogleSignIn />
       <p className="flex flex-wrap justify-center gap-2 pt-2 text-[12.5px]">
         <span className="text-muted">{t("auth.login.guestPrompt")}</span>
         <Link href={routes.checkout} className="text-gold hover:text-ink font-semibold">
