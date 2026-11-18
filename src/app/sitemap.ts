@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl(routes.catalog), changeFrequency: "daily", priority: 0.9 },
     { url: absoluteUrl(routes.newArrivals), changeFrequency: "daily", priority: 0.8 },
     { url: absoluteUrl(routes.sale), changeFrequency: "daily", priority: 0.8 },
+    { url: absoluteUrl(routes.christeningDresses), changeFrequency: "weekly", priority: 0.7 },
     ...[
       routes.giftCards,
       routes.about,

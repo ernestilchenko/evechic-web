@@ -23,6 +23,7 @@ import productPage from "./productPage.json";
 import reviews from "./reviews.json";
 import favorites from "./favorites.json";
 import search from "./search.json";
+import christening from "./christening.json";
 import contacts from "./contacts.json";
 import contentPages from "./contentPages.json";
 import delivery from "./delivery.json";
@@ -35,6 +36,7 @@ export const messages = {
   reviews,
   favorites,
   search,
+  christening,
   contacts,
   contentPages,
   delivery,

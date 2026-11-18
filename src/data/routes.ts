@@ -26,6 +26,7 @@ export const routes = {
   care: "/care",
   faq: "/faq",
   contacts: "/contacts",
+  christeningDresses: "/sukni-na-khrestyny",
   offer: "/offer",
   installments: "/installments",
   giftCards: "/gift-cards",
