@@ -1,6 +1,7 @@
 "use client";
 
 import { TextField } from "@/components/ui/TextField";
+import { rememberCheckoutEmail } from "@/features/cart";
 import { t } from "@/lib/i18n";
 
 import { fieldId, type CheckoutForm } from "../hooks/useCheckoutForm";
@@ -63,6 +64,7 @@ export function ContactSection({ values, errors, setField, disabled }: ContactSe
           required
           value={values.email}
           onChange={(event) => setField("email", event.target.value)}
+          onBlur={(event) => rememberCheckoutEmail(event.target.value)}
           error={errors.email}
           disabled={disabled}
         />

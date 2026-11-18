@@ -1741,6 +1741,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/cart/email/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Remember checkout email
+         * @description Stores the email typed at checkout on the cart so an abandoned-cart reminder can reach a guest. Does nothing else; the order still takes its email from checkout.
+         */
+        post: operations["cart_email_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/cart/gift-card/remove/": {
         parameters: {
             query?: never;
@@ -2888,6 +2908,10 @@ export interface components {
         CartColor: {
             name: string;
             hex: string;
+        };
+        CartEmailRequest: {
+            /** Format: email */
+            email: string;
         };
         CartItem: {
             readonly id: number;
@@ -7247,6 +7271,40 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Cart"];
                 };
+            };
+        };
+    };
+    cart_email_create: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Guest cart token returned in data.token. Ignored for authenticated users. */
+                "X-Cart-Token"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CartEmailRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["CartEmailRequest"];
+                "multipart/form-data": components["schemas"]["CartEmailRequest"];
+            };
+        };
+        responses: {
+            /** @description Email saved. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Cart not found. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

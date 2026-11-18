@@ -1,6 +1,9 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
@@ -8,14 +11,28 @@ import { routes } from "@/data/routes";
 import { t, tPlural } from "@/lib/i18n";
 import { UnpaidOrderNotice } from "@/features/checkout/components/UnpaidOrderNotice";
 
+import { cartQueryKey } from "../constants/storage";
 import { useCart } from "../hooks/useCart";
+import { adoptCartToken } from "../services/cartService";
 import { cartErrorMessage } from "../utils/cartErrorMessage";
 import { hasStockProblem } from "../utils/stock";
 import { CartItemRow } from "./CartItemRow";
 import { CartSummary } from "./CartSummary";
 import { EmptyCart } from "./EmptyCart";
 
+function useCartLink() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get("cart");
+    if (!token) return;
+    if (adoptCartToken(token)) void queryClient.invalidateQueries({ queryKey: cartQueryKey });
+    router.replace(routes.cart);
+  }, [router, queryClient]);
+}
+
 export function CartView() {
+  useCartLink();
   const { cart, isError, refetch, updateItem, removeItem, applyPromo, removePromo, removeGiftCard } =
     useCart();
 
