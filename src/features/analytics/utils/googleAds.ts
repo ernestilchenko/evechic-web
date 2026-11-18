@@ -46,7 +46,12 @@ export function reportAddToCart(id: string, price: string | number) {
 
 export type PurchasedItem = { variant_id: number | null; sku: string; quantity: number; unit_price: string };
 
-export function reportPurchase(orderNumber: number, total: string | number, items: PurchasedItem[] = []) {
+export function reportPurchase(
+  orderNumber: number,
+  total: string | number,
+  items: PurchasedItem[] = [],
+  email: string | null = null,
+) {
   if (typeof window === "undefined") return;
   const gtag = tagFunction();
   const key = `${REPORTED_PREFIX}${orderNumber}`;
@@ -54,6 +59,9 @@ export function reportPurchase(orderNumber: number, total: string | number, item
     if (window.localStorage.getItem(key)) return;
     window.localStorage.setItem(key, "1");
   } catch {}
+  if (email && email.includes("@") && !email.includes("*")) {
+    gtag("set", "user_data", { email: email.trim().toLowerCase() });
+  }
   gtag("event", "purchase", {
     transaction_id: String(orderNumber),
     value: Number(total),

@@ -110,8 +110,8 @@ export function OrderSuccess({
 
   useEffect(() => {
     if (confirmedPaid && orderNumber !== null)
-      reportPurchase(orderNumber, confirmedPaid.total, confirmedPaid.items ?? []);
-  }, [confirmedPaid, orderNumber]);
+      reportPurchase(orderNumber, confirmedPaid.total, confirmedPaid.items ?? [], fullEmail);
+  }, [confirmedPaid, orderNumber, fullEmail]);
   const steps: MessageKey[] = [
     awaitingPayment
       ? paymentMethod === "parts"
